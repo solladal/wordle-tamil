@@ -66,7 +66,7 @@ export class Stats extends React.Component {
         <div class="statsContainer2">
           <div>
             <div>
-              <strong>LAST WORDLE:</strong>
+              {(getPreviousWord() &&<strong>LAST WORDLE:</strong>)}
             </div>
             <div>
               <p class="lastWordle">{getPreviousWord()}</p>

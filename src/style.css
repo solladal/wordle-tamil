@@ -585,3 +585,14 @@ div {
   border: #000;
   justify-content: space-evenly;
 }
+
+.titleSubText{
+  font-size: 8px;
+  margin-top: -10px;
+}
+
+.tile[value='h'] {
+  width:30px;
+  height:30px;
+  color: transparent;
+}

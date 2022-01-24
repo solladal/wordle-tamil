@@ -74,15 +74,23 @@ export class Help extends React.Component {
             <GameTile value="ம்" color="" />
           </div>
           <p>
-            The letter <strong> கி</strong> is not in the word but but one of
+            The letter <strong> கி</strong> is not in the word but one of
             the variations of
             <strong> கி</strong>, like <strong>க், க, கா, கு, ... </strong> is
             in the word but in different spot.
           </p>
           <hr />
+          <strong>REMEMBER</strong>
+          <p><GameTile value="h" color="green" /> - சரியானது</p>
+          <p><GameTile value="h" color="yello" /> - சரியானது ஆனால் வேறு இடம் </p>
+          <p><GameTile value="h" color="green-partial" /> - பாதி சரியானது </p>
+          <p><GameTile value="h" color="yello-partial" /> - பாதி சரியானது ஆனால் வேறு இடம் </p>
+          <p><GameTile value="h" color="gray" /> - தவறானது </p>
+          <hr />
           <p>
             <strong>A new WORDLE will be available each day!</strong>
           </p>
+        
           <br />
         </div>
       </div>

@@ -14,7 +14,7 @@ export class Header extends React.Component {
           ?
           </button>
         </div>
-        <div class="title">WORDLE</div>
+        <div class="title">வேடல்<div class="titleSubText">(WORD HUNTING)</div></div>
         <div class="menu">
           <button class="statsButton" onClick={this.props.onStats}>
             📊
