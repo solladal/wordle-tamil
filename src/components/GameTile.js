@@ -6,6 +6,6 @@ export class GameTile extends React.Component {
   }
 
   render() {
-    return <div class="tile" value={this.props.value || 'empty'} color={this.props.color}>{this.props.value}</div>;
+    return <div class="tile" value={this.props.value || 'empty'} color={this.props.color}>{this.props.value} </div>;
   }
 }

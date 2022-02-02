@@ -45,12 +45,14 @@ export default class App extends React.Component {
           prevTileColors: previousState.tileColors,
         };
       } else {
-        state = { ...this.getDefaultState(), page: 'game' };
+        state = { ...this.getDefaultState(),gameEndTimeStamp:previousState.gameEndTimeStamp, page: 'game' };
       }
     }
     const localStatistics = localStorage.getItem('wordle-tamil-statistics');
     if (localStatistics) {
       state.statistics = JSON.parse(localStatistics);
+    } else {
+      state.statistics = this.getDefaultStatistics();
     }
     return state;
   }
@@ -65,13 +67,17 @@ export default class App extends React.Component {
       page: 'help',
       gameState: 'INPROGRESS',
       gameEndTimeStamp: { previous: '', current: '' },
-      statistics: {
-        gamesPlayed: 0,
-        gamesWon: 0,
-        currentStreak: 0,
-        maxStreak: 0,
-        averageGuess: 0,
-      },
+      statistics: this.getDefaultStatistics(),
+    };
+  }
+
+  getDefaultStatistics() {
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      maxStreak: 0,
+      averageGuess: 0,
     };
   }
 
@@ -87,8 +93,22 @@ export default class App extends React.Component {
         tempSelectedKeys[i] = letterColors[i];
       }
       if (i.length == 2) {
-        tempSelectedKeys[i.charAt(i.length - 1)] =
-          tempSelectedKeys[i] + '-partial';
+        const firstLetter = i.charAt(i.length - 2);
+        if(tempSelectedKeys[i].includes('partial')) {
+          //if வே is partially correct, set வ as partial correct and வே as incorrect
+          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter],tempSelectedKeys[i]);
+          tempSelectedKeys[i] = 'gray';
+        } else if(tempSelectedKeys[i] == 'yello'){
+          //if வே is in wrong spot, set வ as partial correct
+          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter],'yello-partial');
+        } else if(tempSelectedKeys[i] == 'gray') {
+          //if வே is in incorrect, set வ is also inorrect
+          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter],'gray');
+        } else if(tempSelectedKeys[i] == 'green') {
+          //if வே is in correct, set வ is also partially correct
+          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter],'green-partial');
+        }
+        
       }
     }
     return tempSelectedKeys;
@@ -116,7 +136,7 @@ export default class App extends React.Component {
   }
 
   onKeyInput(val) {
-    if (!this.state.won) {
+    if (this.state.gameState === 'INPROGRESS') {
       if (val === 'enter') {
         let guess = this.state.board[this.state.rowIndex];
         if (split(guess).length == this.wordleLength) {
@@ -128,7 +148,6 @@ export default class App extends React.Component {
             tempTileColors[this.state.rowIndex] = Array(this.wordleLength).fill(
               'green'
             );
-            console.warn('Amazing Guess');
             this.setState(
               {
                 won: true,
@@ -158,9 +177,8 @@ export default class App extends React.Component {
           } else {
             let tempTileColors = this.state.tileColors;
             tempTileColors[this.state.rowIndex] = result[1];
-            let letterColors = {};
-            split(guess).forEach((l, i) => (letterColors[l] = result[1][i]));
-            let tempSelectedKeys = this.getUpdatedSelectedKeys(letterColors);
+            
+            let tempSelectedKeys = this.getUpdatedSelectedKeys(result[2]);
             if (this.state.rowIndex == 5) {
               this.setState(
                 (prevState, props) => ({
@@ -257,6 +275,7 @@ export default class App extends React.Component {
           stats={this.state.statistics}
           prevBoard={this.state.prevBoard}
           prevTileColors={this.state.prevTileColors}
+          gameState={this.state.gameState}
           onClose={() => this.setState({ page: 'game' })}
         />
       </div>

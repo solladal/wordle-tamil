@@ -1,9 +1,9 @@
 import React from 'react';
-import { FaceBookShare } from './GameTile';
 import { getPreviousWord, wordleIndex } from '../util/words';
 import { Stats } from './Stats';
 import { Board } from './Board';
 import { split } from '../util/languageUtil';
+import {AiOutlineShareAlt} from 'react-icons/ai'
 
 export class Dialog extends React.Component {
   wordleIndex = wordleIndex();
@@ -110,6 +110,7 @@ export class Dialog extends React.Component {
                   onClick={() => this.copyClipBoard()}
                 >
                   {navigator.share ? 'SHARE' : 'COPY'}
+                  <AiOutlineShareAlt className='share-button'/>
                 </button>
               </div>
             </div>
@@ -130,12 +131,12 @@ export class Dialog extends React.Component {
         </div>
       );
     } else if (this.props.page === 'stats') {
-      return <Stats stats={this.props.stats} />;
+      return <Stats stats={this.props.stats} gameState={this.props.gameState}/>;
     } else if (this.props.page === 'lost') {
       return (
         <div>
           <h2>Sorry Better luck Next Time !!</h2>
-          <p>Wait until tomorrow for the correct Wordle</p>
+          <section>Wait until tomorrow for the correct Wordle</section>
         </div>
       );
     } else if (this.props.page === 'prevAns') {

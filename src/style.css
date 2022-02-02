@@ -181,21 +181,22 @@ div {
   background-color: var(--darkGray);
   color: white;
   border: none;
-  animation: shake 0.5s;
+  animation: shake 0.5s !important;
+  
 }
 
 .tile[color='yello'] {
   background-color: var(--darkendYellow);
   color: white;
   border: none;
-  animation: shake 0.5s;
+  animation: shake 0.5s !important;
 }
 
 .tile[color='yello-partial'] {
   background-color: var(--darkendYellow);
   color: white;
   border: none;
-  animation: shake 0.5s;
+  animation: shake 0.5s !important;
   background-image: -webkit-linear-gradient(
     -45deg,
     var(--darkendYellow) 50%,
@@ -207,7 +208,7 @@ div {
   background-color: var(--darkendGreen);
   color: white;
   border: none;
-  animation: shake 0.5s;
+  animation: shake 0.5s !important;
   background-image: -webkit-linear-gradient(
     -45deg,
     var(--darkendGreen) 50%,
@@ -272,6 +273,12 @@ div {
   grid-gap: 4px;
 }
 
+.tile-row[length='5'] {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 4px;
+}
+
 #help-button {
   box-shadow: 1px 1px;
   border: 1px;
@@ -319,12 +326,13 @@ div {
 }
 
 .closeIcon {
-  padding: 0 30px;
+  padding: 0 12px;
   cursor: pointer;
+  font-size: 26px;
 }
 
 .closeIcon:hover {
-  transform: scale(1.5);
+  transform: scale(1.2);
 }
 
 .dialog[page='help'] {
@@ -497,6 +505,8 @@ div {
   font-size: 20px;
   height: 52px;
   -webkit-filter: brightness(100%);
+  padding-left: 5px;
+  float: right;
 }
 
 .copySection {
@@ -508,10 +518,6 @@ div {
   border-left: 1px solid black;
   padding-left: 10px;
   margin-left: 10px;
-}
-
-.share-button {
-  float: right;
 }
 
 .lastWordle {
@@ -556,12 +562,14 @@ div {
   text-align: center;
 }
 
-.statsButton {
-  box-shadow: 1px 1px;
-  border: 1px;
-  border-radius: 4px;
+.icon {
   margin-left: 10px;
-  height: 30px;
+  font-size: 26px;
+  cursor: pointer;
+  color: darkslategray;
+}
+.icon:hover {
+  transform: scale(1.2);
 }
 
 .statsHeader {
@@ -569,11 +577,11 @@ div {
   justify-content: center;
 }
 
-.statsButton:hover {
+/* .statsButton:hover {
   transform: scale(1.2);
   color: black;
   border-color: black;
-}
+} */
 
 .menu {
   margin-right: 10px;
@@ -596,3 +604,42 @@ div {
   height:30px;
   color: transparent;
 }
+
+.languageToggleButton {
+  background-color: #2196F3;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  position: fixed;
+  top: 7px;
+}
+
+/* .tile[data-animation='flip-in'] {
+  animation-name: FlipIn;
+  animation-duration: 250ms;
+  animation-timing-function: ease-in;
+} */
+@keyframes FlipIn {
+  0% {
+    transform: rotateX(0);
+  }
+  100% {
+    transform: rotateX(-90deg);
+    background-color: var(--darkendGreen);
+  }
+}
+/* .tile[data-animation='flip-out'] {
+  animation-name: FlipOut;
+  animation-duration: 250ms;
+  animation-timing-function: ease-in;
+} */
+@keyframes FlipOut {
+  0% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+

@@ -14,23 +14,37 @@ export const getWordOfDay = () => {
 
 export const getPreviousWord = () => {
   const localstate = localStorage.getItem('wordle-tamil-state');
-  if (localstate) {
-    let lastTimeStamp = JSON.parse(localstate).gameEndTimeStamp;
-    if (lastTimeStamp.previous) {
-      const diffTime = Math.abs(new Date(lastTimeStamp.previous) - startDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return words[diffDays % words.length];
-    } else if (
-      new Date().getDate() - new Date(lastTimeStamp.current).getDate() >
-      0
-    ) {
-      const diffTime = Math.abs(new Date(lastTimeStamp.current) - startDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return words[diffDays % words.length];
-    }
-  } else {
-    return '';
+  const statistics = localStorage.getItem('wordle-tamil-statistics');
+  if (localstate && statistics) {
+    // let lastTimeStamp = JSON.parse(localstate).gameEndTimeStamp;
+    // if (lastTimeStamp.previous) {
+    //   const diffTime = Math.abs(new Date(lastTimeStamp.previous) - startDate);
+    //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    //   return words[diffDays % words.length];
+    // } else if (lastTimeStamp.current) {
+    //   const diffTime = Math.abs(new Date(lastTimeStamp.current) - startDate);
+    //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    //   return words[diffDays % words.length];
+    // }
+    let lastUpdated = JSON.parse(localstate).lastUpdated;
+    let gamesPlayed = JSON.parse(statistics).gamesPlayed;
+    if(lastUpdated ) {
+      if(isSameDay(lastUpdated)) {
+        if(gamesPlayed > 1) { //means not first time
+          let prevIndex = (wordleIndex() % words.length) -1;
+          if(prevIndex > 0) {
+            return words[prevIndex];
+          }
+        }
+        
+      } else {
+        const diffTime = Math.abs(new Date(lastUpdated) - startDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return words[diffDays % words.length];
+      } 
+    } 
   }
+  return '';
 };
 
 export const wordleIndex = (lastUpdated) => {
@@ -52,5 +66,8 @@ export const wordleIndex = (lastUpdated) => {
 };
 
 export const isSameDay = (cachedDate) => {
-  return new Date().getDate() - new Date(cachedDate).getDate() == 0;
+  var dateFromCache = new Date(new Date(cachedDate));
+  var today = new Date();
+  return (dateFromCache.getDate() === today.getDate()) && (dateFromCache.getMonth() === today.getMonth()) &&
+  (dateFromCache.getFullYear() === today.getFullYear());
 };

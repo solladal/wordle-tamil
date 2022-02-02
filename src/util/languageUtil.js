@@ -29,6 +29,38 @@ export function split(str) {
   }
 }
 
+// export function compare(guess, actual) {
+//   if (guess === actual) {
+//     return [true];
+//   } else {
+//     let color = [];
+//     let letterColors = {};
+//     let guessArr = split(guess);
+//     let actualArr = split(actual);
+//     for (let i in guessArr) {
+//       const gussedLetter = guessArr[i];
+//       if (gussedLetter === actualArr[i]) {
+//         //TODO same letters in a tile with differnt positon overrides the color
+//         color[i] = 'green';
+//       } else if (gussedLetter.charAt(0) === actualArr[i].charAt(0)) {
+//         color[i] = 'green-partial'; //partial
+//         letterColors[gussedLetter] = 'green-partial';
+//       } else if (actualArr.includes(gussedLetter)) {
+//         color[i] = 'yello';
+//         letterColors[gussedLetter] = 'yello';
+//       } else if (actual.includes(gussedLetter.charAt(0))) {
+//         color[i] = 'yello-partial';
+//         letterColors[gussedLetter] = 'yello-partial';
+//       } else {
+//         color[i] = 'gray';
+//         letterColors[gussedLetter] = 'gray';
+//       }
+//     }
+
+//     return [false, color];
+//   }
+// }
+
 export function compare(guess, actual) {
   if (guess === actual) {
     return [true];
@@ -42,22 +74,31 @@ export function compare(guess, actual) {
       if (gussedLetter === actualArr[i]) {
         //TODO same letters in a tile with differnt positon overrides the color
         color[i] = 'green';
-      } else if (gussedLetter.charAt(0) === actualArr[i].charAt(0)) {
-        color[i] = 'green-partial'; //partial
-        letterColors[gussedLetter] = 'green-partial';
-      } else if (actualArr.includes(gussedLetter)) {
-        color[i] = 'yello';
-        letterColors[gussedLetter] = 'yello';
-      } else if (actual.includes(gussedLetter.charAt(0))) {
-        color[i] = 'yello-partial';
-        letterColors[gussedLetter] = 'yello-partial';
-      } else {
-        color[i] = 'gray';
-        letterColors[gussedLetter] = 'gray';
-      }
+        letterColors[gussedLetter] = 'green';
+        guessArr[i] = -1;
+        actualArr[i] = -1;
+      } 
+    }
+    for (let i in guessArr) {
+      const gussedLetter = guessArr[i];
+      if(gussedLetter !== -1) {
+        if (gussedLetter.charAt(0) === actualArr[i].charAt(0)) {
+          color[i] = 'green-partial'; //partial
+          letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'green-partial');
+        } else if (actualArr.includes(gussedLetter)) {
+          color[i] = 'yello';
+          letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'yello');
+        } else if (actualArr.join('').includes(gussedLetter.charAt(0))) {
+          color[i] = 'yello-partial';
+          letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'yello-partial');
+        } else {
+          color[i] = 'gray';
+          letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'gray');
+        } 
+      } 
     }
 
-    return [false, color];
+    return [false, color, letterColors];
   }
 }
 
@@ -66,7 +107,7 @@ const colorPriority = {
   'green-partial': 4,
   yello: 3,
   'yello-partial': 2,
-  grey: 0,
+  gray: 0,
 };
 
 export function pickColorByOrder(color1, color2) {

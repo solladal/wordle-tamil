@@ -16,12 +16,13 @@ export class Stats extends React.Component {
   }
 
   tick() {
+    var tomorrow = new Date(new Date().setDate(new Date().getDate()+1));
     var time = new Date(
       Date.parse(
         [
-          new Date().getMonth() + 1,
-          new Date().getDate() + 1,
-          new Date().getFullYear(),
+          tomorrow.getMonth() + 1,
+          tomorrow.getDate(),
+          tomorrow.getFullYear(),
         ].join()
       ) - Date.now()
     )
@@ -74,10 +75,10 @@ export class Stats extends React.Component {
           </div>
           <div>
             <div>
-              <b>NEXT WORDLE:</b>
+              {(this.props.gameState === 'WON' || this.props.gameState === 'LOST') && (<b>NEXT WORDLE:</b>)}
             </div>
             <div>
-              <p class="lastWordle timer">{this.state.timer}</p>
+              {(this.props.gameState === 'WON' || this.props.gameState === 'LOST') && (<p class="lastWordle timer">{this.state.timer}</p>)}
             </div>
           </div>
         </div>
