@@ -72,8 +72,8 @@ export class Keyboard1 extends React.Component {
     };
     //['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ']
     return (
-      <div class="keyboard" won={this.props.won + ''}>
-        <div class="keyboardRow">
+      <div className="keyboard" won={this.props.won + ''}>
+        <div className="keyboardRow">
           {['அ', 'ஆ', 'இ', 'ஈ', 'க', 'ச', 'ட', 'த', 'ப', 'ற']
             .map((l) => {
               let lastLetter = this.state.word.charAt(
@@ -88,8 +88,9 @@ export class Keyboard1 extends React.Component {
             .map((l) => {
               return (
                 <button
-                  class="key"
-                  keyState={this.props.selectedKeys[l]}
+                  key={l}
+                  className="key"
+                  key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
                 >
                   {l}
@@ -97,7 +98,7 @@ export class Keyboard1 extends React.Component {
               );
             })}
         </div>
-        <div class="keyboardRow">
+        <div className="keyboardRow">
           {['உ', 'ஊ', 'எ', 'ஏ', 'ங', 'ஞ', 'ண', 'ந', 'ம', 'ன']
             .map((l) => {
               let lastLetter = this.state.word.charAt(
@@ -112,8 +113,9 @@ export class Keyboard1 extends React.Component {
             .map((l) => {
               return (
                 <button
-                  class="key"
-                  keyState={this.props.selectedKeys[l]}
+                  key={l}
+                  className="key"
+                  key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
                 >
                   {l}
@@ -121,7 +123,7 @@ export class Keyboard1 extends React.Component {
               );
             })}
         </div>
-        <div class="keyboardRow">
+        <div className="keyboardRow">
           {['ஐ', 'ஒ', 'ஓ', 'ஔ', 'ய', 'ர', 'ல', 'வ', 'ழ', 'ள']
             .map((l) => {
               let lastLetter = this.state.word.charAt(
@@ -136,8 +138,9 @@ export class Keyboard1 extends React.Component {
             .map((l) => {
               return (
                 <button
-                  class="key"
-                  keyState={this.props.selectedKeys[l]}
+                  key={l}
+                  className="key"
+                  key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
                 >
                   {l}
@@ -145,18 +148,18 @@ export class Keyboard1 extends React.Component {
               );
             })}
         </div>
-        <div class="keyboardLastRow">
-          <button class="key keyLast" onClick={() => this.handleClick('ஃ')}>
+        <div className="keyboardLastRow">
+          <button className="key keyLast" onClick={() => this.handleClick('ஃ')}>
             ஃ
           </button>
           <button
-            class="key enterKey"
+            className="key enterKey"
             onClick={() => this.handleClick('enter')}
           >
             Enter
           </button>
           <button
-            class="key keyLast"
+            className="key keyLast"
             onClick={() => this.handleClick('backSpace')}
           >
             ⌫

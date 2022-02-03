@@ -57,6 +57,7 @@ p {
 
 .key {
   padding: 0;
+  margin-top: 2px;
   font-family: inherit;
   font-weight: bold;
   /* margin: 0 3px 0 0; */
@@ -83,22 +84,22 @@ p {
   width: 60px;
 }
 
-.key[keyState='green'] {
+.key[key-state='green'] {
   background-color: var(--darkendGreen);
   color: white;
 }
 
-.key[keyState='gray'] {
+.key[key-state='gray'] {
   background-color: var(--gray);
   color: white;
 }
 
-.key[keyState='yello'] {
+.key[key-state='yello'] {
   background-color: var(--darkendYellow);
   color: white;
 }
 
-.key[keyState='green-partial'] {
+.key[key-state='green-partial'] {
   background-color: var(--darkendGreen);
   color: white;
   border: none;
@@ -109,7 +110,7 @@ p {
   );
 }
 
-.key[keyState='yello-partial'] {
+.key[key-state='yello-partial'] {
   background-color: var(--darkendYellow);
   color: white;
   border: none;
@@ -123,7 +124,6 @@ p {
 div {
   max-width: 600px;
   /* padding: 2px; */
-  margin-top: 2px;
 }
 
 .enterKey {
@@ -172,48 +172,44 @@ div {
 }
 
 .tile[color='green'] {
-  background-color: var(--darkendGreen);
   color: white;
   border: none;
+  animation-name: FlipInGreen !important;
+  animation-duration: 500ms !important;
+  animation-fill-mode: forwards !important;
 }
 
 .tile[color='gray'] {
-  background-color: var(--darkGray);
   color: white;
   border: none;
-  animation: shake 0.5s !important;
+  animation-name: FlipInGrey !important;
+  animation-duration: 500ms !important;
+  animation-fill-mode: forwards !important;
   
 }
 
 .tile[color='yello'] {
-  background-color: var(--darkendYellow);
   color: white;
   border: none;
-  animation: shake 0.5s !important;
+  animation-name: FlipInYellow !important;
+  animation-duration: 500ms !important;
+  animation-fill-mode: forwards !important;
 }
 
 .tile[color='yello-partial'] {
-  background-color: var(--darkendYellow);
   color: white;
   border: none;
-  animation: shake 0.5s !important;
-  background-image: -webkit-linear-gradient(
-    -45deg,
-    var(--darkendYellow) 50%,
-    var(--partialTile) 50%
-  );
+  animation-name: FlipInYellowPartial !important;
+  animation-duration: 500ms !important;
+  animation-fill-mode: forwards !important;
 }
 
 .tile[color='green-partial'] {
-  background-color: var(--darkendGreen);
   color: white;
   border: none;
-  animation: shake 0.5s !important;
-  background-image: -webkit-linear-gradient(
-    -45deg,
-    var(--darkendGreen) 50%,
-    var(--partialTile) 50%
-  );
+  animation-name: FlipInGreenPartial !important;
+  animation-duration: 500ms !important;
+  animation-fill-mode: forwards !important;
 }
 
 .tile {
@@ -623,22 +619,84 @@ div {
   0% {
     transform: rotateX(0);
   }
-  100% {
-    transform: rotateX(-90deg);
-    background-color: var(--darkendGreen);
-  }
-}
-/* .tile[data-animation='flip-out'] {
-  animation-name: FlipOut;
-  animation-duration: 250ms;
-  animation-timing-function: ease-in;
-} */
-@keyframes FlipOut {
-  0% {
+  50% {
     transform: rotateX(-90deg);
   }
   100% {
     transform: rotateX(0);
+  }
+}
+
+@keyframes FlipInGreen {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
+    background-color: var(--darkendGreen);
+  }
+}
+
+@keyframes FlipInYellow {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
+    background-color: var(--darkendYellow);
+  }
+}
+
+@keyframes FlipInGrey {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
+    background-color: var(--darkGray);
+  }
+}
+
+@keyframes FlipInYellowPartial {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
+    background-image: -webkit-linear-gradient(
+    -45deg,
+    var(--darkendYellow) 50%,
+    var(--partialTile) 50%
+  );
+  }
+}
+
+@keyframes FlipInGreenPartial {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
+    background-image: -webkit-linear-gradient(
+    -45deg,
+    var(--darkendGreen) 50%,
+    var(--partialTile) 50%
+  );
   }
 }
 

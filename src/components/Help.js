@@ -9,12 +9,12 @@ export class Help extends React.Component {
   }
 
   getContentInEnglish() {
-    return (<div class="dialog" page={this.props.page}>
-    <div class="helpHeader">
+    return (<div className="dialog" page={this.props.page}>
+    <div className="helpHeader">
       <div />
       <h2>HOW TO PLAY</h2>
       <AiFillCloseCircle onClick={this.props.onClose}/>
-      {/* <icon class="closeIcon" onClick={this.props.onClose}>
+      {/* <icon className="closeIcon" onClick={this.props.onClose}>
         X
       </icon> */}
     </div>
@@ -36,7 +36,7 @@ export class Help extends React.Component {
       <p><GameTile value="h" color="gray" /> - wrong </p>
       <hr />
 
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="தெ" color="green" />
         <GameTile value="ன்" color="" />
         <GameTile value="ற" color="" />
@@ -46,7 +46,7 @@ export class Help extends React.Component {
         The letter <strong>தெ</strong> is in the word and in the correct
         spot.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="மி" color="" />
         <GameTile value="ன்" color="yello" />
         <GameTile value="ன" color="" />
@@ -55,7 +55,7 @@ export class Help extends React.Component {
       <p>
         The letter <strong>ன்</strong> is in the word but in the wrong spot.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="அ" color="" />
         <GameTile value="ச்" color="" />
         <GameTile value="ச" color="" />
@@ -64,7 +64,7 @@ export class Help extends React.Component {
       <p>
         The letter <strong>ம்</strong> is not in the word in any spot.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="பௌ" color="" />
         <GameTile value="ர்" color="green-partial" />
         <GameTile value="ண" color="" />
@@ -76,7 +76,7 @@ export class Help extends React.Component {
         <strong> ர்</strong>, like <strong>ரா, ரி , ரீ, ரு, ... </strong> is
         in the word in the same spot.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="அ" color="" />
         <GameTile value="கி" color="yello-partial" />
         <GameTile value="ல" color="" />
@@ -100,12 +100,12 @@ export class Help extends React.Component {
   }
 
   getContentInTamil() {
-    return (<div class="dialog" page={this.props.page}>
-    <div class="helpHeader">
+    return (<div className="dialog" page={this.props.page}>
+    <div className="helpHeader">
       <div />
       <h2>எப்படி விளையாடுவது</h2>
       <AiOutlineCloseCircle className='closeIcon' onClick={this.props.onClose}/>
-      {/* <icon class="closeIcon" onClick={this.props.onClose}>
+      {/* <icon className="closeIcon" onClick={this.props.onClose}>
         X
       </icon> */}
     </div>
@@ -124,7 +124,7 @@ export class Help extends React.Component {
       <p><GameTile value="h" color="gray" /> - தவறானது </p>
       <hr />
       
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="தெ" color="green" />
         <GameTile value="ன்" color="" />
         <GameTile value="ற" color="" />
@@ -133,7 +133,7 @@ export class Help extends React.Component {
       <p>
       எழுத்து <strong>தெ</strong> சொல்லின் சரியான இடத்தில உள்ளது.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="மி" color="" />
         <GameTile value="ன்" color="yello" />
         <GameTile value="ன" color="" />
@@ -142,7 +142,7 @@ export class Help extends React.Component {
       <p>
       எழுத்து <strong>ன்</strong> சொல்லில் உள்ளது அனால் வேறு இடத்தில உள்ளது.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="அ" color="" />
         <GameTile value="ச்" color="" />
         <GameTile value="ச" color="" />
@@ -151,7 +151,7 @@ export class Help extends React.Component {
       <p>
       எழுத்து <strong>ம்</strong> சொல்லில் எங்கும் இடம்பெறவில்லை.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="பௌ" color="" />
         <GameTile value="ர்" color="green-partial" />
         <GameTile value="ண" color="" />
@@ -160,7 +160,7 @@ export class Help extends React.Component {
       <p>
       எழுத்து <strong>ர்</strong> சொல்லில் இடம்பெறவில்லை தவிர <strong>ர</strong>கர வரிசையில் வேறு ஏதோ எழுத்து (<strong>ரா, ரி , ரீ, ரு, ...</strong>) <strong>இதே இடத்தில்</strong> இடம்பெற்றுள்ளது.
       </p>
-      <div class="tile-row helprow" length="4">
+      <div className="tile-row helprow" length="4">
         <GameTile value="அ" color="" />
         <GameTile value="கி" color="yello-partial" />
         <GameTile value="ல" color="" />

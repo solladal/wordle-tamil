@@ -89,7 +89,7 @@ export class Dialog extends React.Component {
         <div id="wonDialog">
           <h2>Congrats You Won !!</h2>
 
-          <div class="copySection">
+          <div className="copySection">
             <div>
               <div>
                 <div>
@@ -106,7 +106,7 @@ export class Dialog extends React.Component {
               <br />
               <div>
                 <button
-                  class="share-button"
+                  className="share-button"
                   onClick={() => this.copyClipBoard()}
                 >
                   {navigator.share ? 'SHARE' : 'COPY'}
@@ -114,17 +114,17 @@ export class Dialog extends React.Component {
                 </button>
               </div>
             </div>
-            {/* <div class="timerSection">
+            {/* <div className="timerSection">
               <div>
                 <div>
                   <strong>
-                    LAST WORDLE: <p class="lastWordle">{getPreviousWord()}</p>
+                    LAST WORDLE: <p className="lastWordle">{getPreviousWord()}</p>
                   </strong>
                 </div>
                 <div>
                   <b>NEXT WORDLE:</b>
                 </div>
-                <p class="lastWordle timer">{this.state.timer}</p>
+                <p className="lastWordle timer">{this.state.timer}</p>
               </div>
             </div> */}
           </div>
@@ -143,7 +143,7 @@ export class Dialog extends React.Component {
       return (
         <div>
           <strong>PREVIOUS WORD</strong>
-          <p class="lastWordle">{getPreviousWord()}</p>
+          <p className="lastWordle">{getPreviousWord()}</p>
           <Board
             board={this.props.prevBoard}
             wordleLength={split(getPreviousWord()).length}
@@ -154,7 +154,7 @@ export class Dialog extends React.Component {
     } else if (this.props.page === 'feedback') {
       return (
         <div>
-          <div class="container">
+          <div className="container">
             <p>
               <strong>FEEDBACK:</strong>
             </p>
@@ -189,9 +189,9 @@ export class Dialog extends React.Component {
 
   render() {
     return (
-      <div id="myModal" class="modal" page={this.props.page}>
-        <div class="modal-content">
-          <span class="close" onClick={this.props.onClose}>
+      <div id="myModal" className="modal" page={this.props.page}>
+        <div className="modal-content">
+          <span className="close" onClick={this.props.onClose}>
             &times;
           </span>
           <p>{this.getContent()}</p>

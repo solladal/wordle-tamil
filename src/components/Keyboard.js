@@ -52,7 +52,7 @@ export class Keyboard extends React.Component {
       ஔ: 'ௌ',
     };
     return (
-      <div class="keyboard">
+      <div className="keyboard">
         <div>
           {['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ']
             .map((l) => {
@@ -90,8 +90,8 @@ export class Keyboard extends React.Component {
             .map((l) => {
               return (
                 <button
-                  class="key"
-                  keyState={selectedKeys[l]}
+                  className="key"
+                  key-state={selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
                 >
                   {l}
@@ -102,7 +102,7 @@ export class Keyboard extends React.Component {
         <div>
           {['க', 'ங', 'ச', 'ஞ', 'ட', 'ண', 'த', 'ந', 'ப', 'ம', 'ய'].map((l) => {
             return (
-              <button class="key" onClick={() => this.handleClick(l)}>
+              <button className="key" onClick={() => this.handleClick(l)}>
                 {l}
               </button>
             );
@@ -110,20 +110,20 @@ export class Keyboard extends React.Component {
         </div>
         <div>
           <button
-            class="key enterKey"
+            className="key enterKey"
             onClick={() => this.handleClick('enter')}
           >
             Enter
           </button>
           {['ர', 'ல', 'வ', 'ழ', 'ள', 'ற', 'ன', 'ஃ'].map((l) => {
             return (
-              <button class="key" onClick={() => this.handleClick(l)}>
+              <button className="key" onClick={() => this.handleClick(l)}>
                 {l}
               </button>
             );
           })}
           <button
-            class="key backSpace"
+            className="key backSpace"
             onClick={() => this.handleClick('backSpace')}
           >
             ⌫

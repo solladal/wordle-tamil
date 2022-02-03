@@ -34,15 +34,15 @@ export class Stats extends React.Component {
   render() {
     return (
       <div>
-        <h3 class="statsHeader">STATISTICS</h3>
-        <div class="statsContainer">
+        <h3 className="statsHeader">STATISTICS</h3>
+        <div className="statsContainer">
           <div>
-            <div class="statsValue">{this.props.stats.gamesPlayed}</div>
+            <div className="statsValue">{this.props.stats.gamesPlayed}</div>
             <div>Played</div>
           </div>
 
           <div>
-            <div class="statsValue">
+            <div className="statsValue">
               {Math.round(
                 (this.props.stats.gamesWon / this.props.stats.gamesPlayed) * 100
               ) || 0}
@@ -50,27 +50,27 @@ export class Stats extends React.Component {
             <div>Win%</div>
           </div>
           <div>
-            <div class="statsValue">{this.props.stats.currentStreak}</div>
+            <div className="statsValue">{this.props.stats.currentStreak}</div>
             <div>Current Streak</div>
           </div>
           <div>
-            <div class="statsValue">{this.props.stats.maxStreak}</div>
+            <div className="statsValue">{this.props.stats.maxStreak}</div>
             <div>Max Streak</div>
           </div>
           <div>
-            <div class="statsValue">
+            <div className="statsValue">
               {Math.round(this.props.stats.averageGuess)}
             </div>
             <div>Average Guess</div>
           </div>
         </div>
-        <div class="statsContainer2">
+        <div className="statsContainer2">
           <div>
             <div>
               {(getPreviousWord() &&<strong>LAST WORDLE:</strong>)}
             </div>
             <div>
-              <p class="lastWordle">{getPreviousWord()}</p>
+              <p className="lastWordle">{getPreviousWord()}</p>
             </div>
           </div>
           <div>
@@ -78,7 +78,7 @@ export class Stats extends React.Component {
               {(this.props.gameState === 'WON' || this.props.gameState === 'LOST') && (<b>NEXT WORDLE:</b>)}
             </div>
             <div>
-              {(this.props.gameState === 'WON' || this.props.gameState === 'LOST') && (<p class="lastWordle timer">{this.state.timer}</p>)}
+              {(this.props.gameState === 'WON' || this.props.gameState === 'LOST') && (<p className="lastWordle timer">{this.state.timer}</p>)}
             </div>
           </div>
         </div>

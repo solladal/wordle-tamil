@@ -10,8 +10,6 @@ import { split, compare, pickColorByOrder } from './util/languageUtil';
 import { getWordOfDay, isSameDay } from './util/words';
 
 export default class App extends React.Component {
-  //TOTO
-  // .tile-row -> correct auto align based in wordleLength
 
   chances = 6;
   worldToMatch = getWordOfDay();
@@ -240,9 +238,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div class="game">
+      <div className="game">
         {this.state.page && (
-          <div class="mainBoard" page={this.state.page}>
+          <div className="mainBoard" page={this.state.page}>
             <Header
               onHelp={() => this.setState({ page: 'help' })}
               onStats={() => this.setState({ page: 'stats' })}
