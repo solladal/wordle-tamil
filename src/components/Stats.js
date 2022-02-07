@@ -1,5 +1,4 @@
 import React from 'react';
-import { getPreviousWord } from '../util/words';
 
 export class Stats extends React.Component {
   constructor(props) {
@@ -32,10 +31,11 @@ export class Stats extends React.Component {
   }
 
   render() {
+    
     return (
       <div>
         <h3 className="statsHeader">STATISTICS</h3>
-        <div className="statsContainer">
+        <div className="statsContainer" darkMode={this.props.darkMode}>
           <div>
             <div className="statsValue">{this.props.stats.gamesPlayed}</div>
             <div>Played</div>
@@ -64,13 +64,13 @@ export class Stats extends React.Component {
             <div>Average Guess</div>
           </div>
         </div>
-        <div className="statsContainer2">
+        <div className="statsContainer2" darkMode={this.props.darkMode}>
           <div>
             <div>
-              {(getPreviousWord() &&<strong>LAST WORDLE:</strong>)}
+              {(this.props.previousWord &&<strong>LAST WORDLE:</strong>)}
             </div>
             <div>
-              <p className="lastWordle">{getPreviousWord()}</p>
+              <p className="lastWordle">{this.props.previousWord}</p>
             </div>
           </div>
           <div>

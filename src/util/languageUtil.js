@@ -102,6 +102,19 @@ export function compare(guess, actual) {
   }
 }
 
+export function compareEasyMode(guess, actual, colors, letterColors) {
+    let guessArr = split(guess);
+    let actualArr = split(actual);
+    for(let i in colors) {
+      if(colors[i] === 'green-partial') {
+          guessArr[i] = actualArr[i];
+          colors[i] = 'green';
+          letterColors[guessArr[i]] = 'green';
+      }
+    }
+    return [guessArr.join('') === actualArr.join(''), colors, letterColors,guessArr.join('')]
+}
+
 const colorPriority = {
   green: 5,
   'green-partial': 4,

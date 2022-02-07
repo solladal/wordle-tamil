@@ -36,6 +36,7 @@ export class Keyboard extends React.Component {
   }
 
   render() {
+    const darkMode = this.props.darkMode ? "true" : "false";
     const selectedKeys = { க: 'green', ச: 'gray' };
     const map = {
       அ: '்',

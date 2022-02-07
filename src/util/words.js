@@ -7,63 +7,44 @@ export const words = ['பலகை', 'வண்ணம்', 'அஞ்சல்'
 'புதுமை','உறுதி','கட்டுரை','எல்லை','நாழிகை','தீபம்','பொருள்','நஞ்சு','தமிழ்','நெருப்பு','வானிலை','விறகு','அன்றில்','கோலம்',
 'இயற்கை','மடம்','பட்டம்','கல்வி','பேருந்து','திரவம்','தங்கம்'];
 
-const startDate = new Date('1/26/2022');
-export const getWordOfDay = () => {
-  return words[wordleIndex() % words.length];
+export const senthamilWords = ['குறுந்தொகை','யாணர்','அணங்கு','கேளிர்','மருங்கு','வெஃகாமை','நுதல்','அலங்கு','இவர்தல்','அமலை','உட்கு'];
+
+export const getWordOf = (mode, index) => {
+  return mode === 'sentamil' ? senthamilWords[index % senthamilWords.length] : words[index % words.length];
 };
 
-export const getPreviousWord = () => {
-  const localstate = localStorage.getItem('wordle-tamil-state');
-  const statistics = localStorage.getItem('wordle-tamil-statistics');
-  if (localstate && statistics) {
-    // let lastTimeStamp = JSON.parse(localstate).gameEndTimeStamp;
-    // if (lastTimeStamp.previous) {
-    //   const diffTime = Math.abs(new Date(lastTimeStamp.previous) - startDate);
-    //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    //   return words[diffDays % words.length];
-    // } else if (lastTimeStamp.current) {
-    //   const diffTime = Math.abs(new Date(lastTimeStamp.current) - startDate);
-    //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    //   return words[diffDays % words.length];
-    // }
-    let lastUpdated = JSON.parse(localstate).lastUpdated;
-    let gamesPlayed = JSON.parse(statistics).gamesPlayed;
-    if(lastUpdated ) {
-      if(isSameDay(lastUpdated)) {
-        if(gamesPlayed > 1) { //means not first time
-          let prevIndex = (wordleIndex() % words.length) -1;
-          if(prevIndex > 0) {
-            return words[prevIndex];
-          }
-        }
+// export const getPreviousWord = () => {
+//   const localstate = localStorage.getItem('wordle-tamil-state');
+//   const statistics = localStorage.getItem('wordle-tamil-statistics');
+//   if (localstate && statistics) {
+//     let lastUpdated = JSON.parse(localstate).lastUpdated;
+//     let gamesPlayed = JSON.parse(statistics).gamesPlayed;
+//     if(lastUpdated ) {
+//       if(isSameDay(lastUpdated)) {
+//         if(gamesPlayed > 1) { //means not first time
+//           let prevIndex = (wordleIndex() % words.length) -1;
+//           if(prevIndex > 0) {
+//             return words[prevIndex];
+//           }
+//         }
         
-      } else {
-        const diffTime = Math.abs(new Date(lastUpdated) - startDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return words[diffDays % words.length];
-      } 
-    } 
-  }
-  return '';
-};
+//       } else {
+//         const diffTime = Math.abs(new Date(lastUpdated) - startDate);
+//         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+//         return words[diffDays % words.length];
+//       } 
+//     } 
+//   }
+//   return '';
+// };
 
-export const wordleIndex = (lastUpdated) => {
-  // January 1, 2022 Game Epoch
-  // const epochMs = Date.now();
-  // const now = Date.now()
-  // const msInDay = 86400000
-  // const index = Math.floor((now - epochMs) / msInDay)
-
-  // return {
-  //   solution: WORDS[index].toUpperCase(),
-  //   solutionIndex: index,
-  // }
-  const date2 = Date.now();
-  const diffTime = Math.abs(date2 - startDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  const index = diffDays;
-  return index;
-};
+// export const wordleIndex = (lastUpdated) => {
+//   const date2 = Date.now();
+//   const diffTime = Math.abs(date2 - startDate);
+//   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+//   const index = diffDays;
+//   return index;
+// };
 
 export const isSameDay = (cachedDate) => {
   var dateFromCache = new Date(new Date(cachedDate));

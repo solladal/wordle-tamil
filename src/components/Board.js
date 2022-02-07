@@ -20,6 +20,7 @@ export class Board extends React.Component {
                 key={i}
                 value={wordArr[i]}
                 color={this.props.tileColors[index][i]}
+                darkMode={this.props.darkMode}
               />
             );
           }

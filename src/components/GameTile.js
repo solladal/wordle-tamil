@@ -5,9 +5,11 @@ export class GameTile extends React.Component {
     super(props);
   }
 
-  getStyle = {animationDelay: this.props.id * 200 + 'ms'};
+  getStyle = { animationDelay: this.props.id * 200 + 'ms' };
 
   render() {
-    return <div key={this.props.id} className="tile" style={this.props.color ? this.getStyle : {}} value={this.props.value || 'empty'} color={this.props.color}>{this.props.value} </div>;
+    const darkMode = this.props.darkMode ? "true" : "false";
+    return <div key={this.props.id} className="tile" style={this.props.color ? this.getStyle : {}} 
+    value={this.props.value || 'empty'} color={this.props.color} darkMode={darkMode}>{this.props.value} </div>;
   }
 }
