@@ -78,7 +78,7 @@ export class Settings extends React.Component {
                             <div>
                                 <div className="settingsTitle">எளிய முறை</div>
                                 <div className="settingsDescription">உயிர்மெய் எழுத்தின் மெய்யெழுத்து பகுதி மட்டும் சரி எனில், முறையான உயிர்மெய் எழுத்தாக தானாக மாறிக்கொள்ளும் </div>
-                                <div className="settingsDescription">(எ.கா : 'னை' வரவேண்டிய இடலத்தில் 'ன' பதிவிட்டிருந்தால், தானாக 'னை' -ஆக மாற்றிக்கொள்ளும் ) </div>
+                                <div className="settingsDescription">(எ.கா : 'னை' வரவேண்டிய இடத்தில் 'ன' பதிவிட்டிருந்தால், தானாக 'னை' -ஆக மாற்றிக்கொள்ளும் ) </div>
                             </div>
                             <Switch className='switchKey'
                                 checked={this.state.easyMode}
