@@ -9,10 +9,14 @@ import Snackbar from '@mui/material/Snackbar';
 export class Dialog extends React.Component {
   constructor(props) {
     super(props);
-    this.wordleIndex = this.props.mode.getWordleIndex();
     this.state = { snackbar: { open: false, message: '' } }
     this.handleClose = this.handleClose.bind(this);
   }
+
+  getWordleIndex() {
+    return this.props.mode.getWordleIndex();
+  }
+
   emojis = {
     green: '🟩',
     yello: '🟨',
@@ -33,15 +37,15 @@ export class Dialog extends React.Component {
     var attemptsCount = filterTileColors.length;
     var value =
       '#WORDLE_TAMIL ' +
-        this.wordleIndex +
-        '  ' +
-        attemptsCount +
-        '/' +
-        6 +
-        '\n' +
-        '#வேடல்' +
-        '\n' + (this.props.mode.isSentamilMode() ? '#இலக்கிய_சொல்லாடல் ' : '') + (this.props.mode.isEasyMode() ? '*எளிய முறையில்*' : '') +
-          '\n';
+      this.getWordleIndex() +
+      '  ' +
+      attemptsCount +
+      '/' +
+      6 +
+      '\n' +
+      '#வேடல்' +
+      '\n' + (this.props.mode.isSentamilMode() ? '#இலக்கிய_சொல்லாடல் ' : '') + (this.props.mode.isEasyMode() ? '*எளிய முறையில்*' : '') +
+      '\n';
 
     filterTileColors.forEach((row) => {
       value = value + row.map((tile) => this.emojis[tile]).join('') + '\n';
@@ -65,7 +69,7 @@ export class Dialog extends React.Component {
         alert(e);
       }
     } else {
-      value  = value + document.location.href;
+      value = value + document.location.href;
       navigator.clipboard.writeText(value);
       this.setState({ snackbar: { open: true, message: 'copied to clipboard' } })
       return value;
@@ -79,7 +83,7 @@ export class Dialog extends React.Component {
     var attemptsCount = filterTileColors.length;
     var value =
       '#WORDLE_TAMIL - ' +
-      this.wordleIndex +
+      this.getWordleIndex() +
       '  ' +
       attemptsCount +
       '/' +
@@ -101,13 +105,13 @@ export class Dialog extends React.Component {
     if (this.props.page == 'won') {
       return (
         <div id="wonDialog">
-          <h2>Congrats You Won !!</h2>
+          <h3>வாழ்த்துக்கள்!!</h3>
 
           <div className="copySection">
             <div>
               <div>
                 <div>
-                  <strong> {this.getTitle()} </strong>
+                  {this.getTitle()}
                 </div>
                 {this.props.tileColors.map((row) => (
                   <div>
@@ -151,18 +155,24 @@ export class Dialog extends React.Component {
         </div>
       );
     } else if (this.props.page === 'stats') {
-      return <Stats stats={this.props.stats} darkMode={darkMode} gameState={this.props.gameState} previousWord={this.props.mode.getPreviousWord()} />;
+      return <Stats stats={this.props.stats}
+        darkMode={darkMode}
+        gameState={this.props.gameState}
+        previousWord={this.props.mode.getPreviousWord()}
+        rowIndex={this.props.rowIndex} />;
     } else if (this.props.page === 'lost') {
       return (
         <div>
-          <h2>Sorry Better luck Next Time !!</h2>
-          <section>Wait until tomorrow for the correct Wordle</section>
+
+          <h3>மன்னிக்கவும், வாய்ப்புகள் முடிந்தது!!</h3>
+          <br />
+          <div>சரியான விடை நாளை காட்டப்படும்.</div>
         </div>
       );
     } else if (this.props.page === 'prevAns') {
       return (
         <div>
-          <strong>PREVIOUS WORD</strong>
+          <strong>முந்தைய வேடல்</strong>
           <p className="lastWordle">{this.props.mode.getPreviousWord()}</p>
           <Board
             board={this.props.prevBoard}

@@ -33,6 +33,7 @@ export class Mode {
             state.page = initialPage;
         }
         state.disableKeyBoardInput = false;
+        state.tooltips = [[], [], [], [], [], [], []];
         //notification for settings changes
         state.settingsBadgeInvisible = readNotification() ? readNotification().settingsBadgeInvisible : false;
         return state;
@@ -119,6 +120,9 @@ export class Mode {
         const localStatistics = localStorage.getItem(this.statisticsKey);
         if (localStatistics) {
             state.statistics = JSON.parse(localStatistics);
+            if (!state.statistics.guesses) {
+                state.statistics.guesses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+            }
         } else {
             state.statistics = this.getDefaultStatistics();
         }
@@ -146,6 +150,7 @@ export class Mode {
             currentStreak: 0,
             maxStreak: 0,
             averageGuess: 0,
+            guesses: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
         };
     }
 
@@ -153,13 +158,17 @@ export class Mode {
         let gameState = { ...state, lastUpdated: Date.now() };
         gameState.statistics = undefined;
         state.readNotification = undefined;
+        state.tooltips = undefined;
         localStorage.setItem(
             this.stateKey,
             JSON.stringify(gameState)
         );
     }
 
-    saveGameStatistics(statistics) {
+    saveGameStatistics(statistics, rowIndex) {
+        if (rowIndex <= 6) {
+            statistics.guesses[rowIndex] = statistics.guesses[rowIndex] + 1;
+        }
         localStorage.setItem(
             this.statisticsKey,
             JSON.stringify(statistics)

@@ -480,13 +480,14 @@ div {
 
 .close:hover,
 .close:focus {
-  color: #000;
+  transform: scale(1.2);
   text-decoration: none;
   cursor: pointer;
 }
 
 #myModal[page='stats'] {
   display: block;
+  padding-top: 90px;
 }
 
 #myModal[page='won'] {
@@ -516,7 +517,7 @@ div {
   font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
-  border: none;
+  border-color: var(--green);
   user-select: none;
   display: flex;
   justify-content: center;
@@ -556,6 +557,8 @@ div {
   display: flex;
   flex-direction: row;
   border: #000;
+  width: 300px;
+  margin: auto;
 }
 
 .statsContainer > div {
@@ -566,14 +569,18 @@ div {
 }
 
 .statsValue {
-  font-size: 36px;
+  font-size: 32px;
+}
+
+.statsDesc {
+  font-size: 12px;
 }
 
 .statsContainer2 {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin: 20px;
+  margin-top: 10px;
 }
 
 .statsContainer2 > div {
@@ -851,4 +858,79 @@ a, a:visited {
 
 .setting[darkmode="true"] {
   border-bottom: 1px solid var(--gray);
+}
+
+.tip {
+  position: absolute;
+}
+
+.tipIcon {
+  position: absolute;
+  left: 285px;
+  top: 20px;
+}
+
+.tipIcon:hover > body {
+  opacity: 0.5;
+}
+
+.tipIcon[display="false"] {
+  display: none;
+}
+
+.tipIcon[darkmode="true"] {
+  color: #d7dadc;
+}
+
+.lostScreenWordle {
+  font-size: 30px;
+  display: inline;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.statsBarContainer {
+  width:80%;
+  margin: auto;
+}
+
+.statsIndex {
+  padding: 0px 6px;
+  background: grey;
+  font-weight: 700;
+  color: #d7dadc;
+  /* height:17px; */
+} 
+
+.statsBar {
+  background: grey;
+  /* height:13px; */
+  padding-bottom: 4px;
+  margin-left: 4px;
+}
+
+.statsBar[highlight="true"] {
+  background: var(--green);
+}
+
+.statsIndex[highlight="true"] {
+  background: var(--green);
+}
+
+.statsRow {
+  /* color: white; */
+  padding-bottom: 4px;
+  display: flex;
+}
+
+.statsNumber {
+  /* background: grey; */
+  font-weight: 700;
+  /* height: 17px; */
+  padding: 0 5px;
+  width: 0px;
+}
+
+div[role="tooltip"] {
+  width: 300px;
 }

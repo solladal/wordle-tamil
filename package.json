@@ -16,14 +16,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "jest",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -b master -d build"
   },
   "devDependencies": {
     "gh-pages": "^3.2.3",
+    "jest": "^27.4.7",
     "react-scripts": "latest"
   },
   "browserslist": {
