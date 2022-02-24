@@ -169,7 +169,7 @@ export function compare(guess, actual) {
         for (let j in actualArr) {
           if (actualArr[j] !== -1) {
             if (actualArr[j].includes(gussedLetter.charAt(0))) {
-              if (letterColors[actualArr[j]] === undefined) {
+              if (letterColors[actualArr[j]] === undefined || letterColors[actualArr[j]] === 'gray') {
                 color[i] = pickColorByOrder(color[i], 'yello-partial');
                 letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'yello-partial');
                 actualArr[j] = -1;
@@ -208,3 +208,7 @@ const colorPriority = {
 export function pickColorByOrder(color1, color2) {
   return colorPriority[color1] > colorPriority[color2] ? color1 : color2;
 }
+
+
+//used for jest testing
+// module.exports= {split, compareEasyMode,compare,pickColorByOrder}

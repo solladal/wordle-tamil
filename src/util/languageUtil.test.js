@@ -1,7 +1,7 @@
-const split = require('./languageUtil');
+const languageUtil = require('./languageUtil');
 
 test('test split', () => {
-  expect(split("அறுசுவை").length).toBe(4);
+  expect(languageUtil.split("அறுசுவை").length).toBe(4);
 });
 
 test('test compare 1', () => {
@@ -10,7 +10,7 @@ test('test compare 1', () => {
   expect(compare[0]).toBe(false);
   expect(compare[1]).toEqual(["green-partial", "yello-partial", "gray", "gray"]);
   expect(compare[2]).toEqual(letterColors);
-  expect(compare[3][0]).toMatch('பா உள்ள இடத்தில் வேறு ப-கர வரிசை உள்ளதோடு, பா -வும் வேறு இடத்தில உள்ளது.');
+  expect(compare[3][0]).toMatch('பா உள்ள இடத்தில்(1) வேறு ப-கர வரிசை உள்ளதோடு, பா -வும் வேறு இடத்தில உள்ளது.');
 });
 
 test('test compare 2', () => {
@@ -59,8 +59,8 @@ test('test compare 7', () => {
   expect(compare[0]).toBe(false);
   expect(compare[1]).toEqual(["green-partial", "yello", "green-partial", "gray"]);
   expect(compare[2]).toEqual(letterColors);
-  expect(compare[3][0]).toMatch('பா உள்ள இடத்தில் வேறு ப-கர வரிசை உள்ளதோடு, பா -வும் வேறு இடத்தில உள்ளது.');
-  expect(compare[3][1]).toMatch('பி உள்ள இடத்தில் வேறு ப-கர வரிசை உள்ளதோடு, பி -வும் வேறு இடத்தில உள்ளது.');
+  expect(compare[3][0]).toMatch('பா உள்ள இடத்தில்(1) வேறு ப-கர வரிசை உள்ளதோடு, பா -வும் வேறு இடத்தில உள்ளது.');
+  expect(compare[3][1]).toMatch('பி உள்ள இடத்தில்(3) வேறு ப-கர வரிசை உள்ளதோடு, பி -வும் வேறு இடத்தில உள்ளது.');
 });
 
 test('test compare 8', () => {
@@ -196,5 +196,13 @@ test('test compare duplicate yello and green-partial', () => {
   const letterColors = { "ட": "green-partial", "டு": "yello" };
   expect(compare[0]).toBe(false);
   expect(compare[1]).toEqual(["yello", "gray", "gray", "green-partial"]);
+  expect(compare[2]).toEqual(letterColors);
+});
+
+test('test compare duplicate yello and green-partial', () => {
+  const compare = languageUtil.compare("நமண்", "நாணம்");
+  const letterColors = { "ந": "green-partial", "ம": "yello-partial", "ண":"yello-partial", "ண்":"gray" };
+  expect(compare[0]).toBe(false);
+  expect(compare[1]).toEqual(["green-partial","yello-partial", "yello-partial"]);
   expect(compare[2]).toEqual(letterColors);
 });
