@@ -68,6 +68,7 @@ p {
   margin-top: 2px;
   font-family: inherit;
   font-weight: bold;
+  font-size: 14px;
   
   height: 40px;
   width: 18%;
@@ -182,6 +183,19 @@ div {
 .tile[value='ணௌ'] {
   font-size: 1.2rem;
 }
+
+@media only screen and (max-width: 370px) {
+  .key[shorten] {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .key[shorten] {
+    font-size: 12px;
+  }
+}
+
 
 .tile[value]:not([value='empty']) {
   animation: zoom-in-zoom-out 0.3s;
@@ -527,13 +541,16 @@ div {
   font-size: 20px;
   height: 52px;
   -webkit-filter: brightness(100%);
-  padding-left: 5px;
-  float: right;
 }
 
 .copySection {
-  display: grid;
-  /* justify-content: space-between; */
+  display: flex;
+  justify-content: space-around;
+}
+
+.share-button-container {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .timerSection {
@@ -934,3 +951,32 @@ a, a:visited {
 div[role="tooltip"] {
   width: 300px;
 }
+
+.lostDialog {
+  text-align: center;
+}
+
+.showAnsButton {
+  /* font-size: 30px; */
+  background-color: var(--orange);
+  border-color: var(--orange);
+  height: 40px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.showAns {
+  font-size: 30px;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.showAnsRow {
+  margin: auto;
+}
+
+.link {
+  float: right;
+  padding-left: 10px;
+}
+

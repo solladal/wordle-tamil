@@ -11,10 +11,15 @@ export class Keyboard1 extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
+  componentDidUpdate() {
+    Array.from(document.getElementsByClassName("key"))
+    .filter(elem => elem.id.length > 1 && ['ொ', 'ோ','ௌ','ை'].includes(elem.id.charAt(1)))
+    .forEach(elem => elem.setAttribute('shorten', ''));
+  }
+
   handleClick(val) {
     if (!this.props.won && !this.props.disableKeyBoardInput) {
       if (val == 'enter') {
-        //TODO handle not enouth letter
         if (split(this.state.word).length === this.props.wordleLength) {
           this.props.onKeyInput('enter');
           this.setState({ word: '' });
@@ -119,7 +124,7 @@ export class Keyboard1 extends React.Component {
             .map((l) => {
               return (
                 <button
-                  key={l}
+                  id={l}
                   className="key"
                   key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
@@ -145,7 +150,7 @@ export class Keyboard1 extends React.Component {
             .map((l) => {
               return (
                 <button
-                  key={l}
+                  id={l}
                   className="key"
                   key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
@@ -171,7 +176,7 @@ export class Keyboard1 extends React.Component {
             .map((l) => {
               return (
                 <button
-                  key={l}
+                  id={l}
                   className="key"
                   key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}

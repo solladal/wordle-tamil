@@ -19,6 +19,7 @@ export default class App extends React.Component {
     this.state = this.mode.initialiseGame();
     this.onKeyInput = this.onKeyInput.bind(this);
     this.onModeChange = this.onModeChange.bind(this);
+    this.onSettingsClose = this.onSettingsClose.bind(this);
   }
 
   initialise() {
@@ -293,6 +294,16 @@ export default class App extends React.Component {
     this.setState(this.mode.initialiseGame('settings'));
   }
 
+  onSettingsClose() {
+    if(this.state.gameState === 'WON') {
+      this.setState({page: 'won'});
+    } else if(this.state.gameState === 'LOST') {
+      this.setState({page: 'lost'});
+    } else {
+      this.setState({page: 'game'});
+    }
+  }
+
   render() {
     return (
       <div className="game">
@@ -340,7 +351,7 @@ export default class App extends React.Component {
         {this.state.page === 'settings' && (
           <Settings
             page={this.state.page}
-            onClose={() => this.setState({ page: 'game' })}
+            onClose={() => this.onSettingsClose()}
             onModeChange={this.onModeChange}
             darkMode={this.mode.isDarkMode()}
           />

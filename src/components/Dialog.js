@@ -4,13 +4,29 @@ import { Board } from './Board';
 import { Settings } from './Settings';
 import { split } from '../util/languageUtil';
 import { AiOutlineShareAlt } from 'react-icons/ai'
+import { BiLinkExternal } from 'react-icons/bi'
 import Snackbar from '@mui/material/Snackbar';
+import { GameTile } from './GameTile';
 
 export class Dialog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { snackbar: { open: false, message: '' } }
+    this.state = { snackbar: { open: false, message: '' }, [props.mode.mode]: { ans: '', showAnsClicked: false } }
     this.handleClose = this.handleClose.bind(this);
+    this.onShowAns = this.onShowAns.bind(this);
+  }
+
+  componentDidUpdate() {
+    if(!this.state[this.props.mode.mode]) {
+      this.setState({ [this.props.mode.mode]: { ans: '', showAnsClicked: false } });
+    }
+  }
+
+  onShowAns() {
+    let emptyAns = split(this.props.mode.getWordOfDay()).map(l => '_').join('');
+
+    this.setState({ [this.props.mode.mode]: { ans: emptyAns, showAnsClicked: true } })
+    setTimeout(() => this.setState({ [this.props.mode.mode]: { ans: this.props.mode.getWordOfDay(), showAnsClicked: true } }), 500)
   }
 
   getWordleIndex() {
@@ -107,8 +123,27 @@ export class Dialog extends React.Component {
         <div id="wonDialog">
           <h3>வாழ்த்துக்கள்!!</h3>
 
-          <div className="copySection">
-            <div>
+          <div style={{display:"flex"}}>
+              <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
+                {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index + 'lost-dialog'}
+                  id={index}
+                  value={l}
+                  color={l !== '_' ? 'green' : ''}
+                  darkMode={this.props.darkMode}></GameTile>)}
+              </div>
+              <div>
+                <div className='link' >
+                  <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
+                  <BiLinkExternal/>
+                  </a>
+              </div>
+                </div>
+          </div>
+          <hr/>
+          <br/>
+
+          <div>
+            <div className="copySection">
               <div>
                 <div>
                   {this.getTitle()}
@@ -122,7 +157,7 @@ export class Dialog extends React.Component {
                 <div>#வேடல்</div>
               </div>
               <br />
-              <div>
+              <div className='share-button-container'>
                 <button
                   className="share-button"
                   onClick={() => this.copyClipBoard()}
@@ -162,11 +197,29 @@ export class Dialog extends React.Component {
         rowIndex={this.props.rowIndex} />;
     } else if (this.props.page === 'lost') {
       return (
-        <div>
+        <div className='lostDialog'>
 
           <h3>மன்னிக்கவும், வாய்ப்புகள் முடிந்தன!!</h3>
           <br />
-          <div>சரியான விடை நாளை காட்டப்படும்.</div>
+          {this.state[this.props.mode.mode] && !this.state[this.props.mode.mode].showAnsClicked && <button className='showAnsButton' onClick={() => this.onShowAns()}>சரியான விடை காட்டுக</button>}
+          {this.state[this.props.mode.mode] && this.state[this.props.mode.mode].showAnsClicked && 
+          (
+            <div style={{display:"flex"}}>
+              <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
+                {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile id={index + 'lost-dialog'}
+                  id={index}
+                  value={l}
+                  color={l !== '_' ? 'green' : ''}
+                  darkMode={this.props.darkMode}></GameTile>)}
+              </div>
+              <div>
+                <div className='link' >
+                  <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
+                  <BiLinkExternal/>
+                  </a>
+              </div>
+                </div>
+          </div>)}
         </div>
       );
     } else if (this.props.page === 'prevAns') {
