@@ -17,7 +17,7 @@ export class Mode {
             this.statisticsKey = 'wordle-sentamil-statistics';
             this.startDate = new Date('2/6/2022');
         }
-
+        this.wordleIndex = this.getWordleIndex();
     }
 
 
@@ -32,6 +32,7 @@ export class Mode {
         if (initialPage) {
             state.page = initialPage;
         }
+        state.wordleIndex = this.wordleIndex;
         state.disableKeyBoardInput = false;
         state.tooltips = [[], [], [], [], [], [], []];
         //notification for settings changes
@@ -40,7 +41,7 @@ export class Mode {
     }
 
     getWordOfDay() {
-        return getWordOf(this.mode, this.getWordleIndex());
+        return getWordOf(this.mode, this.wordleIndex);
     }
 
     getPreviousWord() {
@@ -66,12 +67,13 @@ export class Mode {
         const statistics = localStorage.getItem(this.statisticsKey);
 
         if (localstate && statistics) {
-            let lastUpdated = JSON.parse(localstate).lastUpdated;
+            let localStateJson = JSON.parse(localstate);
+            let lastUpdated = localStateJson.lastUpdated;
             let gamesPlayed = JSON.parse(statistics).gamesPlayed;
             if (lastUpdated) {
-                if (isSameDay(lastUpdated)) {
+                if (this.isSameDayCheck(localStateJson.wordleIndex, lastUpdated)) {
                     if (gamesPlayed > 1) { //means not first time
-                        let prevIndex = (this.getWordleIndex() - 1);
+                        let prevIndex = (this.wordleIndex - 1);
                         if (prevIndex > 0) {
                             return prevIndex;
                         }
@@ -99,11 +101,24 @@ export class Mode {
         return this.darkMode;
     }
 
+    //TODO: lastUpdated is kept for existing users,
+    isSameDayCheck(wordleIndex, lastUpdated) {
+        if(wordleIndex) {
+            return wordleIndex === this.wordleIndex;
+        } else {
+            return isSameDay(lastUpdated)
+        }
+    }
+
     getStateFromLocaleStorage(localstate) {
         let state;
         let previousState = JSON.parse(localstate);
-        if (isSameDay(previousState.lastUpdated)) {
-            state = JSON.parse(localstate);
+        if (this.isSameDayCheck(previousState.wordleIndex, previousState.lastUpdated)) {
+            if(previousState.gameState === 'WON' && previousState.board[previousState.rowIndex-1] !== this.getWordOfDay()) {
+                state = { ...this.getDefaultState(), gameEndTimeStamp: previousState.gameEndTimeStamp, page: 'game' };
+            } else {
+                state = previousState;
+            }
         } else {
             if (previousState.gameState == 'LOST') {
                 state = {

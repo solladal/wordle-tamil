@@ -29,10 +29,6 @@ export class Dialog extends React.Component {
     setTimeout(() => this.setState({ [this.props.mode.mode]: { ans: this.props.mode.getWordOfDay(), showAnsClicked: true } }), 500)
   }
 
-  getWordleIndex() {
-    return this.props.mode.getWordleIndex();
-  }
-
   emojis = {
     green: '🟩',
     yello: '🟨',
@@ -53,7 +49,7 @@ export class Dialog extends React.Component {
     var attemptsCount = filterTileColors.length;
     var value =
       '#WORDLE_TAMIL ' +
-      this.getWordleIndex() +
+      this.props.mode.wordleIndex +
       '  ' +
       attemptsCount +
       '/' +
@@ -99,7 +95,7 @@ export class Dialog extends React.Component {
     var attemptsCount = filterTileColors.length;
     var value =
       '#WORDLE_TAMIL - ' +
-      this.getWordleIndex() +
+      this.props.mode.wordleIndex +
       '  ' +
       attemptsCount +
       '/' +
