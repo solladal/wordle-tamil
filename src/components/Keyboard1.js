@@ -6,23 +6,44 @@ import { readSettings } from '../util/stateUtil'
 export class Keyboard1 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { word: '', settings: readSettings(), snackbar: { open: false, message: '' } };
+    this.state = { word: '', snackbar: { open: false, message: '' }, dictionaryCheckFailed: false };
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidUpdate() {
     Array.from(document.getElementsByClassName("key"))
-    .filter(elem => elem.id.length > 1 && ['ொ', 'ோ','ௌ','ை'].includes(elem.id.charAt(1)))
-    .forEach(elem => elem.setAttribute('shorten', ''));
+      .filter(elem => elem.id.length > 1 && ['ொ', 'ோ', 'ௌ', 'ை'].includes(elem.id.charAt(1)))
+      .forEach(elem => elem.setAttribute('shorten', ''));
   }
 
   handleClick(val) {
     if (!this.props.won && !this.props.disableKeyBoardInput) {
       if (val == 'enter') {
         if (split(this.state.word).length === this.props.wordleLength) {
-          this.props.onKeyInput('enter');
-          this.setState({ word: '' });
+          if (this.state.word === this.props.worldToMatch) {
+            this.props.onKeyInput('enter');
+            this.setState({ word: '' });
+          } else if (readSettings().disableDictionaryCheck || this.state.dictionaryCheckFailed) {
+            this.props.onKeyInput('enter');
+            this.setState({ word: '' });
+          } else {
+            let url = "https://ta.wiktionary.org/w/api.php?action=query&prop=categories&format=json&formatversion=2&origin=*&titles=";
+            fetch(url + this.state.word).then(res => res.json()).then(res => {
+              if (res.query.pages[0].missing) {
+                this.setState({ snackbar: { open: true, message: 'சொல் அகராதியில் இல்லை' } })
+              } else {
+                this.props.onKeyInput('enter');
+                this.setState({ word: '' });
+              }
+            }).catch(e => {
+              console.log(e)
+              console.log("ignore fetch error and proceed with validation")
+              //ignore fetch error and proceed with validation
+              this.props.onKeyInput('enter');
+              this.setState({ word: '', snackbar: { open: true, message: 'அகராதியில் சரிபார்க்க முடியவில்லை' }, dictionaryCheckFailed: true });
+            })
+          }
         } else {
           this.setState({ snackbar: { open: true, message: this.props.wordleLength + ' எழுத்து சொல்லை முழுமையாக நிரப்புக' } })
         }
@@ -37,25 +58,8 @@ export class Keyboard1 extends React.Component {
         let tempWord = this.state.word;
         tempWord = tempWord.concat(val);
         if (split(tempWord).length <= this.props.wordleLength) {
-          // if (this.state.settings.easyMode) {
-             
-          //   let tempWordSplit = split(this.state.word.concat(val))
-          //   let currentIndex = tempWordSplit.length-1;
-          //   let tempCorrectWordSplit = split(this.props.worldToMatch);
-          //   if (tempCorrectWordSplit[currentIndex].length === 2 && (tempWordSplit[currentIndex].slice(0,1) === tempCorrectWordSplit[currentIndex].slice(0,1))) {
-          //     this.setState({ word: this.state.word.concat(val).concat(tempCorrectWordSplit[tempWordSplit.length-1].slice(1))});
-          //     this.props.onKeyInput(this.state.word.concat(val).concat(tempCorrectWordSplit[tempWordSplit.length-1].slice(1)));
-          //   } else {
-          //     this.setState({ word: this.state.word.concat(val) });
-          //     this.props.onKeyInput(this.state.word.concat(val));
-          //   }
-
-          // } else {
-          //   this.setState({ word: this.state.word.concat(val) });
-          //   this.props.onKeyInput(this.state.word.concat(val));
-          // }
           this.setState({ word: this.state.word.concat(val) });
-            this.props.onKeyInput(this.state.word.concat(val));
+          this.props.onKeyInput(this.state.word.concat(val));
 
         }
       }
@@ -63,9 +67,9 @@ export class Keyboard1 extends React.Component {
   }
 
   handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+    // if (reason === 'clickaway') {
+    //   return;
+    // }
 
     this.setState({ snackbar: { open: false } });
   };
@@ -105,7 +109,7 @@ export class Keyboard1 extends React.Component {
       ஓ: 'ோ',
       ஔ: 'ௌ',
     };
-    const darkMode = this.props.darkMode ? "true" : "false";
+    const darkMode = readSettings().darkMode ? "true" : "false";
     //['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ']
     return (
       <div className="keyboard" won={this.props.won + ''}>
@@ -208,7 +212,7 @@ export class Keyboard1 extends React.Component {
         </div>
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={this.state.snackbar.open}
-          autoHideDuration={1000}
+          autoHideDuration={2000}
           onClose={this.handleClose}
           message={this.state.snackbar.message}
         />

@@ -11,6 +11,7 @@ export class Settings extends React.Component {
         this.onEasyModeSwitch = this.onEasyModeSwitch.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.onDarkModeSwitch = this.onDarkModeSwitch.bind(this);
+        this.onDictionValidationSwitch = this.onDictionValidationSwitch.bind(this);
     }
 
     handleChange() {
@@ -36,6 +37,12 @@ export class Settings extends React.Component {
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
+    }
+
+    onDictionValidationSwitch() {
+        let newSettings = {... this.state, disableDictionaryCheck: !this.state.disableDictionaryCheck};
+        saveSettings(newSettings);
+        this.setState(newSettings);
     }
 
     getContentInTamil() {
@@ -94,6 +101,17 @@ export class Settings extends React.Component {
                             <Switch className='switchKey'
                                 checked={this.state.darkMode}
                                 onChange={this.onDarkModeSwitch}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            />
+                        </div>
+                        <div className="setting" darkMode={darkMode}>
+                            <div className="text">
+                                <div className="settingsTitle">அகராதியில் இல்லாத சொல்லையும் அனுமதிக்க</div>
+                                <div className="settingsDescription">Skip Dictionary Validation</div>
+                            </div>
+                            <Switch className='switchKey'
+                                checked={this.state.disableDictionaryCheck}
+                                onChange={this.onDictionValidationSwitch}
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                         </div>

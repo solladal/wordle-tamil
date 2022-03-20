@@ -346,7 +346,6 @@ export default class App extends React.Component {
               wordleLength={this.wordleLength}
               selectedKeys={this.state.selectedKeys}
               won={this.state.won}
-              darkMode={this.mode.isDarkMode()}
               disableKeyBoardInput={this.state.disableKeyBoardInput}
             />
           </div>

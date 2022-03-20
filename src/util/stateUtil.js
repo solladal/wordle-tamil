@@ -211,9 +211,13 @@ export function readSettings() {
     const localSettings = localStorage.getItem('wordle-tamil-settings');
 
     if (localSettings) {
-        return JSON.parse(localSettings);
+        let settings = JSON.parse(localSettings)
+        if(!settings.hasOwnProperty('disableDictionaryCheck')) {
+            settings.disableDictionaryCheck = false;
+        }
+        return settings;
     } else {
-        return { senthamilMode: false, easyMode: false, darkMode: false }
+        return { senthamilMode: false, easyMode: false, darkMode: false, disableDictionaryCheck: false }
     }
 }
 
