@@ -125,9 +125,14 @@ export function compare(guess, actual) {
     for (let i in guessArr) {
       const gussedLetter = guessArr[i];
       if (gussedLetter !== -1) {
-        if (actualArr.includes(gussedLetter) && letterColors[gussedLetter] === undefined) {
-          color[i] = 'yello';
-          letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'yello');
+        if (actualArr.includes(gussedLetter) && letterColors[gussedLetter] !== 'yello') {
+          color[i] = 'yello'; 
+          if(letterColors[gussedLetter] === 'green-partial') {
+            //check test compare duplicate விழுமம் and வாமனம்
+            letterColors[gussedLetter] = 'yello';
+          } else {
+            letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'yello');
+          }
           letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'yello-partial');
 
         }

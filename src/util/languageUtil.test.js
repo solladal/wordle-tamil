@@ -206,3 +206,11 @@ test('test compare duplicate yello and green-partial', () => {
   expect(compare[1]).toEqual(["green-partial","yello-partial", "yello-partial"]);
   expect(compare[2]).toEqual(letterColors);
 });
+
+test('test compare duplicate விழுமம் and வாமனம்', () => {
+  const compare = languageUtil.compare("வாமனம்", "விழுமம்");
+  const letterColors = { "வா": "gray", "வ": "green-partial", "ம": "yello", "ன":"gray", "ம்":"green" };
+  expect(compare[0]).toBe(false);
+  expect(compare[1]).toEqual(["green-partial","yello", "gray", "green"]);
+  expect(compare[2]).toEqual(letterColors);
+});

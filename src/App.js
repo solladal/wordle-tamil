@@ -41,7 +41,12 @@ export default class App extends React.Component {
       }
       if (i.length == 2) {
         const firstLetter = i.charAt(i.length - 2);
-        if (tempSelectedKeys[i].includes('partial')) {
+        if(tempSelectedKeys[i] === 'green-partial') {
+          if (letterColors[firstLetter] !== 'yello') {
+            tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], tempSelectedKeys[i]);
+          }
+          tempSelectedKeys[i] = 'gray'
+        } else if (tempSelectedKeys[i] === 'yello-partial') {
           //if வே is partially correct, set வ as partial correct and வே as incorrect
           tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], tempSelectedKeys[i]);
           tempSelectedKeys[i] = 'gray';
@@ -53,9 +58,14 @@ export default class App extends React.Component {
           tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'gray');
         } else if (tempSelectedKeys[i] == 'green') {
           //if வே is in correct, set வ is also partially correct
-          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'green-partial');
+          if (letterColors[firstLetter] !== 'yello') {
+            tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'green-partial');
+          }    
         }
-
+      } else {
+        if (letterColors[i] === 'yello' && tempSelectedKeys[i] === 'green-partial') {
+          tempSelectedKeys[i] = 'yello';
+        } 
       }
     }
     return tempSelectedKeys;
