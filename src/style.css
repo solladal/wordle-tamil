@@ -980,3 +980,7 @@ div[role="tooltip"] {
   padding-left: 10px;
 }
 
+.readMore {
+  color: #6e83eb;
+  cursor: pointer;
+}
