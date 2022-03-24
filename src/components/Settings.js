@@ -19,28 +19,28 @@ export class Settings extends React.Component {
     }
 
     onSenthamilModeSwitch() {
-        let newSettings = { senthamilMode: !this.state.senthamilMode, easyMode: this.state.easyMode, darkMode: this.state.darkMode };
+        let newSettings = {...this.state, senthamilMode: !this.state.senthamilMode };
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
     }
 
     onEasyModeSwitch() {
-        let newSettings = { senthamilMode: this.state.senthamilMode, easyMode: !this.state.easyMode, darkMode: this.state.darkMode };
+        let newSettings = {...this.state, easyMode: !this.state.easyMode };
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
     }
 
     onDarkModeSwitch() {
-        let newSettings = { senthamilMode: this.state.senthamilMode, easyMode: this.state.easyMode, darkMode: !this.state.darkMode };
+        let newSettings = {...this.state, darkMode: !this.state.darkMode };
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
     }
 
     onDictionValidationSwitch() {
-        let newSettings = {... this.state, disableDictionaryCheck: !this.state.disableDictionaryCheck};
+        let newSettings = {...this.state, disableDictionaryCheck: !this.state.disableDictionaryCheck};
         saveSettings(newSettings);
         this.setState(newSettings);
     }
