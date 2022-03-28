@@ -111,7 +111,7 @@ export function compare(guess, actual) {
     let letterColors = {};
     let guessArr = split(guess);
     let actualArr = split(actual);
-    let specialMessage = [];
+    let starPostions = [];
     for (let i in guessArr) {
       const gussedLetter = guessArr[i];
       if (gussedLetter === actualArr[i]) {
@@ -150,10 +150,12 @@ export function compare(guess, actual) {
           if (letterColors[gussedLetter] === 'yello') {
             let position = Number(i)+1;
             console.warn(gussedLetter + ' உள்ள இடத்தில்('+ position +') வேறு ' + gussedLetter.charAt(0) + '-கர வரிசை உள்ளதோடு, ' + gussedLetter + ' -வும் வேறு இடத்தில உள்ளது.');
-            specialMessage.push(gussedLetter + ' உள்ள இடத்தில்(' + position + ') வேறு ' + gussedLetter.charAt(0) + '-கர வரிசை உள்ளதோடு, ' + gussedLetter + ' -வும் வேறு இடத்தில உள்ளது.');
+            //specialMessage.push(gussedLetter + ' உள்ள இடத்தில்(' + position + ') வேறு ' + gussedLetter.charAt(0) + '-கர வரிசை உள்ளதோடு, ' + gussedLetter + ' -வும் வேறு இடத்தில உள்ளது.');
+            starPostions.push(i);
+          } else {
+            letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'green-partial');
           }
-          color[i] = 'green-partial'; //partial
-          letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'green-partial');
+          color[i] = 'green-partial'; //partial   
           guessArr[i] = -1;
           actualArr[i] = -1;
         }
@@ -185,7 +187,7 @@ export function compare(guess, actual) {
       }
     }
 
-    return [false, color, letterColors, specialMessage];
+    return [false, color, letterColors, starPostions];
   }
 }
 

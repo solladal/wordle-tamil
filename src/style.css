@@ -245,6 +245,7 @@ div {
 .tile {
   display: inline-flex;
   width: 100%;
+  height: 59px;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
@@ -260,15 +261,25 @@ div {
 
 .board {
   width: 300px;
-  height: 420px;
+  height: 394px;
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   grid-gap: 5px;
-  padding: 20px 10px;
+  padding: 10px;
   box-sizing: border-box;
-  margin: auto;
+  margin: 10px auto;
+  overflow-y: scroll;
 }
+
+.board[length] {
+  width: 350px;
+}
+
 .mainBoard[page='stats'] {
+  opacity: 0.4;
+}
+
+.mainBoard[page='updateInfo'] {
   opacity: 0.4;
 }
 
@@ -306,6 +317,12 @@ div {
 .tile-row[length='5'] {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  grid-gap: 4px;
+}
+
+.tile-row[length='6'] {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   grid-gap: 4px;
 }
 
@@ -384,6 +401,10 @@ div {
 
 .helprow {
   width: 260px;
+  height: 42px;
+}
+
+.helprow > .tile {
   height: 42px;
 }
 
@@ -502,6 +523,11 @@ div {
 #myModal[page='stats'] {
   display: block;
   padding-top: 90px;
+}
+
+#myModal[page='updateInfo'] {
+  display: block;
+  margin: auto;
 }
 
 #myModal[page='won'] {
@@ -877,28 +903,6 @@ a, a:visited {
   border-bottom: 1px solid var(--gray);
 }
 
-.tip {
-  position: absolute;
-}
-
-.tipIcon {
-  position: absolute;
-  left: 285px;
-  top: 20px;
-}
-
-.tipIcon:hover > body {
-  opacity: 0.5;
-}
-
-.tipIcon[display="false"] {
-  display: none;
-}
-
-.tipIcon[darkmode="true"] {
-  color: #d7dadc;
-}
-
 .lostScreenWordle {
   font-size: 30px;
   display: inline;
@@ -948,10 +952,6 @@ a, a:visited {
   width: 0px;
 }
 
-div[role="tooltip"] {
-  width: 300px;
-}
-
 .lostDialog {
   text-align: center;
 }
@@ -983,4 +983,20 @@ div[role="tooltip"] {
 .readMore {
   color: #6e83eb;
   cursor: pointer;
+}
+
+.board::-webkit-scrollbar {
+  display:none;
+}
+
+.star {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  color: var(--yellow);
+}
+
+.updateTitle {
+  color: var(--darkendGreen);
 }

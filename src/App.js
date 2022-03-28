@@ -14,12 +14,20 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.chances = 6; // coupled with css class .board grid-template-rows: repeat(6, 1fr);
+    this.chances = 8; // coupled with css class .board grid-template-rows: repeat(8, 1fr);
     this.initialise();
     this.state = this.mode.initialiseGame();
     this.onKeyInput = this.onKeyInput.bind(this);
     this.onModeChange = this.onModeChange.bind(this);
     this.onSettingsClose = this.onSettingsClose.bind(this);
+  }
+
+  componentDidMount() {
+    document.getElementsByClassName('board')[0].scrollTop = this.state.rowIndex >= 6 ? 135 : 0;
+  }
+
+  componentDidUpdate() {
+    document.getElementsByClassName('board')[0].scrollTop = this.state.rowIndex >= 6 ? 135 : 0;
   }
 
   initialise() {
@@ -130,14 +138,14 @@ export default class App extends React.Component {
           } else {
             let tempTileColors = this.state.tileColors;
             tempTileColors[this.state.rowIndex] = result[1];
-
             let tempSelectedKeys = this.getUpdatedSelectedKeys(result[2]);
-            if (this.state.rowIndex == 5) {
+            if (this.state.rowIndex === (this.chances - 1)) {
               this.setState(
                 (prevState, props) => ({
                   rowIndex: this.state.rowIndex + 1, //
                   tileColors: tempTileColors,
                   selectedKeys: tempSelectedKeys,
+                  starPostions: this.getUpdatedStarPositions(result[3])
                 }),
                 () => {
                   if (this.mode.isEasyMode()) {
@@ -159,7 +167,7 @@ export default class App extends React.Component {
                               won: true,
                               page: result[0] ? 'won' : 'lost',
                               gameState: result[0] ? 'WON' : 'LOST',
-                              rowIndex: result[0] ? 6 : 7,
+                              rowIndex: result[0] ? this.chances : (this.chances + 1),
                               gameEndTimeStamp: this.getUpdatedGameEndTimeStamp(),
                               statistics: this.getIncrementedStatistics(
                                 result[0],
@@ -179,13 +187,13 @@ export default class App extends React.Component {
                     this.setState((prevState, props) => ({
                       page: 'lost',
                       gameState: 'LOST',
-                      rowIndex: 7,
+                      rowIndex: (this.chances + 1),
                       gameEndTimeStamp: this.getUpdatedGameEndTimeStamp(),
-                      statistics: this.getIncrementedStatistics(false, 7)
+                      statistics: this.getIncrementedStatistics(false, (this.chances + 1))
                     }),
                       () => {
                         this.mode.saveGameState(this.state);
-                        this.mode.saveGameStatistics(this.state.statistics, 7);
+                        this.mode.saveGameStatistics(this.state.statistics, (this.chances + 1));
                       })
                   }
 
@@ -199,12 +207,14 @@ export default class App extends React.Component {
                   rowIndex: prevState.rowIndex + 1, //
                   tileColors: tempTileColors,
                   selectedKeys: tempSelectedKeys,
+                  starPostions: this.getUpdatedStarPositions(result[3])
                 }),
                 () => {
                   if (this.mode.isEasyMode()) {
                     let timeout = result[1].includes('green-partial') ? 1000 : 0;
                     result = compareEasyMode(guess, this.worldToMatch, result[1], result[2]);
                     if (result[0]) {
+                      //EasyMode- right after convertion 
                       let tempTileColors = this.state.tileColors;
                       let letterColors = result[1];
                       let tempSelectedKeys = this.getUpdatedSelectedKeys(letterColors);
@@ -240,11 +250,11 @@ export default class App extends React.Component {
                         )
                       }, timeout);
                     } else {
+                      //EasyMode- still not right, after convertion
                       let tempTileColors = this.state.tileColors;
                       tempTileColors[this.state.rowIndex - 1] = result[1];
                       let tempSelectedKeys = this.getUpdatedSelectedKeys(result[2]);
-                      if (this.state.rowIndex === 6) {
-                        console.log("commented code is called")
+                      if (this.state.rowIndex === this.chances) {
                         // this.setState(
                         //   (prevState, props) => ({
                         //     page: 'lost',
@@ -281,10 +291,7 @@ export default class App extends React.Component {
                     }
 
                   } else {
-                    let tooltipsCopy = [...this.state.tooltips]
-                    tooltipsCopy[this.state.rowIndex - 1] = result[3];
-                    this.setState({ disableKeyBoardInput: false, tooltips: tooltipsCopy });
-                    this.mode.saveGameState(this.state);
+                    this.setState({ disableKeyBoardInput: false }, () => this.mode.saveGameState(this.state));
                   }
                 }
               );
@@ -297,6 +304,17 @@ export default class App extends React.Component {
         this.setState({ board: currentBoard, disableKeyBoardInput: false });
       }
     }
+  }
+
+  getUpdatedStarPositions(starPostions) {
+    const tempStarPositions = { ...this.state.starPostions };
+    for (let i of starPostions) {
+      if (!tempStarPositions[this.state.rowIndex]) {
+        tempStarPositions[this.state.rowIndex] = {};
+      }
+      tempStarPositions[this.state.rowIndex][i] = true;
+    }
+    return tempStarPositions;
   }
 
   onModeChange(newSettings) {
@@ -338,7 +356,7 @@ export default class App extends React.Component {
               tileColors={this.state.tileColors}
               page={this.state.page}
               darkMode={this.mode.isDarkMode()}
-              tooltips={this.state.tooltips}
+              starPostions={this.state.starPostions}
             />
             <Keyboard1
               onKeyInput={this.onKeyInput}
@@ -376,6 +394,7 @@ export default class App extends React.Component {
           onClose={() => this.setState({ page: 'game' })}
           darkMode={this.mode.isDarkMode()}
           rowIndex={this.state.rowIndex}
+          version={this.mode.version}
         />
       </div>
     );

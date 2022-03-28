@@ -2,6 +2,7 @@ import React from 'react';
 import { Stats } from './Stats';
 import { Board } from './Board';
 import { Settings } from './Settings';
+import { UpdateInfo } from './UpdateInfo';
 import { split } from '../util/languageUtil';
 import { AiOutlineShareAlt } from 'react-icons/ai'
 import { BiLinkExternal } from 'react-icons/bi'
@@ -14,6 +15,7 @@ export class Dialog extends React.Component {
     this.state = { snackbar: { open: false, message: '' }, [props.mode.mode]: { ans: '', showAnsClicked: false } }
     this.handleClose = this.handleClose.bind(this);
     this.onShowAns = this.onShowAns.bind(this);
+    this.getClipBoardContent = this.getClipBoardContent.bind(this);
   }
 
   componentDidUpdate() {
@@ -46,17 +48,17 @@ export class Dialog extends React.Component {
     var filterTileColors = this.props.tileColors.filter(
       (row) => row.length > 0
     );
-    var attemptsCount = filterTileColors.length;
+    var attemptsCount = this.props.gameState === 'WON' ? filterTileColors.length : 'X';
     var value =
       '#WORDLE_TAMIL ' +
       this.props.mode.wordleIndex +
       '  ' +
       attemptsCount +
       '/' +
-      6 +
+      this.props.mode.chances +
       '\n' +
       '#வேடல்' +
-      '\n' + (this.props.mode.isSentamilMode() ? '#இலக்கிய_சொல்லாடல் ' : '') + (this.props.mode.isEasyMode() ? '*எளிய முறையில்*' : '') +
+      '\n' + (this.props.mode.isSentamilMode() ? '#இலக்கிய_சொல்லாடல் \n' : '') + (this.props.mode.isEasyMode() ? '*எளிய முறையில்*' : '') +
       '\n';
 
     filterTileColors.forEach((row) => {
@@ -131,8 +133,7 @@ export class Dialog extends React.Component {
           <h3>வாழ்த்துக்கள்!!</h3>
           <div style={{display:"flex"}}>
               <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-                {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index + 'lost-dialog'}
-                  id={index}
+                {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index}
                   value={l}
                   color={l !== '_' ? 'green' : ''}
                   darkMode={this.props.darkMode}></GameTile>)}
@@ -165,7 +166,7 @@ export class Dialog extends React.Component {
           (
             <div style={{display:"flex"}}>
               <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-                {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile id={index + 'lost-dialog'}
+                {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile
                   id={index}
                   value={l}
                   color={l !== '_' ? 'green' : ''}
@@ -196,6 +197,8 @@ export class Dialog extends React.Component {
           />
         </div>
       );
+    }else if (this.props.page === 'updateInfo') {
+      return <UpdateInfo version={this.props.version}/>
     } else if (this.props.page === 'feedback') {
       return <Settings />
     } else {

@@ -7,6 +7,7 @@ export class Mode {
         this.chances = chances || 6;
         this.easyMode = easyMode;
         this.darkMode = darkMode;
+        this.version = '2.0';
 
         if (this.mode === 'normal') {
             this.stateKey = 'wordle-tamil-state';
@@ -18,6 +19,19 @@ export class Mode {
             this.startDate = new Date('2/6/2022');
         }
         this.wordleIndex = this.getWordleIndex();
+        
+    }
+
+    isNewUpdate() {
+        const version = localStorage.getItem('version');
+        const localState = localStorage.getItem('wordle-tamil-state');
+        if(localState) {
+            // for existing user
+            return version ? version !== this.version : true;
+        } else {
+            // if no localhost then new user
+            return false;
+        } 
     }
 
 
@@ -32,9 +46,11 @@ export class Mode {
         if (initialPage) {
             state.page = initialPage;
         }
+        if(this.isNewUpdate()) {
+            state.page = 'updateInfo';
+        }
         state.wordleIndex = this.wordleIndex;
         state.disableKeyBoardInput = false;
-        state.tooltips = [[], [], [], [], [], [], []];
         //notification for settings changes
         state.settingsBadgeInvisible = readNotification() ? readNotification().settingsBadgeInvisible : false;
         return state;
@@ -136,7 +152,7 @@ export class Mode {
         if (localStatistics) {
             state.statistics = JSON.parse(localStatistics);
             if (!state.statistics.guesses) {
-                state.statistics.guesses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+                state.statistics.guesses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7:0, 8:0 };
             }
         } else {
             state.statistics = this.getDefaultStatistics();
@@ -155,6 +171,7 @@ export class Mode {
             gameState: 'INPROGRESS',
             gameEndTimeStamp: { previous: '', current: '' },
             statistics: this.getDefaultStatistics(),
+            starPostions:{}
         };
     }
 
@@ -165,7 +182,7 @@ export class Mode {
             currentStreak: 0,
             maxStreak: 0,
             averageGuess: 0,
-            guesses: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
+            guesses: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7:0, 8:0 }
         };
     }
 
@@ -173,7 +190,6 @@ export class Mode {
         let gameState = { ...state, lastUpdated: Date.now() };
         gameState.statistics = undefined;
         state.readNotification = undefined;
-        state.tooltips = undefined;
         localStorage.setItem(
             this.stateKey,
             JSON.stringify(gameState)
@@ -181,8 +197,8 @@ export class Mode {
     }
 
     saveGameStatistics(statistics, rowIndex) {
-        if (rowIndex <= 6) {
-            statistics.guesses[rowIndex] = statistics.guesses[rowIndex] + 1;
+        if (rowIndex <= this.chances) {
+            statistics.guesses[rowIndex] = statistics.guesses[rowIndex] + 1 || 1;
         }
         localStorage.setItem(
             this.statisticsKey,

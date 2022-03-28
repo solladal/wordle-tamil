@@ -117,7 +117,7 @@ export class Help extends React.Component {
       </icon> */}
     </div>
     <div>
-      <p>மறைந்துள்ள சொல்லை 6 முயற்சிகளில் கண்டுபிடிக்க.</p>
+      <p>மறைந்துள்ள சொல்லை 8 முயற்சிகளில் கண்டுபிடிக்க.</p>
       <p>ஒரு சொல்லை நிரப்பி <strong>சரிபார்</strong> பொத்தானை கிளிக் செய்யவும்.</p>
       <p>
       கீழுள்ள நிற குறிப்புகளை கொண்டு சொல்லின் எழுத்துக்களை சரிபார்க்க.
@@ -170,6 +170,16 @@ export class Help extends React.Component {
       <p>
       எழுத்து <strong>கி</strong> சொல்லில் இடம்பெறவில்லை தவிர <strong>க</strong>கர வரிசையில் வேறு ஏதோ எழுத்து (<strong>க், க, கா, கு, ...</strong>) <strong>வேறு இடத்தில்</strong> இடம்பெற்றுள்ளது.
       </p>
+
+      <div className="tile-row helprow" length="4">
+        <GameTile value="இ" color="" darkMode={this.props.darkMode}/>
+        <GameTile value="ய" color="" />
+        <GameTile value="ற்" color="green-partial" darkMode={this.props.darkMode} star="true"/>
+        <GameTile value="கை" color="" darkMode={this.props.darkMode}/>
+      </div>
+      <p>
+      எழுத்து <strong>ற்</strong> சொல்லில் வேறு இடத்தில உள்ளது, அதோடு <strong>ற்</strong> உள்ள இடத்தில் வேறு <strong>ற</strong>கர வரிசையும் இடம்பெற்றுள்ளது.
+      </p>
       <hr />
       <strong>நினைவில் கொள்க</strong>
       <p><GameTile value="h" color="green" /> - சரியானது</p>
@@ -182,7 +192,7 @@ export class Help extends React.Component {
         <strong>நாள்தோறும் ஒரு புதிய சொல் இடம்பெறும்!</strong>
       </p>
 
-      <div class="readMore" onClick={() => this.handleMoreRead()}>
+      <div className="readMore" onClick={() => this.handleMoreRead()}>
       <center><strong>மேலும் படிக்க</strong></center>
       <center><strong>{this.state.moreRead ? <FaAngleDoubleUp/> : <FaAngleDoubleDown/>}</strong></center>
       </div>
