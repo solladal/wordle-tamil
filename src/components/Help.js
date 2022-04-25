@@ -132,7 +132,7 @@ export class Help extends React.Component {
         <GameTile value="ல்" color="" darkMode={this.props.darkMode}/>
       </div>
       <p>
-      எழுத்து <strong>தெ</strong> சொல்லின் சரியான இடத்தில உள்ளது.
+      எழுத்து <strong>தெ</strong> சொல்லின் சரியான இடத்தில் உள்ளது.
       </p>
       <div className="tile-row helprow" length="4">
         <GameTile value="மி" color="" darkMode={this.props.darkMode}/>
@@ -141,7 +141,7 @@ export class Help extends React.Component {
         <GameTile value="ல்" color="" darkMode={this.props.darkMode}/>
       </div>
       <p>
-      எழுத்து <strong>ன்</strong> சொல்லில் உள்ளது அனால் வேறு இடத்தில உள்ளது.
+      எழுத்து <strong>ன்</strong> சொல்லில் உள்ளது அனால் வேறு இடத்தில் உள்ளது.
       </p>
       <div className="tile-row helprow" length="4">
         <GameTile value="அ" color="" darkMode={this.props.darkMode}/>
@@ -173,12 +173,12 @@ export class Help extends React.Component {
 
       <div className="tile-row helprow" length="4">
         <GameTile value="இ" color="" darkMode={this.props.darkMode}/>
-        <GameTile value="ய" color="" />
+        <GameTile value="ய" color="" darkMode={this.props.darkMode}/>
         <GameTile value="ற்" color="green-partial" darkMode={this.props.darkMode} star="true"/>
         <GameTile value="கை" color="" darkMode={this.props.darkMode}/>
       </div>
       <p>
-      எழுத்து <strong>ற்</strong> சொல்லில் வேறு இடத்தில உள்ளது, அதோடு <strong>ற்</strong> உள்ள இடத்தில் வேறு <strong>ற</strong>கர வரிசையும் இடம்பெற்றுள்ளது.
+      எழுத்து <strong>ற்</strong> சொல்லில் வேறு இடத்தில் உள்ளது, அதோடு <strong>ற்</strong> உள்ள இடத்தில் வேறு <strong>ற</strong>கர வரிசையும் இடம்பெற்றுள்ளது.
       </p>
       <hr />
       <strong>நினைவில் கொள்க</strong>
@@ -212,7 +212,7 @@ export class Help extends React.Component {
           <li>4<sup>வது</sup> இடம் <strong>ன்</strong> சொல்லில் வேறு இடத்தில் உள்ளதை குறிக்கிறது.</li>
           <li>எனவே <strong>ன்</strong> 2<sup>வது</sup> இடத்தில் இருக்க அதிக வாய்ப்புகள் உள்ளது. அப்படி இல்லையேல் சொல்லில் இரு <strong>ன</strong>-கர வரிசை எழுத்துக்கள் இருக்கிறது எனலாம்.</li>
         </ul> 
-        சொல்லில் ஒரே ஒரு <strong>ன்</strong> இருப்பினும் இரண்டு இடங்களிலும் வண்ண குறிப்புகள் இருப்பது குழப்பமாக தோன்றினாலும் தர்க்கரீதியாக அது சரியான குறியீடே ஆகும். ஒருவேளை 2<sup>வது</sup> இடத்தில சாம்பல் நிறம் இருந்தால் ன-கர வரிசையே அந்த இடத்தில் இல்லை என்று தவறாக பொருள்படும்.
+        சொல்லில் ஒரே ஒரு <strong>ன்</strong> இருப்பினும் இரண்டு இடங்களிலும் வண்ண குறிப்புகள் இருப்பது குழப்பமாக தோன்றினாலும் தர்க்கரீதியாக அது சரியான குறியீடே ஆகும். ஒருவேளை 2<sup>வது</sup> இடத்தில் சாம்பல் நிறம் இருந்தால் ன-கர வரிசையே அந்த இடத்தில் இல்லை என்று தவறாக பொருள்படும்.
         </div>
       )}
     

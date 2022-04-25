@@ -67,13 +67,11 @@ export class Settings extends React.Component {
                                     onChange={this.onSenthamilModeSwitch}
                                     inputProps={{ 'aria-label': 'controlled' }}
                                 />
-                            
-
                         </div>
                         <div className="setting" darkMode={darkMode}>
                             <div>
                                 <div className="settingsTitle">இலக்கியத்தமிழ்</div>
-                                <div className="settingsDescription">இலக்கிய நூல்களில் உள்ள தூய செந்தமிழ் சொற்கள்</div>
+                                <div className="settingsDescription">இலக்கிய நூல்களில் இடம்பெறும் சொற்கள்</div>
                             </div>
                             <Switch className='switchKey'
                                 checked={this.state.senthamilMode}

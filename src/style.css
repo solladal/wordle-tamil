@@ -484,9 +484,8 @@ div {
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
+  position: absolute;
   z-index: 1; /* Sit on top */
-  padding-top: 200px; /* Location of the box */
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -521,24 +520,24 @@ div {
 }
 
 #myModal[page='stats'] {
-  display: block;
-  padding-top: 90px;
+  display: inline-flex;
+  /* padding-top: 90px; */
 }
 
 #myModal[page='updateInfo'] {
-  display: block;
+  display: inline-flex;
   margin: auto;
 }
 
 #myModal[page='won'] {
-  display: block;
+  display: inline-flex;
 }
 
 #myModal[page='lost'] {
-  display: block;
+  display: inline-flex;
 }
 #myModal[page='prevAns'] {
-  display: block;
+  display: inline-flex;
   padding-top: 50px;
 }
 
@@ -547,7 +546,7 @@ div {
 }
 
 #myModal[page='feedback'] {
-  display: block;
+  display: inline-flex;
 }
 
 .share-button {
