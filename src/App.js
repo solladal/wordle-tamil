@@ -99,7 +99,7 @@ export default class App extends React.Component {
 
   getUpdatedGameEndTimeStamp() {
     return {
-      previous: this.state.gameEndTimeStamp.current,
+      previous: this.state.gameEndTimeStamp?.current || Date.now(),
       current: Date.now(),
     };
   }

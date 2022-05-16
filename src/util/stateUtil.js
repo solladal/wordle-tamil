@@ -7,7 +7,7 @@ export class Mode {
         this.chances = chances || 6;
         this.easyMode = easyMode;
         this.darkMode = darkMode;
-        this.version = '2.0';
+        this.version = '3.0';
 
         if (this.mode === 'normal') {
             this.stateKey = 'wordle-tamil-state';
@@ -24,12 +24,12 @@ export class Mode {
 
     isNewUpdate() {
         const version = localStorage.getItem('version');
-        const localState = localStorage.getItem('wordle-tamil-state');
-        if (localState) {
+        if (version) {
             // for existing user
-            return version ? version !== this.version : true;
+            return version !== this.version;
         } else {
             // if no localhost then new user
+            localStorage.setItem('version', this.version);
             return false;
         }
     }
