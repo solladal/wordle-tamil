@@ -19,7 +19,7 @@ export class Dialog extends React.Component {
   }
 
   componentDidUpdate() {
-    if(!this.state[this.props.mode.mode]) {
+    if (!this.state[this.props.mode.mode]) {
       this.setState({ [this.props.mode.mode]: { ans: '', showAnsClicked: false } });
     }
   }
@@ -105,7 +105,7 @@ export class Dialog extends React.Component {
   getCopySection() {
     return (
       <div className="copySection">
-        <div style={{textAlign:'left'}}>{this.getClipBoardContent().split('\n').map(item => (<div>{item}</div>))}</div>
+        <div style={{ textAlign: 'left' }}>{this.getClipBoardContent().split('\n').map(item => (<div>{item}</div>))}</div>
         <br />
         <div className='share-button-container'>
           <button
@@ -131,23 +131,23 @@ export class Dialog extends React.Component {
       return (
         <div id="wonDialog">
           <h3>வாழ்த்துக்கள்!!</h3>
-          <div style={{display:"flex"}}>
-              <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-                {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index}
-                  value={l}
-                  color={l !== '_' ? 'green' : ''}
-                  darkMode={this.props.darkMode}></GameTile>)}
+          <div style={{ display: "flex" }}>
+            <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
+              {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index}
+                value={l}
+                color={l !== '_' ? 'green' : ''}
+                darkMode={this.props.darkMode}></GameTile>)}
+            </div>
+            <div>
+              <div className='link' >
+                <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
+                  <BiLinkExternal />
+                </a>
               </div>
-              <div>
-                <div className='link' >
-                  <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
-                  <BiLinkExternal/>
-                  </a>
-              </div>
-                </div>
+            </div>
           </div>
-          <hr/>
-          <br/>
+          <hr />
+          <br />
           {this.getCopySection()}
         </div>
       );
@@ -162,26 +162,26 @@ export class Dialog extends React.Component {
         <div className='lostDialog'>
           <h3>மன்னிக்கவும், வாய்ப்புகள் முடிந்தன!!</h3>
           {this.state[this.props.mode.mode] && !this.state[this.props.mode.mode].showAnsClicked && <button className='showAnsButton' onClick={() => this.onShowAns()}>சரியான விடை காட்டுக</button>}
-          {this.state[this.props.mode.mode] && this.state[this.props.mode.mode].showAnsClicked && 
-          (
-            <div style={{display:"flex"}}>
-              <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-                {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile
-                  id={index}
-                  value={l}
-                  color={l !== '_' ? 'green' : ''}
-                  darkMode={this.props.darkMode}></GameTile>)}
-              </div>
-              <div>
-                <div className='link' >
-                  <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
-                  <BiLinkExternal/>
-                  </a>
-              </div>
+          {this.state[this.props.mode.mode] && this.state[this.props.mode.mode].showAnsClicked &&
+            (
+              <div style={{ display: "flex" }}>
+                <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
+                  {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile
+                    id={index}
+                    value={l}
+                    color={l !== '_' ? 'green' : ''}
+                    darkMode={this.props.darkMode}></GameTile>)}
                 </div>
-          </div>)}
-          <hr/>
-          <br/>
+                <div>
+                  <div className='link' >
+                    <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
+                      <BiLinkExternal />
+                    </a>
+                  </div>
+                </div>
+              </div>)}
+          <hr />
+          <br />
           {this.getCopySection()}
         </div>
       );
@@ -197,8 +197,8 @@ export class Dialog extends React.Component {
           />
         </div>
       );
-    }else if (this.props.page === 'updateInfo') {
-      return <UpdateInfo version={this.props.version}/>
+    } else if (this.props.page === 'updateInfo') {
+      return <UpdateInfo version={this.props.version} />
     } else if (this.props.page === 'feedback') {
       return <Settings />
     } else {
@@ -214,7 +214,7 @@ export class Dialog extends React.Component {
     const darkMode = this.props.darkMode ? "true" : "false";
     return (
       <div id="myModal" className="modal" page={this.props.page}>
-        <div className="modal-content" darkMode={darkMode}>
+        <div className="modal-content" darkmode={darkMode}>
           <span className="close" onClick={this.props.onClose}>
             &times;
           </span>

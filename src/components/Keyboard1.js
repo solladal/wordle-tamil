@@ -132,7 +132,7 @@ export class Keyboard1 extends React.Component {
                   className="key"
                   key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
-                  darkMode={darkMode}
+                  darkmode={darkMode}
                 >
                   {l}
                 </button>
@@ -158,7 +158,7 @@ export class Keyboard1 extends React.Component {
                   className="key"
                   key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
-                  darkMode={darkMode}
+                  darkmode={darkMode}
                 >
                   {l}
                 </button>
@@ -184,7 +184,7 @@ export class Keyboard1 extends React.Component {
                   className="key"
                   key-state={this.props.selectedKeys[l]}
                   onClick={() => this.handleClick(l.charAt(l.length - 1))}
-                  darkMode={darkMode}
+                  darkmode={darkMode}
                 >
                   {l}
                 </button>
@@ -192,20 +192,20 @@ export class Keyboard1 extends React.Component {
             })}
         </div>
         <div className="keyboardLastRow">
-          <button className="key keyLast" onClick={() => this.handleClick('ஃ')} darkMode={darkMode}>
+          <button className="key keyLast" onClick={() => this.handleClick('ஃ')} darkmode={darkMode}>
             ஃ
           </button>
           <button
             className="key enterKey"
             onClick={() => this.handleClick('enter')}
-            darkMode={darkMode}
+            darkmode={darkMode}
           >
             சரிபார்
           </button>
           <button
             className="key keyLast"
             onClick={() => this.handleClick('backSpace')}
-            darkMode={darkMode}
+            darkmode={darkMode}
           >
             ⌫
           </button>

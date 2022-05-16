@@ -38,42 +38,44 @@ export default class App extends React.Component {
 
   getUpdatedSelectedKeys(letterColors) {
     let tempSelectedKeys = this.state.selectedKeys;
-    for (let i in letterColors) {
-      if (tempSelectedKeys[i]) {
-        tempSelectedKeys[i] = pickColorByOrder(
-          tempSelectedKeys[i],
-          letterColors[i]
-        );
-      } else {
-        tempSelectedKeys[i] = letterColors[i];
-      }
-      if (i.length == 2) {
-        const firstLetter = i.charAt(i.length - 2);
-        if(tempSelectedKeys[i] === 'green-partial') {
-          if (letterColors[firstLetter] !== 'yello') {
-            tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], tempSelectedKeys[i]);
-          }
-          tempSelectedKeys[i] = 'gray'
-        } else if (tempSelectedKeys[i] === 'yello-partial') {
-          //if வே is partially correct, set வ as partial correct and வே as incorrect
-          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], tempSelectedKeys[i]);
-          tempSelectedKeys[i] = 'gray';
-        } else if (tempSelectedKeys[i] == 'yello') {
-          //if வே is in wrong spot, set வ as partial correct
-          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'yello-partial');
-        } else if (tempSelectedKeys[i] == 'gray') {
-          //if வே is in incorrect, set வ is also inorrect
-          tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'gray');
-        } else if (tempSelectedKeys[i] == 'green') {
-          //if வே is in correct, set வ is also partially correct
-          if (letterColors[firstLetter] !== 'yello') {
-            tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'green-partial');
-          }    
+    if (letterColors) {
+      for (let i in letterColors) {
+        if (tempSelectedKeys[i]) {
+          tempSelectedKeys[i] = pickColorByOrder(
+            tempSelectedKeys[i],
+            letterColors[i]
+          );
+        } else {
+          tempSelectedKeys[i] = letterColors[i];
         }
-      } else {
-        if (letterColors[i] === 'yello' && tempSelectedKeys[i] === 'green-partial') {
-          tempSelectedKeys[i] = 'yello';
-        } 
+        if (i.length == 2) {
+          const firstLetter = i.charAt(i.length - 2);
+          if (tempSelectedKeys[i] === 'green-partial') {
+            if (letterColors[firstLetter] !== 'yello') {
+              tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], tempSelectedKeys[i]);
+            }
+            tempSelectedKeys[i] = 'gray'
+          } else if (tempSelectedKeys[i] === 'yello-partial') {
+            //if வே is partially correct, set வ as partial correct and வே as incorrect
+            tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], tempSelectedKeys[i]);
+            tempSelectedKeys[i] = 'gray';
+          } else if (tempSelectedKeys[i] == 'yello') {
+            //if வே is in wrong spot, set வ as partial correct
+            tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'yello-partial');
+          } else if (tempSelectedKeys[i] == 'gray') {
+            //if வே is in incorrect, set வ is also inorrect
+            tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'gray');
+          } else if (tempSelectedKeys[i] == 'green') {
+            //if வே is in correct, set வ is also partially correct
+            if (letterColors[firstLetter] !== 'yello') {
+              tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'green-partial');
+            }
+          }
+        } else {
+          if (letterColors[i] === 'yello' && tempSelectedKeys[i] === 'green-partial') {
+            tempSelectedKeys[i] = 'yello';
+          }
+        }
       }
     }
     return tempSelectedKeys;
@@ -145,7 +147,8 @@ export default class App extends React.Component {
                   rowIndex: this.state.rowIndex + 1, //
                   tileColors: tempTileColors,
                   selectedKeys: tempSelectedKeys,
-                  starPostions: this.getUpdatedStarPositions(result[3])
+                  starPositions: this.getUpdatedStarPositions(result[3]),
+                  heartPositions: this.getUpdatedHeartPositions(result[4])
                 }),
                 () => {
                   if (this.mode.isEasyMode()) {
@@ -207,7 +210,8 @@ export default class App extends React.Component {
                   rowIndex: prevState.rowIndex + 1, //
                   tileColors: tempTileColors,
                   selectedKeys: tempSelectedKeys,
-                  starPostions: this.getUpdatedStarPositions(result[3])
+                  starPositions: this.getUpdatedStarPositions(result[3]),
+                  heartPositions: this.getUpdatedHeartPositions(result[4])
                 }),
                 () => {
                   if (this.mode.isEasyMode()) {
@@ -306,15 +310,30 @@ export default class App extends React.Component {
     }
   }
 
-  getUpdatedStarPositions(starPostions) {
-    const tempStarPositions = { ...this.state.starPostions };
-    for (let i of starPostions) {
-      if (!tempStarPositions[this.state.rowIndex]) {
-        tempStarPositions[this.state.rowIndex] = {};
+  getUpdatedStarPositions(starPositions) {
+    const tempStarPositions = { ...this.state.starPositions };
+    if (starPositions) {
+      for (let i of starPositions) {
+        if (!tempStarPositions[this.state.rowIndex]) {
+          tempStarPositions[this.state.rowIndex] = {};
+        }
+        tempStarPositions[this.state.rowIndex][i] = true;
       }
-      tempStarPositions[this.state.rowIndex][i] = true;
     }
     return tempStarPositions;
+  }
+
+  getUpdatedHeartPositions(heartPositions) {
+    const tempHeartPositions = { ...this.state.heartPositions };
+    if (heartPositions) {
+      for (let i of heartPositions) {
+        if (!tempHeartPositions[this.state.rowIndex]) {
+          tempHeartPositions[this.state.rowIndex] = {};
+        }
+        tempHeartPositions[this.state.rowIndex][i] = true;
+      }
+    }
+    return tempHeartPositions;
   }
 
   onModeChange(newSettings) {
@@ -323,12 +342,12 @@ export default class App extends React.Component {
   }
 
   onSettingsClose() {
-    if(this.state.gameState === 'WON') {
-      this.setState({page: 'won'});
-    } else if(this.state.gameState === 'LOST') {
-      this.setState({page: 'lost'});
+    if (this.state.gameState === 'WON') {
+      this.setState({ page: 'won' });
+    } else if (this.state.gameState === 'LOST') {
+      this.setState({ page: 'lost' });
     } else {
-      this.setState({page: 'game'});
+      this.setState({ page: 'game' });
     }
   }
 
@@ -356,7 +375,8 @@ export default class App extends React.Component {
               tileColors={this.state.tileColors}
               page={this.state.page}
               darkMode={this.mode.isDarkMode()}
-              starPostions={this.state.starPostions}
+              starPositions={this.state.starPositions}
+              heartPositions={this.state.heartPositions}
             />
             <Keyboard1
               onKeyInput={this.onKeyInput}

@@ -1,19 +1,6 @@
 export function split(str) {
   if (str) {
-    const thunaiEluthugal = [
-      'ா',
-      'ி',
-      'ீ',
-      'ு',
-      'ூ',
-      'ெ',
-      'ே',
-      'ை',
-      'ொ',
-      'ோ',
-      'ௌ',
-      '்',
-    ];
+    const thunaiEluthugal = ['ா', 'ி', 'ீ', 'ு', 'ூ', 'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ', '்'];
     var ar = [];
     for (const c of str.split('')) {
       if (thunaiEluthugal.includes(c)) {
@@ -29,79 +16,9 @@ export function split(str) {
   }
 }
 
-// export function compare(guess, actual) {
-//   if (guess === actual) {
-//     return [true];
-//   } else {
-//     let color = [];
-//     let letterColors = {};
-//     let guessArr = split(guess);
-//     let actualArr = split(actual);
-//     for (let i in guessArr) {
-//       const gussedLetter = guessArr[i];
-//       if (gussedLetter === actualArr[i]) {
-//         //TODO same letters in a tile with differnt positon overrides the color
-//         color[i] = 'green';
-//       } else if (gussedLetter.charAt(0) === actualArr[i].charAt(0)) {
-//         color[i] = 'green-partial'; //partial
-//         letterColors[gussedLetter] = 'green-partial';
-//       } else if (actualArr.includes(gussedLetter)) {
-//         color[i] = 'yello';
-//         letterColors[gussedLetter] = 'yello';
-//       } else if (actual.includes(gussedLetter.charAt(0))) {
-//         color[i] = 'yello-partial';
-//         letterColors[gussedLetter] = 'yello-partial';
-//       } else {
-//         color[i] = 'gray';
-//         letterColors[gussedLetter] = 'gray';
-//       }
-//     }
+const uyirmeiMap = { ஆ: 'ா', இ: 'ி', ஈ: 'ீ', உ: 'ு', ஊ: 'ூ', எ: 'ெ', ஏ: 'ே', ஐ: 'ை', ஒ: 'ொ', ஓ: 'ோ', ஔ: 'ௌ' };
 
-//     return [false, color];
-//   }
-// }
-
-// function compare1(guess, actual) {
-//   if (guess === actual) {
-//     return [true];
-//   } else {
-//     let color = [];
-//     let letterColors = {};
-//     let guessArr = split(guess);
-//     let actualArr = split(actual);
-//     for (let i in guessArr) {
-//       const gussedLetter = guessArr[i];
-//       if (gussedLetter === actualArr[i]) {
-//         //TODO same letters in a tile with differnt positon overrides the color
-//         color[i] = 'green';
-//         letterColors[gussedLetter] = 'green';
-//         guessArr[i] = -1;
-//         actualArr[i] = -1;
-//       }
-//     }
-
-//     for (let i in guessArr) {
-//       const gussedLetter = guessArr[i];
-//       if (gussedLetter !== -1) {
-//         if (gussedLetter.charAt(0) === actualArr[i].charAt(0)) {
-//           color[i] = 'green-partial'; //partial
-//           letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'green-partial');
-//         } else if (actualArr.includes(gussedLetter)) {
-//           color[i] = 'yello';
-//           letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'yello');
-//         } else if (actualArr.join('').includes(gussedLetter.charAt(0))) {
-//           color[i] = 'yello-partial';
-//           letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'yello-partial');
-//         } else {
-//           color[i] = 'gray';
-//           letterColors[gussedLetter] = pickColorByOrder(letterColors[gussedLetter], 'gray');
-//         }
-//       }
-//     }
-
-//     return [false, color, letterColors];
-//   }
-// }
+const uriMeiMuthalVarisai = ['க', 'ச', 'ட', 'த', 'ப', 'ற', 'ங', 'ஞ', 'ண', 'ந', 'ம', 'ன', 'ய', 'ர', 'ல', 'வ', 'ழ', 'ள'];
 
 export function compare(guess, actual) {
   if (guess === actual) {
@@ -111,7 +28,8 @@ export function compare(guess, actual) {
     let letterColors = {};
     let guessArr = split(guess);
     let actualArr = split(actual);
-    let starPostions = [];
+    let starPositions = [];
+    let heartPositions = [];
     for (let i in guessArr) {
       const gussedLetter = guessArr[i];
       if (gussedLetter === actualArr[i]) {
@@ -126,8 +44,8 @@ export function compare(guess, actual) {
       const gussedLetter = guessArr[i];
       if (gussedLetter !== -1) {
         if (actualArr.includes(gussedLetter) && letterColors[gussedLetter] !== 'yello') {
-          color[i] = 'yello'; 
-          if(letterColors[gussedLetter] === 'green-partial') {
+          color[i] = 'yello';
+          if (letterColors[gussedLetter] === 'green-partial') {
             //check test compare duplicate விழுமம் and வாமனம்
             letterColors[gussedLetter] = 'yello';
           } else {
@@ -135,6 +53,16 @@ export function compare(guess, actual) {
           }
           letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'yello-partial');
 
+        } else {
+          //color[i] = 'pink';
+          const guestCharLast = guessArr[i].charAt(guessArr[i].length - 1);
+          const actualCharLast = actualArr[i].charAt(actualArr[i].length - 1);
+          if (guestCharLast === actualCharLast ||
+            uyirmeiMap[actualCharLast] === guestCharLast ||
+            uyirmeiMap[guestCharLast] === actualCharLast ||
+            (uriMeiMuthalVarisai.includes(guestCharLast) && uriMeiMuthalVarisai.includes(actualCharLast))) {
+            heartPositions.push(i);
+          }
         }
         if (color[i] === undefined) {
           color[i] = 'gray';
@@ -148,10 +76,10 @@ export function compare(guess, actual) {
       if (gussedLetter !== -1 && actualArr[i] !== -1) {
         if (gussedLetter.charAt(0) === actualArr[i].charAt(0)) {
           if (letterColors[gussedLetter] === 'yello') {
-            let position = Number(i)+1;
-            console.warn(gussedLetter + ' உள்ள இடத்தில்('+ position +') வேறு ' + gussedLetter.charAt(0) + '-கர வரிசை உள்ளதோடு, ' + gussedLetter + ' -வும் வேறு இடத்தில உள்ளது.');
+            let position = Number(i) + 1;
+            console.warn(gussedLetter + ' உள்ள இடத்தில்(' + position + ') வேறு ' + gussedLetter.charAt(0) + '-கர வரிசை உள்ளதோடு, ' + gussedLetter + ' -வும் வேறு இடத்தில உள்ளது.');
             //specialMessage.push(gussedLetter + ' உள்ள இடத்தில்(' + position + ') வேறு ' + gussedLetter.charAt(0) + '-கர வரிசை உள்ளதோடு, ' + gussedLetter + ' -வும் வேறு இடத்தில உள்ளது.');
-            starPostions.push(i);
+            starPositions.push(i);
           } else {
             letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'green-partial');
           }
@@ -187,7 +115,7 @@ export function compare(guess, actual) {
       }
     }
 
-    return [false, color, letterColors, starPostions];
+    return [false, color, letterColors, starPositions, heartPositions];
   }
 }
 
@@ -209,6 +137,7 @@ const colorPriority = {
   'green-partial': 4,
   yello: 3,
   'yello-partial': 2,
+  pink: 1,
   gray: 0,
 };
 

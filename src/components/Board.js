@@ -20,7 +20,8 @@ export class Board extends React.Component {
                 id={i}
                 key={i+'_'+index}
                 value={wordArr[i]}
-                star={this.props.tileColors[index][i] === 'green-partial' && this.props.starPostions[index] && this.props.starPostions[index][i]}
+                star={this.props.tileColors[index][i] === 'green-partial' && this.props.starPositions && this.props.starPositions[index] && this.props.starPositions[index][i]}
+                heart={this.props.heartPositions && this.props.heartPositions[index] && this.props.heartPositions[index][i]}
                 color={this.props.tileColors[index][i]}
                 darkMode={this.props.darkMode}
               />

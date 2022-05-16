@@ -19,36 +19,36 @@ export class Settings extends React.Component {
     }
 
     onSenthamilModeSwitch() {
-        let newSettings = {...this.state, senthamilMode: !this.state.senthamilMode };
+        let newSettings = { ...this.state, senthamilMode: !this.state.senthamilMode };
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
     }
 
     onEasyModeSwitch() {
-        let newSettings = {...this.state, easyMode: !this.state.easyMode };
+        let newSettings = { ...this.state, easyMode: !this.state.easyMode };
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
     }
 
     onDarkModeSwitch() {
-        let newSettings = {...this.state, darkMode: !this.state.darkMode };
+        let newSettings = { ...this.state, darkMode: !this.state.darkMode };
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
     }
 
     onDictionValidationSwitch() {
-        let newSettings = {...this.state, disableDictionaryCheck: !this.state.disableDictionaryCheck};
+        let newSettings = { ...this.state, disableDictionaryCheck: !this.state.disableDictionaryCheck };
         saveSettings(newSettings);
         this.setState(newSettings);
     }
 
-    getContentInTamil() {
+    getContent() {
         const darkMode = this.state.darkMode ? "true" : "false";
-        return (<div className="dialog" darkMode={darkMode} page={this.props.page}>
-            <div className="helpHeader" darkMode={darkMode}>
+        return (<div className="dialog" darkmode={darkMode} page={this.props.page}>
+            <div className="helpHeader" darkmode={darkMode}>
                 <div />
                 <h2>அமைப்பு</h2>
                 <AiOutlineCloseCircle className='closeIcon' onClick={this.props.onClose} />
@@ -56,19 +56,19 @@ export class Settings extends React.Component {
             <div>
                 <div className="sections">
                     <section>
-                        <div className="setting" darkMode={darkMode}>
+                        <div className="setting" darkmode={darkMode}>
                             <div>
                                 <div className="settingsTitle">பொதுத்தமிழ்</div>
                                 <div className="settingsDescription">பொது பயன்பாட்டில் உள்ள சொற்கள் மட்டும்</div>
                             </div>
-                            
+
                             <Switch className='switchKey'
-                                    checked={!this.state.senthamilMode}
-                                    onChange={this.onSenthamilModeSwitch}
-                                    inputProps={{ 'aria-label': 'controlled' }}
-                                />
+                                checked={!this.state.senthamilMode}
+                                onChange={this.onSenthamilModeSwitch}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            />
                         </div>
-                        <div className="setting" darkMode={darkMode}>
+                        <div className="setting" darkmode={darkMode}>
                             <div>
                                 <div className="settingsTitle">இலக்கியத்தமிழ்</div>
                                 <div className="settingsDescription">இலக்கிய நூல்களில் இடம்பெறும் சொற்கள்</div>
@@ -79,7 +79,7 @@ export class Settings extends React.Component {
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                         </div>
-                        <div className="setting" darkMode={darkMode}>
+                        <div className="setting" darkmode={darkMode}>
                             <div>
                                 <div className="settingsTitle">எளிய முறை</div>
                                 <div className="settingsDescription">உயிர்மெய் எழுத்தின் மெய்யெழுத்து பகுதி மட்டும் சரி எனில், முறையான உயிர்மெய் எழுத்தாக தானாக மாறிக்கொள்ளும் </div>
@@ -91,7 +91,7 @@ export class Settings extends React.Component {
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                         </div>
-                        <div className="setting" darkMode={darkMode}>
+                        <div className="setting" darkmode={darkMode}>
                             <div className="text">
                                 <div className="settingsTitle">கருப்பு திரை</div>
                                 <div className="settingsDescription">Dark Theme </div>
@@ -102,7 +102,7 @@ export class Settings extends React.Component {
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                         </div>
-                        <div className="setting" darkMode={darkMode}>
+                        <div className="setting" darkmode={darkMode}>
                             <div className="text">
                                 <div className="settingsTitle">அகராதியில் இல்லாத சொல்லையும் அனுமதிக்க</div>
                                 <div className="settingsDescription">Skip Dictionary Validation</div>
@@ -116,15 +116,15 @@ export class Settings extends React.Component {
                     </section>
 
                     <section>
-                        <div className="setting" darkMode={darkMode}>
+                        <div className="setting" darkmode={darkMode}>
                             <div className="text">
                                 <div className="settingsTitle">கருத்து தெரிவிக்க</div>
                                 <div className="settingsDescription">Feedback </div>
                             </div>
                             <div className="control">
-                                <a darkMode={darkMode} href="mailto:wordletamil@gmail.com?subject=Feedback" title="wordletamil@gmail.com">Email</a>
+                                <a darkmode={darkMode} href="mailto:wordletamil@gmail.com?subject=Feedback" title="wordletamil@gmail.com">Email</a>
                                 <div className='pipe'>|</div>
-                                <a darkMode={darkMode} href="https://twitter.com/intent/tweet?screen_name=tamil_wordle" target="blank" title="@tamil_wordle">Twitter</a>
+                                <a darkmode={darkMode} href="https://twitter.com/intent/tweet?screen_name=tamil_wordle" target="blank" title="@tamil_wordle">Twitter</a>
                             </div>
                         </div>
                     </section>
@@ -134,31 +134,6 @@ export class Settings extends React.Component {
     }
 
     render() {
-        // return (<div>
-        //     <div className="container">
-        //       <p>
-        //         <strong>FEEDBACK:</strong>
-        //       </p>
-        //       <p>
-        //         <a
-        //           href="https://twitter.com/intent/tweet?screen_name=tamil_wordle"
-        //           target="blank"
-        //           title="@tamil_wordle"
-        //         >
-        //           Twitter
-        //         </a>
-        //       </p>
-        //       <p>
-        //         <a
-        //           href="mailto:wordletamil@gmail.com?subject=Feedback"
-        //           title="wordletamil@gmail.com"
-        //         >
-        //           Email
-        //         </a>
-        //       </p>
-        //     </div>
-        //   </div>)
-
-        return this.getContentInTamil()
+        return this.getContent()
     }
 }

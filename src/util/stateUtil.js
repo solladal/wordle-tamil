@@ -19,19 +19,19 @@ export class Mode {
             this.startDate = new Date('2/6/2022');
         }
         this.wordleIndex = this.getWordleIndex();
-        
+
     }
 
     isNewUpdate() {
         const version = localStorage.getItem('version');
         const localState = localStorage.getItem('wordle-tamil-state');
-        if(localState) {
+        if (localState) {
             // for existing user
             return version ? version !== this.version : true;
         } else {
             // if no localhost then new user
             return false;
-        } 
+        }
     }
 
 
@@ -46,8 +46,14 @@ export class Mode {
         if (initialPage) {
             state.page = initialPage;
         }
-        if(this.isNewUpdate()) {
+        if (this.isNewUpdate()) {
             state.page = 'updateInfo';
+        }
+        if (!state.starPositions) {
+            state.starPositions = {};
+        }
+        if (!state.heartPositions) {
+            state.heartPositions = {};
         }
         state.wordleIndex = this.wordleIndex;
         state.disableKeyBoardInput = false;
@@ -119,7 +125,7 @@ export class Mode {
 
     //TODO: lastUpdated is kept for existing users,
     isSameDayCheck(wordleIndex, lastUpdated) {
-        if(wordleIndex) {
+        if (wordleIndex) {
             return wordleIndex === this.wordleIndex;
         } else {
             return isSameDay(lastUpdated)
@@ -130,7 +136,7 @@ export class Mode {
         let state;
         let previousState = JSON.parse(localstate);
         if (this.isSameDayCheck(previousState.wordleIndex, previousState.lastUpdated)) {
-            if(previousState.gameState === 'WON' && previousState.board[previousState.rowIndex-1] !== this.getWordOfDay()) {
+            if (previousState.gameState === 'WON' && previousState.board[previousState.rowIndex - 1] !== this.getWordOfDay()) {
                 state = { ...this.getDefaultState(), gameEndTimeStamp: previousState.gameEndTimeStamp, page: 'game' };
             } else {
                 state = previousState;
@@ -152,7 +158,7 @@ export class Mode {
         if (localStatistics) {
             state.statistics = JSON.parse(localStatistics);
             if (!state.statistics.guesses) {
-                state.statistics.guesses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7:0, 8:0 };
+                state.statistics.guesses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
             }
         } else {
             state.statistics = this.getDefaultStatistics();
@@ -171,7 +177,8 @@ export class Mode {
             gameState: 'INPROGRESS',
             gameEndTimeStamp: { previous: '', current: '' },
             statistics: this.getDefaultStatistics(),
-            starPostions:{}
+            starPositions: {},
+            heartPositions: {}
         };
     }
 
@@ -182,7 +189,7 @@ export class Mode {
             currentStreak: 0,
             maxStreak: 0,
             averageGuess: 0,
-            guesses: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7:0, 8:0 }
+            guesses: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
         };
     }
 
@@ -228,7 +235,7 @@ export function readSettings() {
 
     if (localSettings) {
         let settings = JSON.parse(localSettings)
-        if(!settings.hasOwnProperty('disableDictionaryCheck')) {
+        if (!settings.hasOwnProperty('disableDictionaryCheck')) {
             settings.disableDictionaryCheck = false;
         }
         return settings;

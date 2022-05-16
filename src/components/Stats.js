@@ -27,7 +27,7 @@ export class Stats extends React.Component {
     return (
       <div>
         <h3 className="statsHeader">புள்ளி விவரங்கள்</h3>
-        <div className="statsContainer" darkMode={this.props.darkMode}>
+        <div className="statsContainer" darkmode={this.props.darkMode}>
           <div>
             <div className="statsValue">{this.props.stats.gamesPlayed}</div>
             <div className="statsDesc">ஆடியது</div>
@@ -56,8 +56,8 @@ export class Stats extends React.Component {
             <div className="statsDesc">சராசரி கணிப்பு</div>
           </div>
         </div>
-        <StatsBar guesses={this.props.stats.guesses} rowIndex={this.props.rowIndex} gameState={this.props.gameState}/>
-        <div className="statsContainer2" darkMode={this.props.darkMode}>
+        <StatsBar guesses={this.props.stats.guesses} rowIndex={this.props.rowIndex} gameState={this.props.gameState} />
+        <div className="statsContainer2" darkmode={this.props.darkMode}>
           <div>
             <div>
               {(this.props.previousWord && <strong>முந்தைய வேடல்:</strong>)}

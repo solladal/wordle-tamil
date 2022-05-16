@@ -25,39 +25,6 @@ export const getWordOf = (mode, index) => {
   return mode === 'sentamil' ? senthamilWords[index % senthamilWords.length] : words[index % words.length];
 };
 
-// export const getPreviousWord = () => {
-//   const localstate = localStorage.getItem('wordle-tamil-state');
-//   const statistics = localStorage.getItem('wordle-tamil-statistics');
-//   if (localstate && statistics) {
-//     let lastUpdated = JSON.parse(localstate).lastUpdated;
-//     let gamesPlayed = JSON.parse(statistics).gamesPlayed;
-//     if(lastUpdated ) {
-//       if(isSameDay(lastUpdated)) {
-//         if(gamesPlayed > 1) { //means not first time
-//           let prevIndex = (wordleIndex() % words.length) -1;
-//           if(prevIndex > 0) {
-//             return words[prevIndex];
-//           }
-//         }
-        
-//       } else {
-//         const diffTime = Math.abs(new Date(lastUpdated) - startDate);
-//         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-//         return words[diffDays % words.length];
-//       } 
-//     } 
-//   }
-//   return '';
-// };
-
-// export const wordleIndex = (lastUpdated) => {
-//   const date2 = Date.now();
-//   const diffTime = Math.abs(date2 - startDate);
-//   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-//   const index = diffDays;
-//   return index;
-// };
-
 export const isSameDay = (cachedDate) => {
   var dateFromCache = new Date(new Date(cachedDate));
   var today = new Date();
