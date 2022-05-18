@@ -48,7 +48,7 @@ export default class App extends React.Component {
         } else {
           tempSelectedKeys[i] = letterColors[i];
         }
-        if (i.length == 2) {
+        if (i.length === 2) {
           const firstLetter = i.charAt(i.length - 2);
           if (tempSelectedKeys[i] === 'green-partial') {
             if (letterColors[firstLetter] !== 'yello') {
@@ -59,13 +59,13 @@ export default class App extends React.Component {
             //if வே is partially correct, set வ as partial correct and வே as incorrect
             tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], tempSelectedKeys[i]);
             tempSelectedKeys[i] = 'gray';
-          } else if (tempSelectedKeys[i] == 'yello') {
+          } else if (tempSelectedKeys[i] === 'yello') {
             //if வே is in wrong spot, set வ as partial correct
             tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'yello-partial');
-          } else if (tempSelectedKeys[i] == 'gray') {
+          } else if (tempSelectedKeys[i] === 'gray') {
             //if வே is in incorrect, set வ is also inorrect
             tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'gray');
-          } else if (tempSelectedKeys[i] == 'green') {
+          } else if (tempSelectedKeys[i] === 'green') {
             //if வே is in correct, set வ is also partially correct
             if (letterColors[firstLetter] !== 'yello') {
               tempSelectedKeys[firstLetter] = pickColorByOrder(tempSelectedKeys[firstLetter], 'green-partial');
@@ -109,7 +109,7 @@ export default class App extends React.Component {
     if (this.state.gameState === 'INPROGRESS') {
       if (val === 'enter') {
         let guess = this.state.board[this.state.rowIndex];
-        if (split(guess).length == this.wordleLength) {
+        if (split(guess).length === this.wordleLength) {
           let result = compare(guess, this.worldToMatch);
           if (result[0]) {
             let tempTileColors = this.state.tileColors;

@@ -34,7 +34,7 @@ export class StatsBar extends React.Component {
     }
 
     isHighlight(key) {
-        return (key == this.props.rowIndex && this.props.gameState !== 'INPROGRESS') ? 'true' : 'false';
+        return (key === this.props.rowIndex && this.props.gameState !== 'INPROGRESS') ? 'true' : 'false';
     }
 
     render() {

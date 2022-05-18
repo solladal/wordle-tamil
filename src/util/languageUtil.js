@@ -20,6 +20,11 @@ const uyirmeiMap = { ஆ: 'ா', இ: 'ி', ஈ: 'ீ', உ: 'ு', ஊ: 'ூ',
 
 const uriMeiMuthalVarisai = ['க', 'ச', 'ட', 'த', 'ப', 'ற', 'ங', 'ஞ', 'ண', 'ந', 'ம', 'ன', 'ய', 'ர', 'ல', 'வ', 'ழ', 'ள'];
 
+function isAkaraVarisai(letter) {
+  //checks if it's அ or akara varisai uyirmei (uriMeiMuthalVarisai)
+  return (letter === 'அ' || uriMeiMuthalVarisai.includes(letter));
+}
+
 export function compare(guess, actual) {
   if (guess === actual) {
     return [true];
@@ -60,7 +65,7 @@ export function compare(guess, actual) {
           if (guestCharLast === actualCharLast ||
             uyirmeiMap[actualCharLast] === guestCharLast ||
             uyirmeiMap[guestCharLast] === actualCharLast ||
-            (uriMeiMuthalVarisai.includes(guestCharLast) && uriMeiMuthalVarisai.includes(actualCharLast))) {
+            (isAkaraVarisai(actualCharLast) && uriMeiMuthalVarisai.includes(guestCharLast))) {
             heartPositions.push(i);
           }
         }

@@ -10,13 +10,13 @@ export class Keyboard extends React.Component {
 
   handleClick(val) {
     if (!this.props.won) {
-      if (val == 'enter') {
+      if (val === 'enter') {
         //TODO handle not enouth letter
         if (split(this.state.word).length === this.props.wordLimit) {
           this.props.onKeyInput('enter');
           this.setState({ word: '' });
         }
-      } else if (val == 'backSpace') {
+      } else if (val === 'backSpace') {
         this.setState({
           word: this.state.word.substring(0, this.state.word.length - 1),
         });

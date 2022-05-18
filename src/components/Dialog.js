@@ -127,7 +127,7 @@ export class Dialog extends React.Component {
 
   getContent() {
     const darkMode = this.props.darkMode ? "true" : "false";
-    if (this.props.page == 'won') {
+    if (this.props.page === 'won') {
       return (
         <div id="wonDialog">
           <h3>வாழ்த்துக்கள்!!</h3>

@@ -19,7 +19,7 @@ export class Keyboard1 extends React.Component {
 
   handleClick(val) {
     if (!this.props.won && !this.props.disableKeyBoardInput) {
-      if (val == 'enter') {
+      if (val === 'enter') {
         if (split(this.state.word).length === this.props.wordleLength) {
           if (this.state.word === this.props.worldToMatch) {
             this.props.onKeyInput('enter');
@@ -47,7 +47,7 @@ export class Keyboard1 extends React.Component {
         } else {
           this.setState({ snackbar: { open: true, message: this.props.wordleLength + ' எழுத்து சொல்லை முழுமையாக நிரப்புக' } })
         }
-      } else if (val == 'backSpace') {
+      } else if (val === 'backSpace') {
         this.setState({
           word: this.state.word.substring(0, this.state.word.length - 1),
         });

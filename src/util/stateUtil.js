@@ -142,7 +142,7 @@ export class Mode {
                 state = previousState;
             }
         } else {
-            if (previousState.gameState == 'LOST') {
+            if (previousState.gameState === 'LOST') {
                 state = {
                     ...this.getDefaultState(),
                     page: 'prevAns',
