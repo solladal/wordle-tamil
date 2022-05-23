@@ -33,6 +33,7 @@ export function compare(guess, actual) {
     let letterColors = {};
     let guessArr = split(guess);
     let actualArr = split(actual);
+    
     let starPositions = [];
     let heartPositions = [];
     for (let i in guessArr) {
@@ -65,7 +66,7 @@ export function compare(guess, actual) {
           if (guestCharLast === actualCharLast ||
             uyirmeiMap[actualCharLast] === guestCharLast ||
             uyirmeiMap[guestCharLast] === actualCharLast ||
-            (isAkaraVarisai(actualCharLast) && uriMeiMuthalVarisai.includes(guestCharLast))) {
+            (isAkaraVarisai(actualCharLast) && isAkaraVarisai(guestCharLast))) {
             heartPositions.push(i);
           }
         }
