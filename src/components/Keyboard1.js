@@ -48,12 +48,16 @@ export class Keyboard1 extends React.Component {
           this.setState({ snackbar: { open: true, message: this.props.wordleLength + ' எழுத்து சொல்லை முழுமையாக நிரப்புக' } })
         }
       } else if (val === 'backSpace') {
-        this.setState({
-          word: this.state.word.substring(0, this.state.word.length - 1),
-        });
-        this.props.onKeyInput(
-          this.state.word.substring(0, this.state.word.length - 1)
-        );
+        let wordAfterBackSpace;
+        if(this.state.word.endsWith('ஸ்ரீ')) {
+          wordAfterBackSpace = this.state.word.replace('ஸ்ரீ', '');
+        } else if (this.state.word.endsWith('க்ஷ')) {
+          wordAfterBackSpace = this.state.word.replace('க்ஷ', '');
+        } else {
+          wordAfterBackSpace = this.state.word.substring(0, this.state.word.length - 1)
+        }
+        this.setState({ word: wordAfterBackSpace });
+        this.props.onKeyInput(wordAfterBackSpace);
       } else {
         let tempWord = this.state.word;
         tempWord = tempWord.concat(val);
@@ -95,6 +99,7 @@ export class Keyboard1 extends React.Component {
       'ற',
       'ன',
     ];
+    const kirantham = ['ஜ', 'ஷ', 'ஸ', 'ஹ', 'க்ஷ'];
     const map = {
       அ: '்',
       ஆ: 'ா',
@@ -119,7 +124,10 @@ export class Keyboard1 extends React.Component {
               let lastLetter = this.state.word.charAt(
                 this.state.word.length - 1
               );
-              if (mei.includes(lastLetter) && map[l]) {
+              if(this.state.word.endsWith('க்ஷ')) {
+                lastLetter = 'க்ஷ';
+              }
+              if ((mei.includes(lastLetter) || kirantham.includes(lastLetter)) && map[l]) {
                 return lastLetter.concat(map[l]);
               } else {
                 return l;
@@ -145,7 +153,10 @@ export class Keyboard1 extends React.Component {
               let lastLetter = this.state.word.charAt(
                 this.state.word.length - 1
               );
-              if (mei.includes(lastLetter) && map[l]) {
+              if(this.state.word.endsWith('க்ஷ')) {
+                lastLetter = 'க்ஷ';
+              }
+              if ((mei.includes(lastLetter) || kirantham.includes(lastLetter)) && map[l]) {
                 return lastLetter.concat(map[l]);
               } else {
                 return l;
@@ -171,7 +182,10 @@ export class Keyboard1 extends React.Component {
               let lastLetter = this.state.word.charAt(
                 this.state.word.length - 1
               );
-              if (mei.includes(lastLetter) && map[l]) {
+              if(this.state.word.endsWith('க்ஷ')) {
+                lastLetter = 'க்ஷ';
+              }
+              if ((mei.includes(lastLetter) || kirantham.includes(lastLetter)) && map[l]) {
                 return lastLetter.concat(map[l]);
               } else {
                 return l;
@@ -191,10 +205,36 @@ export class Keyboard1 extends React.Component {
               );
             })}
         </div>
-        <div className="keyboardLastRow">
-          <button className="key keyLast" onClick={() => this.handleClick('ஃ')} darkmode={darkMode}>
-            ஃ
-          </button>
+        <div className="keyboardRow" style={this.props.vadasolMode ? {justifyContent:'center'} : {justifyContent: 'space-evenly'}}>
+        {this.props.vadasolMode && <div style={{display:'flex', width:'60%'}}>
+          {['ஃ', 'ஜ', 'ஷ', 'ஸ', 'ஹ', 'க்ஷ', 'ஸ்ரீ']
+            .map((l) => {
+              return (
+                <button
+                  id={l}
+                  className="key"
+                  key-state={this.props.selectedKeys[l]}
+                  onClick={() => this.handleClick(l)}
+                  darkmode={darkMode}
+                >
+                  {l}
+                </button>
+              );
+            })}
+          </div>}
+          {!this.props.vadasolMode &&
+                <button
+                  id={'ஃ'}
+                  className="key"
+                  key-state={this.props.selectedKeys['ஃ']}
+                  style={{width: '10%'}}
+                  onClick={() => this.handleClick('ஃ')}
+                  darkmode={darkMode}
+                >
+                  ஃ
+                </button>
+            }
+        
           <button
             className="key enterKey"
             onClick={() => this.handleClick('enter')}
@@ -202,6 +242,7 @@ export class Keyboard1 extends React.Component {
           >
             சரிபார்
           </button>
+          
           <button
             className="key keyLast"
             onClick={() => this.handleClick('backSpace')}

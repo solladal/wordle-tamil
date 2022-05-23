@@ -1,25 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import Switch from '@mui/material/Switch';
 import { readSettings, saveSettings } from '../util/stateUtil';
+import { RadioButton } from './RadioButton';
+import { FaHeart } from 'react-icons/fa';
 
 export class Settings extends React.Component {
     constructor(props) {
         super(props);
         this.state = readSettings();
-        this.onSenthamilModeSwitch = this.onSenthamilModeSwitch.bind(this);
         this.onEasyModeSwitch = this.onEasyModeSwitch.bind(this);
-        this.handleChange = this.handleChange.bind(this);
         this.onDarkModeSwitch = this.onDarkModeSwitch.bind(this);
         this.onDictionValidationSwitch = this.onDictionValidationSwitch.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
+        this.onEnableHeartClueSwitch = this.onEnableHeartClueSwitch.bind(this);
     }
 
-    handleChange() {
-        //console.log(JSON.stringify(this.state))
-    }
-
-    onSenthamilModeSwitch() {
-        let newSettings = { ...this.state, senthamilMode: !this.state.senthamilMode };
+    onEnableHeartClueSwitch() {
+        let newSettings = { ...this.state, enableHeartClue: !this.state.enableHeartClue };
         saveSettings(newSettings);
         this.setState(newSettings);
         this.props.onModeChange(newSettings);
@@ -45,6 +43,20 @@ export class Settings extends React.Component {
         this.setState(newSettings);
     }
 
+    handleToggle(tamilMode) {
+        let newSettings;
+        if (tamilMode === 'pothuTamil') {
+            newSettings = { ...this.state, pothuTamilMode: true, senthamilMode: false, vadasolMode: false };
+        } else if (tamilMode === 'senTamil') {
+            newSettings = { ...this.state, pothuTamilMode: false, senthamilMode: true, vadasolMode: false };
+        } else if (tamilMode === 'vadasol') {
+            newSettings = { ...this.state, pothuTamilMode: false, senthamilMode: false, vadasolMode: true };
+        }
+        saveSettings(newSettings);
+        this.setState(newSettings);
+        this.props.onModeChange(newSettings);
+    }
+
     getContent() {
         const darkMode = this.state.darkMode ? "true" : "false";
         return (<div className="dialog" darkmode={darkMode} page={this.props.page}>
@@ -56,26 +68,18 @@ export class Settings extends React.Component {
             <div>
                 <div className="sections">
                     <section>
+                        <RadioButton darkMode={darkMode} handleToggle={this.handleToggle} selected={this.state.pothuTamilMode ? 'pothuTamil' : this.state.senthamilMode ? 'senTamil' : this.state.vadasolMode ? 'vadasol' : 'pothuTamil'} />
                         <div className="setting" darkmode={darkMode}>
                             <div>
-                                <div className="settingsTitle">பொதுத்தமிழ்</div>
-                                <div className="settingsDescription">பொது பயன்பாட்டில் உள்ள சொற்கள் மட்டும்</div>
-                            </div>
-
-                            <Switch className='switchKey'
-                                checked={!this.state.senthamilMode}
-                                onChange={this.onSenthamilModeSwitch}
-                                inputProps={{ 'aria-label': 'controlled' }}
-                            />
-                        </div>
-                        <div className="setting" darkmode={darkMode}>
-                            <div>
-                                <div className="settingsTitle">இலக்கியத்தமிழ்</div>
-                                <div className="settingsDescription">இலக்கிய நூல்களில் இடம்பெறும் சொற்கள்</div>
+                                <div className="settingsTitle">உயிர் மற்றும் மெய் குறிப்பு 
+                                    <div style={{ color: '#f7a1f4', fontSize: '20px', marginLeft:'7px' }}>
+                                        <FaHeart />
+                                    </div></div>
+                                <div className="settingsDescription">உயிர் எழுத்தோ அல்லது மெய் எழுத்தோ பொருந்தி இருப்பதை குறிக்கும் </div>
                             </div>
                             <Switch className='switchKey'
-                                checked={this.state.senthamilMode}
-                                onChange={this.onSenthamilModeSwitch}
+                                checked={this.state.enableHeartClue}
+                                onChange={this.onEnableHeartClueSwitch}
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                         </div>

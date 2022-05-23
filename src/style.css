@@ -89,7 +89,7 @@ p {
 }
 
 .keyLast {
-  width: 60px;
+  width: 10%;
 }
 
 .key[key-state='green'] {
@@ -148,7 +148,7 @@ div {
 
 .enterKey {
   margin-bottom: 2px;
-  width: 100px;
+  width: 25%;
   height: 40px;
   font-size: 16px;
 }
@@ -425,16 +425,25 @@ div {
   }
 }
 
+@keyframes SlideLeft {
+  0% {
+    transform: translateX(30px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
 @keyframes SlideOut {
   0% {
     transform: translateY(0px);
-    opacity: 1;
+    
   }
   90% {
-    opacity: 0;
+    
   }
   100% {
-    opacity: 0;
+    
     transform: translateY(60px);
   }
 }
@@ -804,11 +813,12 @@ div {
 }
 
 .settingsTitle {
+  display: flex;
   font-size: 18px;
 }
 .settingsDescription {
   font-size: 12px;
-    color: var(--gray);
+  color: var(--gray);
 }
 
 .pipe {
@@ -1013,4 +1023,30 @@ a, a:visited {
 
 .updateTitle {
   color: var(--darkendGreen);
+}
+
+.toggleButton {
+  padding: 14px 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.toggleButton:hover {
+  background-color: rgb(239, 239, 239);
+}
+
+.toggleButton[darkmode="true"]:hover {
+  background-color: #484d54;
+}
+
+.verticalDivider {
+  border-right: 1px solid var(--gray);
+}
+
+.desc {
+  padding: 15px;
+  color: var(--gray);
+  animation: SlideLeft 200ms linear;
 }

@@ -1,11 +1,25 @@
+import { readSettings } from './stateUtil'
+
 export function split(str) {
   if (str) {
     const thunaiEluthugal = ['ா', 'ி', 'ீ', 'ு', 'ூ', 'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ', '்'];
     var ar = [];
     for (const c of str.split('')) {
-      if (thunaiEluthugal.includes(c)) {
+      if (c === 'ீ' && ar[ar.length - 1] === 'ர' && ar[ar.length - 2] === 'ஸ்') {
+        ar.pop();
+        ar.pop();
+        ar.push('ஸ்ரீ');
+      } else if (thunaiEluthugal.includes(c)) {
         let lastletter = ar.pop();
         ar.push(lastletter.concat(c));
+      } else if (c === 'ஷ') {
+        let lastletter = ar.pop();
+        if (lastletter === 'க்') {
+          ar.push(lastletter.concat(c));
+        } else {
+          ar.push(lastletter);
+          ar.push(c);
+        }
       } else {
         ar.push(c);
       }
@@ -58,14 +72,14 @@ export function compare(guess, actual) {
           }
           letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'yello-partial');
 
-        } else {
+        } else if (readSettings().enableHeartClue) {
           //color[i] = 'pink';
           const guestCharLast = guessArr[i].charAt(guessArr[i].length - 1);
           const actualCharLast = actualArr[i].charAt(actualArr[i].length - 1);
           if (guestCharLast === actualCharLast ||
             uyirmeiMap[actualCharLast] === guestCharLast ||
             uyirmeiMap[guestCharLast] === actualCharLast ||
-            (isAkaraVarisai(actualCharLast) && uriMeiMuthalVarisai.includes(guestCharLast))) {
+            (isAkaraVarisai(actualCharLast) && isAkaraVarisai(guestCharLast))) {
             heartPositions.push(i);
           }
         }
