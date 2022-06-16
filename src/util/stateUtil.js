@@ -13,10 +13,14 @@ export class Mode {
             this.stateKey = 'wordle-tamil-state';
             this.statisticsKey = 'wordle-tamil-statistics';
             this.startDate = new Date('1/26/2022');
-        } else {
+        } else if (this.mode === 'sentamil') {
             this.stateKey = 'wordle-sentamil-state';
             this.statisticsKey = 'wordle-sentamil-statistics';
             this.startDate = new Date('2/6/2022');
+        } else if (this.mode === 'vadasol') {
+            this.stateKey = 'wordle-vadasol-state';
+            this.statisticsKey = 'wordle-vadasol-statistics';
+            this.startDate = new Date('5/18/2022');
         }
         this.wordleIndex = this.getWordleIndex();
 
@@ -117,6 +121,10 @@ export class Mode {
 
     isSentamilMode() {
         return this.mode === 'sentamil';
+    }
+
+    isVadaSolMode() {
+        return this.mode === 'vadasol';
     }
 
     isDarkMode() {
@@ -221,6 +229,8 @@ export function getMode(chances) {
     body.style.backgroundColor = settings.darkMode ? '#121213' : 'white';
     if (settings.senthamilMode) {
         return new Mode('sentamil', settings.easyMode, settings.darkMode, chances);
+    } else if (settings.vadasolMode) {
+        return new Mode('vadasol', settings.easyMode, settings.darkMode, chances);
     } else {
         return new Mode('normal', settings.easyMode, settings.darkMode, chances);
     }
@@ -238,9 +248,18 @@ export function readSettings() {
         if (!settings.hasOwnProperty('disableDictionaryCheck')) {
             settings.disableDictionaryCheck = false;
         }
+        if (!settings.hasOwnProperty('vadasolMode')) {
+            settings.vadasolMode = false;
+        }
+        if (!settings.hasOwnProperty('pothuTamilMode')) {
+            settings.pothuTamilMode = true;
+        }
+        if (!settings.hasOwnProperty('enableHeartClue')) {
+            settings.enableHeartClue = false;
+        }
         return settings;
     } else {
-        return { senthamilMode: false, easyMode: false, darkMode: false, disableDictionaryCheck: false }
+        return { pothuTamilMode: true, senthamilMode: false, vadasolMode:false, enableHeartClue:false, easyMode: false, darkMode: false, disableDictionaryCheck: false }
     }
 }
 

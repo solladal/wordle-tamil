@@ -7,7 +7,6 @@ import { Help } from './components/Help';
 import { Dialog } from './components/Dialog';
 import { split, compare, pickColorByOrder, compareEasyMode } from './util/languageUtil';
 import { getMode, saveNotification } from './util/stateUtil'
-
 import { Settings } from './components/Settings';
 
 export default class App extends React.Component {
@@ -385,6 +384,7 @@ export default class App extends React.Component {
               selectedKeys={this.state.selectedKeys}
               won={this.state.won}
               disableKeyBoardInput={this.state.disableKeyBoardInput}
+              vadasolMode={this.mode.isVadaSolMode()}
             />
           </div>
         )}

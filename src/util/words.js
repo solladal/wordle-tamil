@@ -21,8 +21,10 @@ export const senthamilWords = ['குறுந்தொகை','யாணர்
 'கவுரியர்', 'வரைப்பு','மருகன்','சேயிழை','திறல்','எயில்','உயவு','பார்வல்','வியல்','கறுழ்','உராவல்','இவுளி','ஓவாமை','உடற்றல்','பௌவம்','குடக்கு','கமழ்',
 'தண்டா','கவின்','ஓம்புதல்','ஆனாமை','அடிசில்','இன்னா','பழனம்','மஞ்ஞை','நாவாய்','முந்நீர்','நாப்பண்','மரியவர்','அழுவம்','பரிதல்','குரிசில்','பொருநர்'];
 
+export const vadasolWords = ['விவேகம்'];
+
 export const getWordOf = (mode, index) => {
-  return mode === 'sentamil' ? senthamilWords[index % senthamilWords.length] : words[index % words.length];
+  return mode === 'sentamil' ? senthamilWords[index % senthamilWords.length] : mode === 'vadasol' ? vadasolWords[index % vadasolWords.length] :words[index % words.length];
 };
 
 export const isSameDay = (cachedDate) => {
