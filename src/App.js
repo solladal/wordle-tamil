@@ -14,11 +14,13 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.chances = 8; // coupled with css class .board grid-template-rows: repeat(8, 1fr);
-    this.initialise();
+    this.mode = getMode(this.chances);
     this.state = this.mode.initialiseGame();
+    this.initialise();
     this.onKeyInput = this.onKeyInput.bind(this);
     this.onModeChange = this.onModeChange.bind(this);
     this.onSettingsClose = this.onSettingsClose.bind(this);
+    this.onPrevious = this.onPrevious.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +32,6 @@ export default class App extends React.Component {
   }
 
   initialise() {
-    this.mode = getMode(this.chances);
     this.worldToMatch = this.mode.getWordOfDay();
     this.wordleLength = split(this.worldToMatch).length;
   }
@@ -335,10 +336,17 @@ export default class App extends React.Component {
     return tempHeartPositions;
   }
 
-  onModeChange(newSettings) {
+  onModeChange(newSettings) { 
+    this.mode = getMode(this.chances);
+    this.setState(this.mode.initialiseGame('settings', 'daily'));
     this.initialise();
-    this.setState(this.mode.initialiseGame('settings'));
   }
+
+  onPrevious() {
+    this.setState(this.mode.initialiseGame('game', 'random'));
+    this.initialise();
+  }
+
 
   onSettingsClose() {
     if (this.state.gameState === 'WON') {
@@ -415,6 +423,7 @@ export default class App extends React.Component {
           darkMode={this.mode.isDarkMode()}
           rowIndex={this.state.rowIndex}
           version={this.mode.version}
+          onPrevious={() => this.onPrevious()}
         />
       </div>
     );

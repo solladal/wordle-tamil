@@ -45,8 +45,8 @@ export class RadioButton extends React.Component {
           <button darkmode={this.props.darkMode} className='toggleButton' onClick={() => this.props.handleToggle('pothuTamil')} style={this.getButtonStyle('pothuTamil')}>பொதுத்தமிழ்</button>
           <div className='verticalDivider'></div>
           <button darkmode={this.props.darkMode} className='toggleButton' onClick={() => this.props.handleToggle('senTamil')} style={this.getButtonStyle('senTamil')}>இலக்கியத்தமிழ்</button>
-          <div className='verticalDivider'></div>
-          <button darkmode={this.props.darkMode} className='toggleButton' onClick={() => this.props.handleToggle('vadasol')} style={this.getButtonStyle('vadasol')}>வடசொல்</button>
+          {/* <div className='verticalDivider'></div>
+          <button darkmode={this.props.darkMode} className='toggleButton' onClick={() => this.props.handleToggle('vadasol')} style={this.getButtonStyle('vadasol')}>வடசொல்</button> */}
         </div>
         <div style={{ height: '30px', backgroundColor: 'aliceblue' }}>
 

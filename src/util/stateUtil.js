@@ -7,8 +7,7 @@ export class Mode {
         this.chances = chances || 6;
         this.easyMode = easyMode;
         this.darkMode = darkMode;
-        this.version = '3.0';
-
+        this.version = '3.1';
         if (this.mode === 'normal') {
             this.stateKey = 'wordle-tamil-state';
             this.statisticsKey = 'wordle-tamil-statistics';
@@ -22,24 +21,46 @@ export class Mode {
             this.statisticsKey = 'wordle-vadasol-statistics';
             this.startDate = new Date('5/18/2022');
         }
-        this.wordleIndex = this.getWordleIndex();
-
     }
 
-    isNewUpdate() {
+    getRandomIndex() {
+        return Math.floor(Math.random() * this.getWordleIndex());
+    }
+
+    checkForUpdate() {
         const version = localStorage.getItem('version');
         if (version) {
             // for existing user
-            return version !== this.version;
-        } else {
-            // if no localhost then new user
+            this.isMajorUpdate = version.charAt(0) !== this.version.charAt(0);
+            this.isNewUpdate = version !== this.version;
             localStorage.setItem('version', this.version);
-            return false;
+        } else {
+            // if no localStorage then new user
+            this.isMajorUpdate = false;
+            this.isNewUpdate = false;
+            localStorage.setItem('version', this.version);
         }
     }
 
-
-    initialiseGame(initialPage) {
+    initialiseGame(initialPage, gameType = 'daily') {
+        this.gameType = gameType;
+        
+        if (this.gameType === 'daily') {
+            this.checkForUpdate();
+            this.wordleIndex = this.getWordleIndex();
+        } else if (this.gameType === 'random') {
+            this.wordleIndex = this.getRandomIndex();
+            if (this.mode === 'normal') {
+                this.stateKey = 'wordle-tamil-state-random';
+                this.statisticsKey = 'wordle-tamil-statistics-random';
+            } else if (this.mode === 'sentamil') {
+                this.stateKey = 'wordle-sentamil-state-random';
+                this.statisticsKey = 'wordle-sentamil-statistics-random';
+            } else if (this.mode === 'vadasol') {
+                this.stateKey = 'wordle-vadasol-state-random';
+                this.statisticsKey = 'wordle-vadasol-statistics-random';
+            }
+        }
         const localstate = localStorage.getItem(this.stateKey);
         let state;
         if (localstate) {
@@ -50,7 +71,7 @@ export class Mode {
         if (initialPage) {
             state.page = initialPage;
         }
-        if (this.isNewUpdate()) {
+        if (this.isNewUpdate) {
             state.page = 'updateInfo';
         }
         if (!state.starPositions) {
@@ -143,25 +164,32 @@ export class Mode {
     getStateFromLocaleStorage(localstate) {
         let state;
         let previousState = JSON.parse(localstate);
-        if (this.isSameDayCheck(previousState.wordleIndex, previousState.lastUpdated)) {
-            if (previousState.gameState === 'WON' && previousState.board[previousState.rowIndex - 1] !== this.getWordOfDay()) {
-                state = { ...this.getDefaultState(), gameEndTimeStamp: previousState.gameEndTimeStamp, page: 'game' };
-            } else {
-                state = previousState;
+        if(this.gameType === 'daily') {
+            if (this.isNewUpdate) {
+                state = { ...this.getDefaultState(), gameEndTimeStamp: previousState?.gameEndTimeStamp, page: 'game' };
             }
-        } else {
-            if (previousState.gameState === 'LOST') {
-                state = {
-                    ...this.getDefaultState(),
-                    page: 'prevAns',
-                    prevBoard: previousState.board,
-                    prevTileColors: previousState.tileColors,
-                };
+            else if (this.isSameDayCheck(previousState.wordleIndex, previousState.lastUpdated)) {
+                if (previousState.gameState === 'WON' && previousState.board[previousState.rowIndex - 1] !== this.getWordOfDay()) {
+                    state = { ...this.getDefaultState(), gameEndTimeStamp: previousState.gameEndTimeStamp, page: 'game' };
+                } else {
+                    state = previousState;
+                }
             } else {
-                state = { ...this.getDefaultState(), gameEndTimeStamp: previousState.gameEndTimeStamp, page: 'game' };
+                if (previousState.gameState === 'LOST') {
+                    state = {
+                        ...this.getDefaultState(),
+                        page: 'prevAns',
+                        prevBoard: previousState.board,
+                        prevTileColors: previousState.tileColors,
+                    };
+                } else {
+                    state = { ...this.getDefaultState(), gameEndTimeStamp: previousState.gameEndTimeStamp, page: 'game' };
+                }
             }
+        } else if (this.gameType === 'random') {
+            state = { ...this.getDefaultState(), page: 'game' };
         }
-
+        
         const localStatistics = localStorage.getItem(this.statisticsKey);
         if (localStatistics) {
             state.statistics = JSON.parse(localStatistics);
@@ -255,11 +283,11 @@ export function readSettings() {
             settings.pothuTamilMode = true;
         }
         if (!settings.hasOwnProperty('enableHeartClue')) {
-            settings.enableHeartClue = false;
+            settings.enableHeartClue = true;
         }
         return settings;
     } else {
-        return { pothuTamilMode: true, senthamilMode: false, vadasolMode:false, enableHeartClue:false, easyMode: false, darkMode: false, disableDictionaryCheck: false }
+        return { pothuTamilMode: true, senthamilMode: false, vadasolMode:false, enableHeartClue: true, easyMode: false, darkMode: false, disableDictionaryCheck: false }
     }
 }
 

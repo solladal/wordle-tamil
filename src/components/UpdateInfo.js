@@ -8,10 +8,6 @@ export class UpdateInfo extends React.Component {
         super(props);
     }
 
-    componentWillUnmount() {
-        localStorage.setItem("version", this.props.version)
-    }
-
     render() {
         return (
             <div>
@@ -24,6 +20,11 @@ export class UpdateInfo extends React.Component {
 }
 
 const updates = {
+    '3.1': <ul>
+        <li>இனி சொல்லின் <strong>பொருள்</strong> மற்றும் <strong>பயன்பாடு</strong> தரப்படும் </li>
+        <li>உயிர் மற்றும் மெய் எழுத்து குறியீடு (<FaHeart style={{ color: '#f7a1f4' }} /> குறியீடு) இல்லாமல் விளையாட அமைப்பில் மாற்றம் செய்துகொள்ளலாம்</li>
+        <li><FaHeart style={{ color: '#f7a1f4' }} /> குறியீட்டில் பிழை திருத்தப்பட்டுள்ளது</li>
+    </ul>,
     '3.0': <ul>
         <li>புதிய <FaHeart style={{ color: '#f7a1f4' }} /> குறியீடு- உயிர்எழுத்து மற்றும் மெய்எழுத்து இருப்பை குறிக்க</li>
         <li>உயிர் மற்றும் மெய் எழுத்து குறியீடு பற்றி மேலும் அறிய உதவி <BiHelpCircle/>-யை பார்க்கவும்.</li>

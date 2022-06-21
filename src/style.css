@@ -1050,3 +1050,13 @@ a, a:visited {
   color: var(--gray);
   animation: SlideLeft 200ms linear;
 }
+
+.randomPlayIcon {
+  text-align: center;
+}
+
+.randomPlayText {
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.6;
+}

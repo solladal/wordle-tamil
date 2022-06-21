@@ -4,10 +4,12 @@ import { Board } from './Board';
 import { Settings } from './Settings';
 import { UpdateInfo } from './UpdateInfo';
 import { split } from '../util/languageUtil';
-import { AiOutlineShareAlt } from 'react-icons/ai'
-import { BiLinkExternal } from 'react-icons/bi'
+import { AiOutlineShareAlt } from 'react-icons/ai';
+import { BiLinkExternal } from 'react-icons/bi';
+import { MdReplay } from 'react-icons/md';
 import Snackbar from '@mui/material/Snackbar';
 import { GameTile } from './GameTile';
+import { wordsMeaning } from '../util/words';
 
 export class Dialog extends React.Component {
   constructor(props) {
@@ -103,26 +105,55 @@ export class Dialog extends React.Component {
   };
 
   getCopySection() {
-    return (
-      <div className="copySection">
-        <div style={{ textAlign: 'left' }}>{this.getClipBoardContent().split('\n').map(item => (<div>{item}</div>))}</div>
-        <br />
-        <div className='share-button-container'>
-          <button
-            className="share-button"
-            onClick={() => this.copyClipBoard()}
-          >
-            {navigator.share ? 'SHARE' : 'COPY'}
-            {(navigator.share && <AiOutlineShareAlt className='share-button' />)}
-          </button>
-          <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            open={this.state.snackbar.open}
-            autoHideDuration={2000}
-            onClose={this.handleClose}
-            message={this.state.snackbar.message}
-          />
+    if(this.props.mode.gameType === 'daily') {
+      return (
+        <div>
+        <div className="copySection">
+          <div style={{ textAlign: 'left' }}>{this.getClipBoardContent().split('\n').map(item => (<div>{item}</div>))}</div>
+          <br />
+          <div className='share-button-container'>
+            <button
+              className="share-button"
+              onClick={() => this.copyClipBoard()}
+            >
+              {navigator.share ? 'SHARE' : 'COPY'}
+              {(navigator.share && <AiOutlineShareAlt className='share-button' />)}
+            </button>
+            <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              open={this.state.snackbar.open}
+              autoHideDuration={2000}
+              onClose={this.handleClose}
+              message={this.state.snackbar.message}
+            />
+          </div>
         </div>
-      </div>);
+        {/* <hr /> */}
+        </div>);
+    } else {
+      return null;
+    }
+    
+  }
+
+  getMeaning() {
+    return wordsMeaning[this.props.mode.getWordOfDay()] ?
+      <div style={{textAlign:'left'}}>
+        <h3 style={{ color: '#375c71', fontFamily: 'sans-serif' }}>பொருள்:</h3>
+        <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>{wordsMeaning[this.props.mode.getWordOfDay()].meaning}</p>
+        <h3 style={{ color: '#375c71', fontFamily: 'sans-serif' }}>பயன்பாடு:</h3>
+        <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>{wordsMeaning[this.props.mode.getWordOfDay()].usage}</p>
+      </div> : null;
+  }
+
+  getPreviousWordButton() {
+    const darkMode = this.props.darkMode ? "true" : "false";
+    // return (
+    //   <div>
+    //   <hr/>
+    //   <div className='randomPlayIcon' onClick={this.props.onPrevious}><MdReplay className="icon" style={{fontSize:'40px'}} darkmode={darkMode}/> </div>
+    //   <div className='randomPlayText'>முந்தைய வேடல்கள் விளையாட</div>
+    // </div>);
+    return null;
   }
 
   getContent() {
@@ -131,24 +162,28 @@ export class Dialog extends React.Component {
       return (
         <div id="wonDialog">
           <h3>வாழ்த்துக்கள்!!</h3>
-          <div style={{ display: "flex" }}>
-            <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-              {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index}
-                value={l}
-                color={l !== '_' ? 'green' : ''}
-                darkMode={this.props.darkMode}></GameTile>)}
-            </div>
-            <div>
-              <div className='link' >
-                <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
-                  <BiLinkExternal />
-                </a>
+          <div>
+            <div style={{ display: "flex" }}>
+              <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
+                {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index}
+                  value={l}
+                  color={l !== '_' ? 'green' : ''}
+                  darkMode={this.props.darkMode}></GameTile>)}
+              </div>
+              <div>
+                <div className='link' >
+                  <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
+                    <BiLinkExternal />
+                  </a>
+                </div>
               </div>
             </div>
+            {this.getMeaning()}
           </div>
           <hr />
           <br />
           {this.getCopySection()}
+          {this.getPreviousWordButton()}
         </div>
       );
     } else if (this.props.page === 'stats') {
@@ -164,25 +199,31 @@ export class Dialog extends React.Component {
           {this.state[this.props.mode.mode] && !this.state[this.props.mode.mode].showAnsClicked && <button className='showAnsButton' onClick={() => this.onShowAns()}>சரியான விடை காட்டுக</button>}
           {this.state[this.props.mode.mode] && this.state[this.props.mode.mode].showAnsClicked &&
             (
-              <div style={{ display: "flex" }}>
-                <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-                  {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile
-                    id={index}
-                    value={l}
-                    color={l !== '_' ? 'green' : ''}
-                    darkMode={this.props.darkMode}></GameTile>)}
-                </div>
-                <div>
-                  <div className='link' >
-                    <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
-                      <BiLinkExternal />
-                    </a>
+              <div>
+                <div style={{ display: "flex" }}>
+                  <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
+                    {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile
+                      id={index}
+                      value={l}
+                      color={l !== '_' ? 'green' : ''}
+                      darkMode={this.props.darkMode}></GameTile>)}
+                  </div>
+                  <div>
+                    <div className='link' >
+                      <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
+                        <BiLinkExternal />
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>)}
+                {this.getMeaning()}
+              </div>
+            )
+          }
           <hr />
           <br />
           {this.getCopySection()}
+          {this.getPreviousWordButton()}
         </div>
       );
     } else if (this.props.page === 'prevAns') {

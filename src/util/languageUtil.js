@@ -73,7 +73,8 @@ export function compare(guess, actual) {
           }
           letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'yello-partial');
 
-        } else if (readSettings().enableHeartClue) {
+        }
+        if (readSettings().enableHeartClue) {
           //color[i] = 'pink';
           const guestCharLast = guessArr[i].charAt(guessArr[i].length - 1);
           const actualCharLast = actualArr[i].charAt(actualArr[i].length - 1);

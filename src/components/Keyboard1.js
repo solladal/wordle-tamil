@@ -251,7 +251,7 @@ export class Keyboard1 extends React.Component {
             ⌫
           </button>
         </div>
-        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        <Snackbar style={{position:'absolute', top:'50%'}} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={this.state.snackbar.open}
           autoHideDuration={2000}
           onClose={this.handleClose}
