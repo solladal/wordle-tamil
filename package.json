@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://solladal.github.io/wordle-tamil",
   "dependencies": {
+    "@csstools/normalize.css": "^12.1.1",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@material-ui/core": "^4.12.3",
@@ -12,7 +13,10 @@
     "components": "0.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-icons": "^4.3.1"
+    "react-helmet-async": "^3.0.0",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^6.30.4",
+    "sanitize.css": "^13.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

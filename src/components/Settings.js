@@ -14,6 +14,35 @@ export class Settings extends React.Component {
         this.onDictionValidationSwitch = this.onDictionValidationSwitch.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
         this.onEnableHeartClueSwitch = this.onEnableHeartClueSwitch.bind(this);
+        this.closeIconRef = React.createRef();
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+    }
+
+    componentDidMount() {
+        // Move focus onto the close icon as soon as the modal mounts, so a
+        // keyboard user can press Enter/Space to close it right away instead
+        // of needing to Tab to it first.
+        if (this.closeIconRef.current) {
+            this.closeIconRef.current.focus();
+        }
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown(e) {
+        if (e.key === 'Escape') {
+            this.props.onClose();
+        }
+    }
+
+    handleActivate(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.props.onClose();
+        }
     }
 
     onEnableHeartClueSwitch() {
@@ -63,7 +92,15 @@ export class Settings extends React.Component {
             <div className="helpHeader" darkmode={darkMode}>
                 <div />
                 <h2>அமைப்பு</h2>
-                <AiOutlineCloseCircle className='closeIcon' onClick={this.props.onClose} />
+                <AiOutlineCloseCircle
+                    className='closeIcon'
+                    role="button"
+                    tabIndex={0}
+                    aria-label="மூடு - Close"
+                    ref={this.closeIconRef}
+                    onClick={this.props.onClose}
+                    onKeyDown={(e) => this.handleActivate(e)}
+                />
             </div>
             <div>
                 <div className="sections">

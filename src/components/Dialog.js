@@ -11,6 +11,10 @@ import Snackbar from '@mui/material/Snackbar';
 import { GameTile } from './GameTile';
 import { wordsMeaning } from '../util/words';
 
+// Pages for which #myModal is actually visible (kept in sync with the
+// #myModal[page='...'] display:inline-flex rules in style.css).
+const VISIBLE_PAGES = ['stats', 'updateInfo', 'won', 'lost', 'prevAns', 'feedback'];
+
 export class Dialog extends React.Component {
   constructor(props) {
     super(props);
@@ -18,11 +22,43 @@ export class Dialog extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.onShowAns = this.onShowAns.bind(this);
     this.getClipBoardContent = this.getClipBoardContent.bind(this);
+    this.closeRef = React.createRef();
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+    if (VISIBLE_PAGES.includes(this.props.page)) {
+      this.focusClose();
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  // Move focus onto the close control whenever the modal becomes visible,
+  // so a keyboard user can immediately press Enter/Space to close it
+  // instead of needing to Tab to it first (nothing is focused by default
+  // since the modal is shown/hidden purely via CSS, not conditional render).
+  focusClose() {
+    if (this.closeRef.current) {
+      this.closeRef.current.focus();
+    }
+  }
+
+  handleKeyDown(e) {
+    if (e.key === 'Escape' && VISIBLE_PAGES.includes(this.props.page)) {
+      this.props.onClose();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
     if (!this.state[this.props.mode.mode]) {
       this.setState({ [this.props.mode.mode]: { ans: '', showAnsClicked: false } });
+    }
+    if (prevProps.page !== this.props.page && VISIBLE_PAGES.includes(this.props.page)) {
+      this.focusClose();
     }
   }
 
@@ -256,7 +292,20 @@ export class Dialog extends React.Component {
     return (
       <div id="myModal" className="modal" page={this.props.page}>
         <div className="modal-content" darkmode={darkMode}>
-          <span className="close" onClick={this.props.onClose}>
+          <span
+            className="close"
+            role="button"
+            tabIndex={0}
+            aria-label="மூடு - Close"
+            ref={this.closeRef}
+            onClick={this.props.onClose}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.props.onClose();
+              }
+            }}
+          >
             &times;
           </span>
           <p>{this.getContent()}</p>

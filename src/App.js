@@ -8,6 +8,8 @@ import { Dialog } from './components/Dialog';
 import { split, compare, pickColorByOrder, compareEasyMode } from './util/languageUtil';
 import { getMode, saveNotification } from './util/stateUtil'
 import { Settings } from './components/Settings';
+import { Footer } from './components/Footer';
+import { Seo } from './components/Seo';
 
 export default class App extends React.Component {
 
@@ -361,6 +363,23 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="game">
+        <Seo
+          title="Wordle Tamil (வேடல்) - தமிழ் சொல் விளையாட்டு"
+          description="வேடல் - தமிழுக்கான நாள்தோறும் புதிய சொல் விளையாட்டு. மறைந்துள்ள தமிழ் சொல்லை 8 முயற்சிகளில் கண்டுபிடியுங்கள்."
+          path="/"
+          jsonLd={{
+            '@context': 'https://schema.org',
+            '@type': 'Game',
+            name: 'Wordle Tamil (வேடல்)',
+            alternateName: 'சொல் வேட்டை',
+            url: 'https://solladal.github.io/wordle-tamil/',
+            description: 'வேடல் - தமிழுக்கான நாள்தோறும் புதிய சொல் விளையாட்டு. மறைந்துள்ள தமிழ் சொல்லை 8 முயற்சிகளில் கண்டுபிடியுங்கள்.',
+            inLanguage: 'ta',
+            genre: 'Puzzle',
+            isAccessibleForFree: true,
+            applicationCategory: 'GameApplication',
+          }}
+        />
         {this.state.page && (
           <div className="mainBoard" page={this.state.page}>
             <Header
@@ -425,6 +444,9 @@ export default class App extends React.Component {
           version={this.mode.version}
           onPrevious={() => this.onPrevious()}
         />
+        {(this.state.page === 'game' || this.state.page === 'won' || this.state.page === 'lost') && (
+          <Footer />
+        )}
       </div>
     );
   }

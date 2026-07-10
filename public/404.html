@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Wordle Tamil</title>
+  <!--
+    GitHub Pages is a static host and has no server-side rewrite rules.
+    When a user opens a deep link (e.g. /wordle-tamil/about) directly or
+    refreshes the page, GitHub Pages serves this 404.html. We stash the
+    requested path in sessionStorage and redirect to the app's index.html,
+    which restores the path via history.replaceState before React Router
+    takes over. See https://github.com/rafgraph/spa-github-pages
+  -->
+  <script>
+    sessionStorage.redirect = location.href;
+  </script>
+  <meta http-equiv="refresh" content="0;URL='/wordle-tamil/'">
+</head>
+
+<body>
+</body>
+
+</html>

@@ -245,6 +245,7 @@ export class Keyboard1 extends React.Component {
           
           <button
             className="key keyLast"
+            aria-label="நீக்கு - Backspace"
             onClick={() => this.handleClick('backSpace')}
             darkmode={darkMode}
           >

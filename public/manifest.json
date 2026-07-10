@@ -1,0 +1,17 @@
+{
+  "short_name": "Wordle Tamil",
+  "name": "Wordle Tamil (வேடல்) - தமிழ் சொல் விளையாட்டு",
+  "description": "வேடல் - தமிழுக்கான நாள்தோறும் புதிய சொல் விளையாட்டு.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#6aaa64",
+  "background_color": "#ffffff",
+  "lang": "ta"
+}

@@ -1,15 +1,33 @@
-<html>
+<!DOCTYPE html>
+<html lang="ta">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
-  <title>Wordle Tamil - A daily word game</title>
-  <meta name="description" content="Guess the hidden word in 8 tries. A new puzzle is available each day." />
-  <meta name="description" content="wordle game for Tamil language" />
-  <meta name="description" content="Wordle Tamil" />
-  <meta name="description" content="solladal" />
+  <title>Wordle Tamil (வேடல்) - தமிழ் சொல் விளையாட்டு</title>
+  <meta name="description"
+    content="வேடல் - தமிழுக்கான நாள்தோறும் புதிய சொல் விளையாட்டு. மறைந்துள்ள தமிழ் சொல்லை 8 முயற்சிகளில் கண்டுபிடியுங்கள். Wordle Tamil is a free daily word-guessing puzzle for the Tamil language." />
+  <link rel="canonical" href="https://solladal.github.io/wordle-tamil/" />
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Wordle Tamil (வேடல்)" />
+  <meta property="og:url" content="https://solladal.github.io/wordle-tamil/" />
+  <meta property="og:title" content="Wordle Tamil (வேடல்) - தமிழ் சொல் விளையாட்டு" />
+  <meta property="og:description"
+    content="மறைந்துள்ள தமிழ் சொல்லை 8 முயற்சிகளில் கண்டுபிடியுங்கள். ஒரு நாளுக்கு ஒரு புதிய புதிர்!" />
+  <meta property="og:locale" content="ta_IN" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tamil_wordle" />
+  <meta name="twitter:title" content="Wordle Tamil (வேடல்) - தமிழ் சொல் விளையாட்டு" />
+  <meta name="twitter:description"
+    content="மறைந்துள்ள தமிழ் சொல்லை 8 முயற்சிகளில் கண்டுபிடியுங்கள். ஒரு நாளுக்கு ஒரு புதிய புதிர்!" />
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-40CKKS21VW"></script>
   <script>
@@ -24,7 +42,24 @@
 </head>
 
 <body>
-  <h1 style="display: none;">Wordle Tamil</h1>
+  <!--
+    Companion to public/404.html: restores the originally requested deep
+    link (stashed in sessionStorage) via history.replaceState before
+    React Router mounts, so refreshing/sharing routes like /about works.
+  -->
+  <script>
+    (function () {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
+  </script>
+  <!-- Visually hidden (not display:none) so it remains meaningful to
+       screen readers and search engines without altering the visual
+       design, which already shows the "வேடல்" title in the header. -->
+  <h1 class="visually-hidden">Wordle Tamil (வேடல்) - தமிழ் சொல் விளையாட்டு</h1>
   <div id="root"></div>
 </body>
 
