@@ -15,7 +15,7 @@ export class GameTile extends React.Component {
     super(props);
   }
 
-  getStyle = { animationDelay: this.props.id * 200 + 'ms' };
+  getStyle = { animationDelay: this.props.id * 500 + 'ms' };
 
   render() {
     const darkMode = this.props.darkMode ? "true" : "false";

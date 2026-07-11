@@ -214,44 +214,34 @@ div {
 }
 
 .tile[color='green'] {
-  color: white;
-  border: none;
   animation-name: FlipInGreen !important;
   animation-duration: 500ms !important;
-  animation-fill-mode: forwards !important;
+  animation-fill-mode: both !important;
 }
 
 .tile[color='gray'] {
-  color: white;
-  border: none;
   animation-name: FlipInGrey !important;
   animation-duration: 500ms !important;
-  animation-fill-mode: forwards !important;
+  animation-fill-mode: both !important;
   
 }
 
 .tile[color='yello'] {
-  color: white;
-  border: none;
   animation-name: FlipInYellow !important;
   animation-duration: 500ms !important;
-  animation-fill-mode: forwards !important;
+  animation-fill-mode: both !important;
 }
 
 .tile[color='yello-partial'] {
-  color: white;
-  border: none;
   animation-name: FlipInYellowPartial !important;
   animation-duration: 500ms !important;
-  animation-fill-mode: forwards !important;
+  animation-fill-mode: both !important;
 }
 
 .tile[color='green-partial'] {
-  color: white;
-  border: none;
   animation-name: FlipInGreenPartial !important;
   animation-duration: 500ms !important;
-  animation-fill-mode: forwards !important;
+  animation-fill-mode: both !important;
 }
 
 .tile {
@@ -771,6 +761,8 @@ div {
   }
   100% {
     transform: rotateX(0);
+    color: white;
+    border: none;
     background-color: var(--darkendGreen);
   }
 }
@@ -784,6 +776,8 @@ div {
   }
   100% {
     transform: rotateX(0);
+    color: white;
+    border: none;
     background-color: var(--darkendYellow);
   }
 }
@@ -797,6 +791,8 @@ div {
   }
   100% {
     transform: rotateX(0);
+    color: white;
+    border: none;
     background-color: var(--darkGray);
   }
 }
@@ -810,6 +806,8 @@ div {
   }
   100% {
     transform: rotateX(0);
+    color: white;
+    border: none;
     background-color: var(--grey-absent);
   }
 }
@@ -823,6 +821,8 @@ div {
   }
   100% {
     transform: rotateX(0);
+    color: white;
+    border: none;
     background-image: -webkit-linear-gradient(
     -45deg,
     var(--darkendYellow) 50%,
@@ -840,6 +840,8 @@ div {
   }
   100% {
     transform: rotateX(0);
+    color: white;
+    border: none;
     background-image: -webkit-linear-gradient(
     -45deg,
     var(--darkendGreen) 50%,
@@ -920,20 +922,7 @@ div {
   border: 2px solid var(--darkGray);
 }
 
-.tile[darkmode="true"][color='green'] {
-  border: none;
-}
-.tile[darkmode="true"][color='green-partial'] {
-  border: none;
-}
-.tile[darkmode="true"][color='yello-partial'] {
-  border: none;
-}
-.tile[darkmode="true"][color='yello'] {
-  border: none;
-}
 .tile[darkmode="true"][color='gray'] {
-  border: none;
   animation-name: FlipInGreyDarkMode !important;
 }
 

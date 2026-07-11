@@ -119,6 +119,13 @@ export default class App extends React.Component {
     };
   }
 
+  getFlipAnimationDuration() {
+    // Must match the tile flip stagger (animationDelay) + duration set in
+    // GameTile.js / style.css so the win/lost popup only shows after the
+    // last tile in the row has finished flipping.
+    return this.wordleLength * 500;
+  }
+
   onKeyInput(val) {
     this.setState({ disableKeyBoardInput: true });
     if (this.state.gameState === 'INPROGRESS') {
@@ -133,23 +140,32 @@ export default class App extends React.Component {
             tempTileColors[this.state.rowIndex] = Array(this.wordleLength).fill(
               'green'
             );
+            const guessNumber = this.state.rowIndex + 1;
             this.setState(
               {
-                won: true,
-                page: 'won',
-                gameState: 'WON',
                 tileColors: tempTileColors,
                 selectedKeys: tempSelectedKeys,
-                rowIndex: this.state.rowIndex + 1,
-                gameEndTimeStamp: this.getUpdatedGameEndTimeStamp(),
-                statistics: this.getIncrementedStatistics(
-                  true,
-                  this.state.rowIndex + 1
-                ),
+                rowIndex: guessNumber,
               },
               () => {
-                this.mode.saveGameState(this.state);
-                this.mode.saveGameStatistics(this.state.statistics, this.state.rowIndex);
+                setTimeout(() => {
+                  this.setState(
+                    {
+                      won: true,
+                      page: 'won',
+                      gameState: 'WON',
+                      gameEndTimeStamp: this.getUpdatedGameEndTimeStamp(),
+                      statistics: this.getIncrementedStatistics(
+                        true,
+                        guessNumber
+                      ),
+                    },
+                    () => {
+                      this.mode.saveGameState(this.state);
+                      this.mode.saveGameStatistics(this.state.statistics, this.state.rowIndex);
+                    }
+                  );
+                }, this.getFlipAnimationDuration());
               }
             );
           } else {
@@ -195,24 +211,26 @@ export default class App extends React.Component {
                               this.mode.saveGameState(this.state);
                               this.mode.saveGameStatistics(this.state.statistics, this.state.rowIndex);
                             })
-                          }, timeout)
+                          }, Math.max(timeout, this.getFlipAnimationDuration()))
                         }
                       )
                     }, timeout);
 
 
                   } else {
-                    this.setState((prevState, props) => ({
-                      page: 'lost',
-                      gameState: 'LOST',
-                      rowIndex: (this.chances + 1),
-                      gameEndTimeStamp: this.getUpdatedGameEndTimeStamp(),
-                      statistics: this.getIncrementedStatistics(false, (this.chances + 1))
-                    }),
-                      () => {
-                        this.mode.saveGameState(this.state);
-                        this.mode.saveGameStatistics(this.state.statistics, (this.chances + 1));
-                      })
+                    setTimeout(() => {
+                      this.setState((prevState, props) => ({
+                        page: 'lost',
+                        gameState: 'LOST',
+                        rowIndex: (this.chances + 1),
+                        gameEndTimeStamp: this.getUpdatedGameEndTimeStamp(),
+                        statistics: this.getIncrementedStatistics(false, (this.chances + 1))
+                      }),
+                        () => {
+                          this.mode.saveGameState(this.state);
+                          this.mode.saveGameStatistics(this.state.statistics, (this.chances + 1));
+                        })
+                    }, this.getFlipAnimationDuration());
                   }
 
                 }
@@ -264,7 +282,7 @@ export default class App extends React.Component {
                                 this.mode.saveGameState(this.state);
                                 this.mode.saveGameStatistics(this.state.statistics, this.state.rowIndex);
                               })
-                            }, timeout)
+                            }, Math.max(timeout, this.getFlipAnimationDuration()))
                           }
                         )
                       }, timeout);
