@@ -47,6 +47,9 @@ p {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative; /* Containing block for #myModal (position: absolute) so the
+                          modal stays anchored within the centered game area
+                          instead of the full viewport on wide/desktop screens. */
 }
 
 .header {
@@ -279,15 +282,15 @@ div {
 }
 
 .mainBoard[page='stats'] {
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 .mainBoard[page='updateInfo'] {
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 .mainBoard[page='lost'] {
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 .mainBoard[page='help'] {
@@ -298,11 +301,11 @@ div {
   display: none;
 }
 .mainBoard[page='won'] {
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 .mainBoard[page='prevAns'] {
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 .tile-row[length='4'] {
@@ -519,6 +522,11 @@ div {
 .modal {
   display: none; /* Hidden by default */
   position: absolute;
+  top: 0; /* Anchor to the viewport instead of relying on the browser's
+             default body margin for the "static position" offset - without
+             this, width:100% overflows past the right edge on mobile,
+             leaving an uneven gap on the left. */
+  left: 0;
   z-index: 1; /* Sit on top */
   width: 100%; /* Full width */
   height: 100%; /* Full height */
@@ -528,30 +536,47 @@ div {
 
 /* Modal Content */
 .modal-content {
+  position: relative;
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  box-shadow: 0 4px 23px 0 rgb(0 0 0 / 20%);
+  padding: 24px 20px 20px;
   border: 1px solid #f6f7f8;
-  box-shadow: -1px -1px 15px;
-  border-radius: 4px;
+  width: 80%;
+  box-shadow: 0 4px 23px 0 rgb(0 0 0 / 12%);
+  border-radius: 10px;
 }
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: var(--gray);
+  font-size: 16px;
 }
 
 .close:hover,
 .close:focus {
-  transform: scale(1.2);
+  background-color: rgba(0, 0, 0, 0.06);
+  color: var(--black);
   text-decoration: none;
   cursor: pointer;
+}
+
+.modal-content[darkmode="true"] .close {
+  color: #b7b9bb;
+}
+
+.modal-content[darkmode="true"] .close:hover,
+.modal-content[darkmode="true"] .close:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 #myModal[page='stats'] {
@@ -692,9 +717,17 @@ div {
   border-radius: 4px;
 }
 
-.statsHeader {
-  display: flex;
-  justify-content: center;
+.stats-subheader {
+  text-align: center;
+  margin: 18px 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--gray);
+}
+
+.modal-content[darkmode="true"] .stats-subheader {
+  color: #b7b9bb;
 }
 
 /* .statsButton:hover {
@@ -1005,6 +1038,43 @@ a, a:visited {
   text-align: center;
 }
 
+.meaning-section {
+  text-align: left;
+  margin-top: 12px;
+}
+
+.meaning-block {
+  margin-bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 6px;
+}
+
+.meaning-block:last-child {
+  margin-bottom: 0;
+}
+
+.meaning-label {
+  flex-shrink: 0;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--darkendGreen);
+}
+
+.meaning-text {
+  font-family: sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  color: inherit;
+}
+
+.meaning-section[darkmode="true"] .meaning-label {
+  color: var(--darkendGreen);
+}
+
 .showAnsButton {
   /* font-size: 30px; */
   background-color: var(--orange);
@@ -1024,9 +1094,60 @@ a, a:visited {
   margin: auto;
 }
 
-.link {
-  float: right;
-  padding-left: 10px;
+.congrats-header {
+  text-align: center;
+  margin: 4px 0 18px;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--darkendGreen);
+}
+
+.congrats-header--lost {
+  color: var(--orange);
+}
+
+.modal-content[darkmode="true"] .congrats-header {
+  color: var(--green);
+}
+
+.modal-content[darkmode="true"] .congrats-header--lost {
+  color: var(--orange);
+}
+
+.word-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 12px;
+}
+
+.dictionary-link {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: sans-serif;
+  color: var(--darkGray);
+  border: 1px solid var(--lightGray);
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.dictionary-link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: var(--black);
+}
+
+.modal-content[darkmode="true"] .dictionary-link {
+  color: #b7b9bb;
+  border-color: #3a3a3c;
+}
+
+.modal-content[darkmode="true"] .dictionary-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
 .readMore {

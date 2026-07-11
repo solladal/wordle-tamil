@@ -20,7 +20,7 @@ export class StatsBar extends React.Component {
                     </div>
                 ));
                 return (<div>
-                    <h3 className="statsHeader">கணிப்பு பங்கீடு</h3>
+                    <h3 className="stats-subheader">கணிப்பு பங்கீடு</h3>
                     {bars}
                 </div>)
             } else {

@@ -26,7 +26,7 @@ export class Stats extends React.Component {
 
     return (
       <div>
-        <h3 className="statsHeader">புள்ளி விவரங்கள்</h3>
+        <h3 className="congrats-header">புள்ளி விவரங்கள்</h3>
         <div className="statsContainer" darkmode={this.props.darkMode}>
           <div>
             <div className="statsValue">{this.props.stats.gamesPlayed}</div>

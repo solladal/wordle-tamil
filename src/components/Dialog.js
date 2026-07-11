@@ -4,8 +4,8 @@ import { Board } from './Board';
 import { Settings } from './Settings';
 import { UpdateInfo } from './UpdateInfo';
 import { split } from '../util/languageUtil';
-import { AiOutlineShareAlt } from 'react-icons/ai';
-import { BiLinkExternal } from 'react-icons/bi';
+import { AiOutlineShareAlt, AiOutlineClose } from 'react-icons/ai';
+import { BiBookOpen } from 'react-icons/bi';
 import { MdReplay } from 'react-icons/md';
 import Snackbar from '@mui/material/Snackbar';
 import { GameTile } from './GameTile';
@@ -21,29 +21,15 @@ export class Dialog extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.onShowAns = this.onShowAns.bind(this);
     this.getClipBoardContent = this.getClipBoardContent.bind(this);
-    this.closeRef = React.createRef();
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
-    if (VISIBLE_PAGES.includes(this.props.page)) {
-      this.focusClose();
-    }
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  // Move focus onto the close control whenever the modal becomes visible,
-  // so a keyboard user can immediately press Enter/Space to close it
-  // instead of needing to Tab to it first (nothing is focused by default
-  // since the modal is shown/hidden purely via CSS, not conditional render).
-  focusClose() {
-    if (this.closeRef.current) {
-      this.closeRef.current.focus();
-    }
   }
 
   handleKeyDown(e) {
@@ -55,9 +41,6 @@ export class Dialog extends React.Component {
   componentDidUpdate(prevProps) {
     if (!this.state[this.props.mode.mode]) {
       this.setState({ [this.props.mode.mode]: { ans: '', showAnsClicked: false } });
-    }
-    if (prevProps.page !== this.props.page && VISIBLE_PAGES.includes(this.props.page)) {
-      this.focusClose();
     }
   }
 
@@ -175,17 +158,20 @@ export class Dialog extends React.Component {
     if (!meaning) return null;
     const usageHtml = this.props.mode.getUsageHtml();
     const usageNode = this.props.mode.getUsageNode();
+    const darkMode = this.props.darkMode ? "true" : "false";
     return (
-      <div style={{textAlign:'left'}}>
-        <h3 style={{ color: '#375c71', fontFamily: 'sans-serif' }}>பொருள்:</h3>
-        <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>{meaning}</p>
+      <div className="meaning-section" darkmode={darkMode}>
+        <div className="meaning-block">
+          <span className="meaning-label">பொருள்:</span>
+          <span className="meaning-text">{meaning}</span>
+        </div>
         {(usageHtml || usageNode) && (
-          <>
-            <h3 style={{ color: '#375c71', fontFamily: 'sans-serif' }}>பயன்பாடு:</h3>
-            <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>
+          <div className="meaning-block">
+            <span className="meaning-label">பயன்பாடு:</span>
+            <span className="meaning-text">
               {usageHtml ? <span dangerouslySetInnerHTML={{ __html: usageHtml }} /> : usageNode}
-            </p>
-          </>
+            </span>
+          </div>
         )}
       </div>
     );
@@ -202,28 +188,36 @@ export class Dialog extends React.Component {
     return null;
   }
 
+  getWordSection(word) {
+    return (
+      <div className="word-section">
+        <div className="tile-row helprow showAnsRow" length={split(word).length}>
+          {split(word).map((l, index) => <GameTile id={index}
+            value={l}
+            color={l !== '_' ? 'green' : ''}
+            darkMode={this.props.darkMode}></GameTile>)}
+        </div>
+        <a
+          className="dictionary-link"
+          href={'https://dt.madurai.io/' + word}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <BiBookOpen />
+          <span>அகராதி</span>
+        </a>
+      </div>
+    );
+  }
+
   getContent() {
     const darkMode = this.props.darkMode ? "true" : "false";
     if (this.props.page === 'won') {
       return (
         <div id="wonDialog">
-          <h3>வாழ்த்துக்கள்!!</h3>
+          <h3 className="congrats-header">வாழ்த்துகள்!!</h3>
           <div>
-            <div style={{ display: "flex" }}>
-              <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-                {split(this.props.mode.getWordOfDay()).map((l, index) => <GameTile id={index}
-                  value={l}
-                  color={l !== '_' ? 'green' : ''}
-                  darkMode={this.props.darkMode}></GameTile>)}
-              </div>
-              <div>
-                <div className='link' >
-                  <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
-                    <BiLinkExternal />
-                  </a>
-                </div>
-              </div>
-            </div>
+            {this.getWordSection(this.props.mode.getWordOfDay())}
             {this.getMeaning()}
           </div>
           <hr />
@@ -241,27 +235,12 @@ export class Dialog extends React.Component {
     } else if (this.props.page === 'lost') {
       return (
         <div className='lostDialog'>
-          <h3>மன்னிக்கவும், வாய்ப்புகள் முடிந்தன!!</h3>
+          <h3 className="congrats-header congrats-header--lost">மன்னிக்கவும், வாய்ப்புகள் முடிந்தன!!</h3>
           {this.state[this.props.mode.mode] && !this.state[this.props.mode.mode].showAnsClicked && <button className='showAnsButton' onClick={() => this.onShowAns()}>சரியான விடை காட்டுக</button>}
           {this.state[this.props.mode.mode] && this.state[this.props.mode.mode].showAnsClicked &&
             (
               <div>
-                <div style={{ display: "flex" }}>
-                  <div className="tile-row helprow showAnsRow" length={split(this.props.mode.getWordOfDay()).length}>
-                    {split(this.state[this.props.mode.mode].ans).map((l, index) => <GameTile
-                      id={index}
-                      value={l}
-                      color={l !== '_' ? 'green' : ''}
-                      darkMode={this.props.darkMode}></GameTile>)}
-                  </div>
-                  <div>
-                    <div className='link' >
-                      <a href={'https://dt.madurai.io/' + this.props.mode.getWordOfDay()} target="_blank">
-                        <BiLinkExternal />
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                {this.getWordSection(this.state[this.props.mode.mode].ans)}
                 {this.getMeaning()}
               </div>
             )
@@ -307,7 +286,6 @@ export class Dialog extends React.Component {
             role="button"
             tabIndex={0}
             aria-label="மூடு - Close"
-            ref={this.closeRef}
             onClick={this.props.onClose}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
@@ -316,7 +294,7 @@ export class Dialog extends React.Component {
               }
             }}
           >
-            &times;
+            <AiOutlineClose />
           </span>
           <p>{this.getContent()}</p>
         </div>
