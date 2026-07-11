@@ -1,4 +1,5 @@
-import { getWordOf, isSameDay } from './words';
+import { isSameDay } from './words';
+import { fetchWordForDate } from './wordsApi';
 
 export class Mode {
 
@@ -11,16 +12,33 @@ export class Mode {
         if (this.mode === 'normal') {
             this.stateKey = 'wordle-tamil-state';
             this.statisticsKey = 'wordle-tamil-statistics';
-            this.startDate = new Date('1/26/2022');
+            this.startDate = new Date('2022-01-26T00:00:00Z');
         } else if (this.mode === 'sentamil') {
             this.stateKey = 'wordle-sentamil-state';
             this.statisticsKey = 'wordle-sentamil-statistics';
-            this.startDate = new Date('2/6/2022');
+            this.startDate = new Date('2022-02-06T00:00:00Z');
         } else if (this.mode === 'vadasol') {
             this.stateKey = 'wordle-vadasol-state';
             this.statisticsKey = 'wordle-vadasol-statistics';
-            this.startDate = new Date('5/18/2022');
+            this.startDate = new Date('2022-05-18T00:00:00Z');
         }
+    }
+
+    // Converts a day-count index (1-indexed count of days since startDate, matching
+    // getWordleIndex()'s Math.ceil-based counting) into the 'YYYY-MM-DD' date string the
+    // words API stores words under. Subtracts 1 since index=1 represents the very first
+    // calendar day (startDate itself), not one day past it. Uses UTC arithmetic so the
+    // mapping is stable regardless of the player's local timezone. Used for random-mode
+    // and "previous word" lookups, which target a specific past day-count, not "today".
+    dateStringForIndex(index) {
+        const date = new Date(this.startDate.getTime() + (index - 1) * 24 * 60 * 60 * 1000);
+        return date.toISOString().slice(0, 10);
+    }
+
+    // Today's date as 'YYYY-MM-DD' (UTC), for fetching today's word directly - no day-count
+    // index math needed here, since "today" is just... today.
+    todayDateString() {
+        return new Date().toISOString().slice(0, 10);
     }
 
     getRandomIndex() {
@@ -42,12 +60,16 @@ export class Mode {
         }
     }
 
-    initialiseGame(initialPage, gameType = 'daily') {
+    async initialiseGame(initialPage, gameType = 'daily') {
         this.gameType = gameType;
         
         if (this.gameType === 'daily') {
             this.checkForUpdate();
             this.wordleIndex = this.getWordleIndex();
+            // "Today" is just today - fetch directly by today's date. wordleIndex is only
+            // needed here as a fallback lookup key if the API is unreachable, plus for
+            // statistics/bookkeeping below (Wordle #N numbering, previous-day detection, etc).
+            this.wordEntry = await fetchWordForDate(this.mode, this.todayDateString(), this.wordleIndex);
         } else if (this.gameType === 'random') {
             this.wordleIndex = this.getRandomIndex();
             if (this.mode === 'normal') {
@@ -60,7 +82,14 @@ export class Mode {
                 this.stateKey = 'wordle-vadasol-state-random';
                 this.statisticsKey = 'wordle-vadasol-statistics-random';
             }
+            this.wordEntry = await fetchWordForDate(this.mode, this.dateStringForIndex(this.wordleIndex), this.wordleIndex);
         }
+
+        const previousIndex = this.getPreviousIndex();
+        this.previousWordEntry = previousIndex !== -1
+            ? await fetchWordForDate(this.mode, this.dateStringForIndex(previousIndex), previousIndex)
+            : null;
+
         const localstate = localStorage.getItem(this.stateKey);
         let state;
         if (localstate) {
@@ -88,18 +117,27 @@ export class Mode {
     }
 
     getWordOfDay() {
-        return getWordOf(this.mode, this.wordleIndex);
+        return this.wordEntry ? this.wordEntry.word : '';
+    }
+
+    getMeaning() {
+        return this.wordEntry ? this.wordEntry.meaning : null;
+    }
+
+    getUsageHtml() {
+        return this.wordEntry ? this.wordEntry.usageHtml : null;
+    }
+
+    getUsageNode() {
+        // Only populated when running on the bundled fallback data (API unavailable);
+        // the remote API instead returns usageHtml (a plain HTML string) via getUsageHtml().
+        return this.wordEntry ? this.wordEntry.usageNode : null;
     }
 
     getPreviousWord() {
-        let previousIndex = this.getPreviousIndex();
-        if (previousIndex !== -1) {
-            return getWordOf(this.mode, previousIndex);
-        } else {
-            return '';
-        }
-
+        return this.previousWordEntry ? this.previousWordEntry.word : '';
     }
+
 
     getWordleIndex() {
         const date2 = Date.now();

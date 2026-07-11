@@ -43,8 +43,8 @@ export function compare(guess, actual) {
   if (guess === actual) {
     return [true];
   } else {
-    let color = [];
-    let letterColors = {};
+    let color = []; //display colors
+    let letterColors = {}; //colors for keyboard letters
     let guessArr = split(guess);
     let actualArr = split(actual);
     
@@ -104,7 +104,8 @@ export function compare(guess, actual) {
           } else {
             letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'green-partial');
           }
-          color[i] = 'green-partial'; //partial   
+          color[i] = 'green-partial'; //partial
+          letterColors[gussedLetter.charAt(0)] = pickColorByOrder(letterColors[gussedLetter.charAt(0)], 'green-partial');
           guessArr[i] = -1;
           actualArr[i] = -1;
         }

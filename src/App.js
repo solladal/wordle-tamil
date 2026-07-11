@@ -17,20 +17,33 @@ export default class App extends React.Component {
     super(props);
     this.chances = 8; // coupled with css class .board grid-template-rows: repeat(8, 1fr);
     this.mode = getMode(this.chances);
-    this.state = this.mode.initialiseGame();
-    this.initialise();
+    this.state = { page: null }; // null page = still loading today's word from the API/fallback
     this.onKeyInput = this.onKeyInput.bind(this);
     this.onModeChange = this.onModeChange.bind(this);
     this.onSettingsClose = this.onSettingsClose.bind(this);
     this.onPrevious = this.onPrevious.bind(this);
+    this.bootstrapGame();
   }
 
   componentDidMount() {
-    document.getElementsByClassName('board')[0].scrollTop = this.state.rowIndex >= 6 ? 135 : 0;
+    this.scrollBoardIntoView();
   }
 
   componentDidUpdate() {
-    document.getElementsByClassName('board')[0].scrollTop = this.state.rowIndex >= 6 ? 135 : 0;
+    this.scrollBoardIntoView();
+  }
+
+  scrollBoardIntoView() {
+    const board = document.getElementsByClassName('board')[0];
+    if (board) {
+      board.scrollTop = this.state.rowIndex >= 6 ? 135 : 0;
+    }
+  }
+
+  async bootstrapGame(initialPage, gameType) {
+    const state = await this.mode.initialiseGame(initialPage, gameType);
+    this.initialise();
+    this.setState(state);
   }
 
   initialise() {
@@ -340,13 +353,11 @@ export default class App extends React.Component {
 
   onModeChange(newSettings) { 
     this.mode = getMode(this.chances);
-    this.setState(this.mode.initialiseGame('settings', 'daily'));
-    this.initialise();
+    this.bootstrapGame('settings', 'daily');
   }
 
   onPrevious() {
-    this.setState(this.mode.initialiseGame('game', 'random'));
-    this.initialise();
+    this.bootstrapGame('game', 'random');
   }
 
 
@@ -361,6 +372,10 @@ export default class App extends React.Component {
   }
 
   render() {
+    if (!this.state.page) {
+      // Still fetching today's word (from the words API, or the bundled fallback list)
+      return <div className="game loading">தமிழ் சொல் ஏற்றப்படுகிறது...</div>;
+    }
     return (
       <div className="game">
         <Seo

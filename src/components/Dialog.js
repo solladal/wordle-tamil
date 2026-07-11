@@ -9,7 +9,6 @@ import { BiLinkExternal } from 'react-icons/bi';
 import { MdReplay } from 'react-icons/md';
 import Snackbar from '@mui/material/Snackbar';
 import { GameTile } from './GameTile';
-import { wordsMeaning } from '../util/words';
 
 // Pages for which #myModal is actually visible (kept in sync with the
 // #myModal[page='...'] display:inline-flex rules in style.css).
@@ -172,13 +171,24 @@ export class Dialog extends React.Component {
   }
 
   getMeaning() {
-    return wordsMeaning[this.props.mode.getWordOfDay()] ?
+    const meaning = this.props.mode.getMeaning();
+    if (!meaning) return null;
+    const usageHtml = this.props.mode.getUsageHtml();
+    const usageNode = this.props.mode.getUsageNode();
+    return (
       <div style={{textAlign:'left'}}>
         <h3 style={{ color: '#375c71', fontFamily: 'sans-serif' }}>பொருள்:</h3>
-        <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>{wordsMeaning[this.props.mode.getWordOfDay()].meaning}</p>
-        <h3 style={{ color: '#375c71', fontFamily: 'sans-serif' }}>பயன்பாடு:</h3>
-        <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>{wordsMeaning[this.props.mode.getWordOfDay()].usage}</p>
-      </div> : null;
+        <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>{meaning}</p>
+        {(usageHtml || usageNode) && (
+          <>
+            <h3 style={{ color: '#375c71', fontFamily: 'sans-serif' }}>பயன்பாடு:</h3>
+            <p style={{ paddingLeft: '10px', fontFamily: 'sans-serif' }}>
+              {usageHtml ? <span dangerouslySetInnerHTML={{ __html: usageHtml }} /> : usageNode}
+            </p>
+          </>
+        )}
+      </div>
+    );
   }
 
   getPreviousWordButton() {

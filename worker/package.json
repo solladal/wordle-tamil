@@ -1,0 +1,18 @@
+{
+  "name": "wordle-tamil-words-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create wordle-tamil-words",
+    "db:schema": "wrangler d1 execute wordle-tamil-words --file=./migrations/schema.sql",
+    "db:schema:remote": "wrangler d1 execute wordle-tamil-words --remote --file=./migrations/schema.sql",
+    "db:seed": "wrangler d1 execute wordle-tamil-words --file=./migrations/seed.sql",
+    "db:seed:remote": "wrangler d1 execute wordle-tamil-words --remote --file=./migrations/seed.sql",
+    "secret:set": "wrangler secret put ADMIN_TOKEN"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

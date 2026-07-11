@@ -1,2 +1,8 @@
 build
 node_modules
+.env
+.env.local
+.env.*.local
+worker/node_modules
+worker/.wrangler
+worker/.dev.vars
