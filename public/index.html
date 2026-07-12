@@ -12,6 +12,22 @@
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
+  <!-- Inlined so the hidden h1 below never has a chance to flash visible before the app's
+       bundled stylesheet (src/style.css) loads - avoids a flash-of-unstyled-content. -->
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Wordle Tamil (வேடல்)" />

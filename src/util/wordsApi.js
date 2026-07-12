@@ -21,28 +21,24 @@ function getFallbackEntry(mode, fallbackIndex) {
 // The API returns all modes for a date in one response, e.g.
 // { date, normal: {word, meaning, usageHtml}, sentamil: {...}, vadasol?: {...} }.
 // Cached in localStorage (keyed by date) so a given date's data is fetched once and reused
-// across page loads/reloads for the rest of the day, instead of hitting the network every time.
-// Cache entries expire at the end of the current day (not the requested date's day) - once
-// the day rolls over, everything is treated as stale and the next load fetches fresh data
-// (which naturally also means "today" moves on to a new date key anyway).
+// across page loads/reloads, instead of hitting the network every time.
+// No TTL/expiry is used here on purpose: the caller always recomputes "today" fresh (from the
+// player's current local date - see stateUtil.js) before looking up the cache, so once the
+// player's local day rolls over, a brand new date key is requested automatically. A cached
+// entry for a given date is always correct forever, since a date's word never changes once
+// assigned (mirrors the API's own "past dates never change" Cache-Control on the server).
 const CACHE_KEY_PREFIX = 'wordle-tamil-words-cache:';
-let hasCleanedUpExpiredCache = false;
-
-function endOfTodayTimestamp() {
-  const now = new Date();
-  return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 23, 59, 59, 999);
-}
+// Caps how many date entries we keep in localStorage so it doesn't grow unbounded for
+// long-time players (each entry is tiny, but there's no reason to keep them forever).
+const MAX_CACHE_ENTRIES = 200;
+let hasPrunedCacheOnce = false;
 
 function readCachedWordsForDate(dateStr) {
   try {
     const raw = localStorage.getItem(CACHE_KEY_PREFIX + dateStr);
     if (!raw) return null;
     const entry = JSON.parse(raw);
-    if (!entry || typeof entry.expiresAt !== 'number' || Date.now() > entry.expiresAt) {
-      localStorage.removeItem(CACHE_KEY_PREFIX + dateStr);
-      return null;
-    }
-    return entry.data;
+    return entry && entry.data ? entry.data : null;
   } catch (error) {
     return null; // corrupt/inaccessible cache entry - treat as a miss
   }
@@ -50,33 +46,29 @@ function readCachedWordsForDate(dateStr) {
 
 function writeCachedWordsForDate(dateStr, data) {
   try {
-    localStorage.setItem(CACHE_KEY_PREFIX + dateStr, JSON.stringify({ data, expiresAt: endOfTodayTimestamp() }));
+    localStorage.setItem(CACHE_KEY_PREFIX + dateStr, JSON.stringify({ data }));
   } catch (error) {
     // localStorage full/unavailable (e.g. private browsing) - caching is just an optimization
   }
 }
 
-// One-time sweep of any expired entries left over from previous days, so localStorage doesn't
-// accumulate stale entries indefinitely.
-function cleanupExpiredCacheOnce() {
-  if (hasCleanedUpExpiredCache) return;
-  hasCleanedUpExpiredCache = true;
+// One-time sweep that keeps only the most recent MAX_CACHE_ENTRIES date entries, dropping the
+// oldest ones (date strings sort lexicographically, so this is a plain string sort).
+function pruneCacheOnce() {
+  if (hasPrunedCacheOnce) return;
+  hasPrunedCacheOnce = true;
   try {
-    const now = Date.now();
-    for (let i = localStorage.length - 1; i >= 0; i--) {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (!key || !key.startsWith(CACHE_KEY_PREFIX)) continue;
-      try {
-        const entry = JSON.parse(localStorage.getItem(key));
-        if (!entry || typeof entry.expiresAt !== 'number' || now > entry.expiresAt) {
-          localStorage.removeItem(key);
-        }
-      } catch (error) {
-        localStorage.removeItem(key); // corrupt entry - just drop it
-      }
+      if (key && key.startsWith(CACHE_KEY_PREFIX)) keys.push(key);
     }
+    if (keys.length <= MAX_CACHE_ENTRIES) return;
+    keys.sort(); // date-suffixed keys sort chronologically
+    const excess = keys.length - MAX_CACHE_ENTRIES;
+    for (let i = 0; i < excess; i++) localStorage.removeItem(keys[i]);
   } catch (error) {
-    // localStorage unavailable - nothing to clean up
+    // localStorage unavailable - nothing to prune
   }
 }
 
@@ -85,7 +77,7 @@ function cleanupExpiredCacheOnce() {
 const inFlightRequests = new Map();
 
 async function fetchWordsForDate(dateStr) {
-  cleanupExpiredCacheOnce();
+  pruneCacheOnce();
 
   const cached = readCachedWordsForDate(dateStr);
   if (cached) return cached;

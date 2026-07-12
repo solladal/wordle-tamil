@@ -125,11 +125,11 @@ export class HelpContent extends React.Component {
       </p>
       <hr />
       <strong>நினைவில் கொள்க</strong>
-      <p><GameTile value="h" color="green" /> - சரியானது</p>
-      <p><GameTile value="h" color="yello" /> - சரியானது ஆனால் வேறு இடம் </p>
-      <p><GameTile value="h" color="green-partial" /> - பாதி சரியானது (மெய் எழுத்து சரியான இடத்தில் உள்ளது) </p>
-      <p><GameTile value="h" color="yello-partial" /> - பாதி சரியானது ஆனால் வேறு இடம் (மெய் எழுத்து வேறு இடத்தில் உள்ளது) </p>
-      <p><GameTile value="h" color="gray" /> - தவறானது </p>
+      <p><span className="legendTile"><GameTile value="" color="green" /></span> - சரியானது</p>
+      <p><span className="legendTile"><GameTile value="" color="yello" /></span> - சரியானது ஆனால் வேறு இடம் </p>
+      <p><span className="legendTile"><GameTile value="" color="green-partial" /></span> - பாதி சரியானது (மெய் எழுத்து சரியான இடத்தில் உள்ளது) </p>
+      <p><span className="legendTile"><GameTile value="" color="yello-partial" /></span> - பாதி சரியானது ஆனால் வேறு இடம் (மெய் எழுத்து வேறு இடத்தில் உள்ளது) </p>
+      <p><span className="legendTile"><GameTile value="" color="gray" /></span> - தவறானது </p>
       <FaHeart style={{ color: '#f7a1f4' }} />  - உயிர்எழுத்து மற்றும் மெய்எழுத்து ஓசைகளை குறிக்கிறது
       <hr />
       <p>

@@ -35,10 +35,16 @@ export class Mode {
         return date.toISOString().slice(0, 10);
     }
 
-    // Today's date as 'YYYY-MM-DD' (UTC), for fetching today's word directly - no day-count
-    // index math needed here, since "today" is just... today.
+    // Today's date as 'YYYY-MM-DD' in the player's own local timezone (whatever their device is
+    // set to - never hardcoded), for fetching today's word directly. Deliberately uses
+    // getFullYear/getMonth/getDate (local time) instead of toISOString (UTC), so the word
+    // changes right at the player's own local midnight, not UTC midnight.
     todayDateString() {
-        return new Date().toISOString().slice(0, 10);
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 
     getRandomIndex() {

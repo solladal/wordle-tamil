@@ -753,10 +753,14 @@ div {
   letter-spacing: 0;
 }
 
-.tile[value='h'] {
-  width:30px;
-  height:30px;
-  color: transparent;
+.legendTile {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.legendTile .tile {
+  width: 30px;
+  height: 30px;
 }
 
 .languageToggleButton {
@@ -1165,6 +1169,10 @@ a, a:visited {
   right: 0;
   font-size: 20px;
   color: var(--yellow);
+  opacity: 0;
+  animation-name: RevealClue;
+  animation-duration: 1ms;
+  animation-fill-mode: forwards;
 }
 
 .heart {
@@ -1173,6 +1181,19 @@ a, a:visited {
   left: 2px;
   font-size: 20px;
   color: #f7a1f4;
+  opacity: 0;
+  animation-name: RevealClue;
+  animation-duration: 1ms;
+  animation-fill-mode: forwards;
+}
+
+/* Snaps the star/heart clue icon to visible - paired with an animation-delay set inline
+   (GameTile.js) equal to this tile's own flip delay + flip duration, so the icon only shows up
+   once this specific tile has actually finished revealing its color. */
+@keyframes RevealClue {
+  to {
+    opacity: 1;
+  }
 }
 
 .updateTitle {
