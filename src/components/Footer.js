@@ -14,6 +14,8 @@ export function Footer() {
       <Link to="/privacy-policy">Privacy Policy</Link>
       <span className="footerPipe">|</span>
       <Link to="/contact">தொடர்பு கொள்ள</Link>
+      <span className="footerPipe">|</span>
+      <Link to="/testimonials">வாசகர் கருத்துகள்</Link>
     </div>
   );
 }

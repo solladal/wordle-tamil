@@ -8,6 +8,7 @@ import HowToPlayPage from "./pages/HowToPlayPage";
 import AboutPage from "./pages/AboutPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ContactPage from "./pages/ContactPage";
+import TestimonialsPage from "./pages/TestimonialsPage";
 
 ReactDOM.render(
   <HelmetProvider>
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/testimonials" element={<TestimonialsPage />} />
       </Routes>
     </BrowserRouter>
   </HelmetProvider>,

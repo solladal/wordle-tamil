@@ -1264,6 +1264,10 @@ a, a:visited {
   line-height: 1.6;
 }
 
+.contentPage.wide {
+  max-width: 900px;
+}
+
 .contentPageHeader {
   margin-bottom: 10px;
 }
@@ -1300,4 +1304,344 @@ a, a:visited {
 
 .contentPageNav a:hover {
   text-decoration: underline;
+}
+
+.testimonialsHero {
+  text-align: center;
+  padding: 4px 0 6px;
+}
+
+.testimonialsHeroTitle {
+  margin: 0 0 6px;
+  font-size: 24px;
+  color: var(--black);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.testimonialsHeroTitle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--darkendGreen);
+}
+
+.testimonialsHeroSubtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.testimonialsNote {
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray);
+  margin-top: 14px;
+}
+
+.testimonialSlider {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 24px 0 14px;
+}
+
+.testimonialSliderRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 44px;
+}
+
+.testimonialSliderTrack {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 14px;
+  touch-action: pan-y;
+}
+
+.testimonialSliderRail {
+  display: flex;
+  transition: transform 450ms ease;
+}
+
+.testimonialSlide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 2px;
+}
+
+.testimonialSliderArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--lightGray);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--black);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.testimonialSliderArrow.prev {
+  left: 0;
+}
+
+.testimonialSliderArrow.next {
+  right: 0;
+}
+
+.testimonialSliderArrow:hover {
+  background: var(--key-bg);
+  transform: translateY(-50%) scale(1.08);
+}
+
+@media (max-width: 560px) {
+  .testimonialSliderArrow {
+    display: none;
+  }
+
+  .testimonialSliderRow {
+    padding: 0;
+  }
+}
+
+.testimonialSliderDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.testimonialSliderDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: var(--lightGray);
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.testimonialSliderDot.active {
+  background: var(--green);
+  transform: scale(1.25);
+}
+
+.testimonialCard {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--lightGray);
+  border-radius: 14px;
+  padding: 24px 22px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  min-height: 180px;
+}
+
+.testimonialQuoteMark {
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  font-size: 64px;
+  font-family: Georgia, serif;
+  color: var(--green);
+  opacity: 0.15;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.testimonialSourceBadge {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--key-bg);
+  color: var(--black);
+}
+
+.testimonialSourceBadge.twitter {
+  background: #e8f5fd;
+  color: #1a8cd8;
+}
+
+.testimonialSourceBadge.email {
+  background: #fdf2e3;
+  color: #b57b00;
+}
+
+.testimonialQuote {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  font-family: Lato;
+  color: var(--black);
+}
+
+.testimonialCardFooter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.testimonialAvatar {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.testimonialMeta {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.testimonialName {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.testimonialHandle {
+  font-size: 12px;
+  color: var(--gray);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.testimonialsCta {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px 16px;
+  border-radius: 14px;
+  background: var(--key-bg);
+}
+
+.testimonialsCta p {
+  margin: 0 0 12px;
+  font-weight: bold;
+}
+
+.testimonialsCtaIcons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.testimonialsCtaIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 19px;
+  color: var(--white);
+  text-decoration: none;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.testimonialsCtaIcon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.testimonialsCtaIcon.email {
+  background: var(--darkendYellow);
+}
+
+.testimonialsCtaIcon.twitter {
+  background: #000;
+}
+
+/* Dark mode overrides, following the same [darkmode="true"] attribute
+   convention used across the rest of the app (see Header/Dialog/etc). */
+.contentPage[darkmode="true"] {
+  background-color: #121213;
+  color: #d7dadc;
+}
+
+.backLink[darkmode="true"] {
+  color: #6aaa64;
+}
+
+.contentPageNav a[darkmode="true"] {
+  color: #6aaa64;
+}
+
+.testimonialsHeroTitle[darkmode="true"] {
+  color: #d7dadc;
+}
+
+.testimonialsHeroSubtitle[darkmode="true"],
+.testimonialsNote[darkmode="true"] {
+  color: #9a9a9a;
+}
+
+.testimonialSliderArrow[darkmode="true"] {
+  background: rgba(30, 30, 30, 0.92);
+  border-color: #3a3a3c;
+  color: #d7dadc;
+}
+
+.testimonialSliderArrow[darkmode="true"]:hover {
+  background: #3a3a3c;
+}
+
+.testimonialSliderDot[darkmode="true"] {
+  background: #3a3a3c;
+}
+
+.testimonialSliderDot[darkmode="true"].active {
+  background: #6aaa64;
+}
+
+.testimonialCard[darkmode="true"] {
+  background: #1e1e1f;
+  border-color: #3a3a3c;
+  box-shadow: none;
+}
+
+.testimonialQuote[darkmode="true"] {
+  color: #d7dadc;
+}
+
+.testimonialName[darkmode="true"] {
+  color: #d7dadc;
+}
+
+.testimonialHandle[darkmode="true"] {
+  color: #9a9a9a;
+}
+
+.testimonialsCta[darkmode="true"] {
+  background: #1e1e1f;
 }
