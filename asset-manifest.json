@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/wordle-tamil/static/css/main.9f25e136.css",
-    "main.js": "/wordle-tamil/static/js/main.5939ef01.js",
+    "main.css": "/wordle-tamil/static/css/main.86808bc0.css",
+    "main.js": "/wordle-tamil/static/js/main.db217bd0.js",
     "index.html": "/wordle-tamil/index.html"
   },
   "entrypoints": [
-    "static/css/main.9f25e136.css",
-    "static/js/main.5939ef01.js"
+    "static/css/main.86808bc0.css",
+    "static/js/main.db217bd0.js"
   ]
 }
